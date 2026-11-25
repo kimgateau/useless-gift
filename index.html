@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>선물학 연구소 — 포장해서 보내는 선물</title>
+  <title>산타 인턴 채용 시험 — 선물학 연구소</title>
   <link rel="icon" href="data:," />
   <meta name="theme-color" content="#ECE4DD" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -762,6 +762,12 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
 .swatch--custom::after { content: '+'; position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font: 700 15px/1 sans-serif; text-shadow: 0 1px 2px rgba(0,0,0,.5); pointer-events: none; }
 .swatch--custom input { position: absolute; inset: -6px; width: 150%; height: 150%; opacity: 0; cursor: pointer; border: 0; padding: 0; }
 
+/* 산타 인턴 시즌: 사원증 빨강·초록 */
+.idcard__brand { background: #1f5a3d; }
+.idcard { box-shadow: inset 0 6px 0 #c8372d, 0 18px 40px rgba(0,0,0,.14); }
+.idcard__role { color: #c8372d; font-weight: 600; }
+.intro__eyebrow { color: #c8372d; }
+
 </style>
   <script>
     // 파일을 더블클릭해서 연 경우: 모듈 스크립트가 막히므로 한 파일 완성본으로 이동
@@ -792,16 +798,16 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
   <main id="app">
     <!-- ① 인트로: 3D 연구실 (canvas) 위에 HTML 글자·버튼 -->
     <section class="screen screen--intro" data-screen="intro" aria-label="인트로">
-      <canvas class="lab-canvas" id="lab-canvas" aria-label="선물이 흘러가는 컨베이어와 선배 연구원이 있는 연구실"></canvas>
+      <canvas class="lab-canvas" id="lab-canvas" aria-label="선물이 흘러가는 컨베이어와 선배 산타가 있는 작업실"></canvas>
       <div class="intro__ui">
-        <p class="intro__eyebrow">WRAP &amp; SEND</p>
-        <h1 class="intro__title">선물학 연구소</h1>
-        <p class="intro__question">고른 선물을 직접 포장해서<br />고마운 사람에게 보내 보세요</p>
+        <p class="intro__eyebrow">선물학 연구소 · 2026 WINTER</p>
+        <h1 class="intro__title">산타 인턴 채용 시험</h1>
+        <p class="intro__question">선물을 직접 포장해서<br />고마운 사람에게 배송하면 합격!</p>
         <div class="intro__pick" id="intro-pick" aria-live="polite">
           <p class="intro__pick-label" id="pick-label">지나가는 선물을 눌러 보세요</p>
           <p class="intro__pick-note" id="pick-note"></p>
         </div>
-        <button class="tape-btn intro__start" type="button" id="intro-start">선물 보내러 가기</button>
+        <button class="tape-btn intro__start" type="button" id="intro-start">시험 보러 가기</button>
         <button class="text-btn intro__recv" type="button" id="intro-recv">받은 선물 열기</button>
       </div>
       <p class="speech" id="speech" role="status"></p>
@@ -809,17 +815,17 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
     </section>
 
     <!-- ② 신입 연구원 등록: 얼굴 만들기 → 이름 → 연구원증 -->
-    <section class="screen screen--register" data-screen="register" data-step="face" aria-label="신입 연구원 등록" hidden>
+    <section class="screen screen--register" data-screen="register" data-step="face" aria-label="산타 인턴 지원" hidden>
       <header class="reg-head">
         <button class="reg-back" type="button" id="reg-back" aria-label="이전">←</button>
         <ol class="reg-steps" aria-label="등록 단계">
-          <li data-for="face">얼굴</li><li data-for="name">이름</li><li data-for="card">연구원증</li>
+          <li data-for="face">얼굴</li><li data-for="name">이름</li><li data-for="card">사원증</li>
         </ol>
         <span class="reg-head__sp"></span>
       </header>
 
       <div class="reg-stage">
-        <canvas class="studio-canvas" id="studio-canvas" aria-label="내 연구원 미리보기. 드래그해서 돌려 볼 수 있어요."></canvas>
+        <canvas class="studio-canvas" id="studio-canvas" aria-label="내 캐릭터 미리보기. 드래그해서 돌려 볼 수 있어요."></canvas>
         <p class="reg-stage__hint">드래그해서 돌려 보기</p>
       </div>
 
@@ -841,7 +847,7 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
 
       <!-- 2. 이름 -->
       <div class="reg-panel namer" data-panel="name">
-        <p class="namer__q">연구원증에 적을 이름을 알려 주세요.</p>
+        <p class="namer__q">사원증에 적을 이름을 알려 주세요.</p>
         <label class="namer__field">
           <span class="namer__label">이름 또는 닉네임</span>
           <input class="namer__input" id="researcher-name" type="text" maxlength="10" placeholder="예) 김선물" enterkeyhint="done" autocomplete="off" />
@@ -849,7 +855,7 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
         <p class="namer__note">최대 10자 · 결과 화면에도 이 이름으로 기록돼요</p>
         <div class="reg-actions">
           <span></span>
-          <button class="tape-btn" type="button" id="register-submit" disabled>연구원증 발급</button>
+          <button class="tape-btn" type="button" id="register-submit" disabled>사원증 발급</button>
         </div>
       </div>
 
@@ -859,21 +865,21 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
           <header class="idcard__head">
             <div class="idcard__brand">
               <span class="idcard__mark" aria-hidden="true"></span>
-              <span>선물학 연구소<br /><small>GIFT LAB</small></span>
+              <span>선물학 연구소<br /><small>SANTA DEPT.</small></span>
             </div>
             <div class="idcard__kind">
-              <strong>연구원증</strong>
+              <strong>인턴 사원증</strong>
               <span id="card-date"></span>
             </div>
           </header>
           <div class="idcard__photo" id="card-photo"><img id="card-img" alt="" /></div>
           <p class="idcard__name" id="card-name"></p>
-          <p class="idcard__role">신입 연구원</p>
+          <p class="idcard__role">산타 인턴 (수습)</p>
           <p class="idcard__no">No. <span id="researcher-no"></span></p>
-          <div class="idcard__stamp" aria-hidden="true">등록<br />완료</div>
+          <div class="idcard__stamp" aria-hidden="true">수습<br />채용</div>
         </article>
         <div class="reg-card__actions">
-          <button class="tape-btn" type="button" data-go="select">선물 고르러 가기</button>
+          <button class="tape-btn" type="button" data-go="select">첫 배송 하러 가기</button>
           <button class="text-btn" type="button" id="card-redo">얼굴 다시 꾸미기</button>
         </div>
       </div>
@@ -896,7 +902,7 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
     <section class="screen screen--select page" data-screen="select" aria-label="선물 선택" hidden>
       <header class="page-head">
         <button class="reg-back" type="button" data-back aria-label="이전">←</button>
-        <p class="page-step">선물 고르기</p><span class="reg-head__sp"></span>
+        <p class="page-step">첫 배송 · 선물 고르기</p><span class="reg-head__sp"></span>
       </header>
       <div class="page-body page-body--wide">
         <label class="to-field">받는 사람 <input id="recipient" type="text" maxlength="10" placeholder="친구 이름" autocomplete="off" enterkeyhint="done" /></label>
@@ -957,7 +963,7 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
         <div class="send-link"><input id="send-url" type="text" readonly aria-label="선물 링크" /></div>
         <p class="send-note" id="send-note">링크를 복사해서 카톡이나 DM으로 보내 주세요. 받는 사람이 열면 포장을 직접 뜯어 봐요.</p>
         <div class="result-actions">
-          <button class="tape-btn" type="button" id="send-share">링크 보내기</button>
+          <button class="tape-btn" type="button" id="send-share">배송 링크 보내기</button>
           <button class="text-btn" type="button" id="send-copy">링크 복사</button>
           <button class="text-btn" type="button" id="send-preview">받는 쪽 화면 미리 보기</button>
           <button class="text-btn" type="button" id="send-again">다른 선물 보내기</button>
@@ -980,7 +986,7 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
         <input class="open-reply" id="open-reply" type="text" maxlength="30" placeholder="한마디 (선택)" />
         <div class="result-actions">
           <button class="tape-btn" type="button" id="open-send" disabled>답장 링크 보내기</button>
-          <button class="text-btn" type="button" id="open-mine">나도 선물 보내기</button>
+          <button class="text-btn" type="button" id="open-mine">나도 산타 인턴 지원하기</button>
         </div>
       </div>
       <button class="text-btn open-skip" type="button" id="open-skip">건너뛰고 바로 열기</button>
@@ -1146,9 +1152,9 @@ const INTRO_GIFTS = [
 ];
 
 const CHARACTER_LINES = {
-  hello: ['아, 신입이군요.', '왔어요? 하나 골라 봐요.', '벨트 위를 보세요.'],
-  poke: ['…네?', '저는 관찰 대상이 아닙니다.', '손은 선물에.'],
-  start: '그럼, 등록부터.',
+  hello: ['아, 인턴 지원자군요.', '올해 산타 인턴 경쟁 세요.', '벨트 위를 보세요.'],
+  poke: ['…네?', '저는 시험 범위가 아닙니다.', '손은 선물에.'],
+  start: '그럼, 지원서부터.',
 };
 
 return { INTRO_GIFTS, CHARACTER_LINES };
@@ -6819,7 +6825,7 @@ function onPackEvent(st) {
 }
 
 // ---------- 허둥지둥: 담을 때 덜컹 · 선배 재촉 ----------
-const NAGS = [[60, '선배: 다음 상자 밀려와요!'], [35, '선배: 리본은요? 손 빨리!'], [12, '선배: 일단 닫고 보내요!']];
+const NAGS = [[60, '선배 산타: 다음 상자 밀려와요!'], [35, '선배 산타: 리본은요? 손 빨리!'], [12, '선배 산타: 일단 닫고 보내요!']];
 function hurry(left) {
   if (W.elapsed > W.nextBump) {
     W.nextBump = W.elapsed + 6 + Math.random() * 6;
@@ -7222,7 +7228,7 @@ function customItemData() {
 async function enterSend() {
   if (!state.giftId || !state.wrap) { go('select'); return; }
   const it = getItem(state.giftId), to = toName();
-  $('send-lead').innerHTML = `<b></b>에게 보낼 선물이 준비됐어요`;
+  $('send-lead').innerHTML = `배송 준비 완료!<br /><small>링크를 보내면 <b></b>에게 첫 배송 끝</small>`;
   $('send-lead').querySelector('b').textContent = to;
   $('send-gift').textContent = `안에 든 것: ??? (열어 봐야 알아요)`;
   $('send-img').src = safe(() => stage.snapshot(state.giftId, state.wrap, { bg: 0xe9e7e2 })) || '';
@@ -7243,15 +7249,15 @@ async function enterSend() {
 /** claude.ai 공유 화면 안에서는 주소 끝(#…)이 페이지로 전달되지 않아서, 받는 사람이 붙여 넣어야 함 */
 const viaArtifact = () => sendURL.startsWith('https://claude.ai/');
 const shareText = (to) => viaArtifact()
-  ? `${to}, 너 주려고 정성껏 포장했어 🎁\n① 링크 열기 → ② ‘받은 선물 열기’ → ③ 이 메시지 통째로 붙여넣기\n`
-  : `${to}, 너 주려고 정성껏 포장했어 🎁 열어 봐\n`;
+  ? `${to}, 산타 인턴 첫 배송이야 🎅 너 주려고 정성껏 포장했어\n① 링크 열기 → ② ‘받은 선물 열기’ → ③ 이 메시지 통째로 붙여넣기\n`
+  : `${to}, 산타 인턴 첫 배송이야 🎅 너 주려고 정성껏 포장했어. 열어 봐!\n`;
 async function copyText(text, input) {
   try { await navigator.clipboard.writeText(text); return true; } catch (_) {}
   try { input.focus(); input.select(); input.setSelectionRange(0, text.length); if (document.execCommand('copy')) return true; } catch (_) {}
   return false;
 }
 async function shareLink(url, text, input) {
-  if (navigator.share) { try { await navigator.share({ title: '선물학 연구소', text, url }); return 'shared'; } catch (e) { if (e?.name === 'AbortError') return 'cancel'; } }
+  if (navigator.share) { try { await navigator.share({ title: '산타 인턴의 선물 배송', text, url }); return 'shared'; } catch (e) { if (e?.name === 'AbortError') return 'cancel'; } }
   return (await copyText(text + url, input)) ? 'copied' : 'fail';
 }
 
@@ -7278,7 +7284,7 @@ async function enterOpen() {
   }
   unboxView.setup(g.i, w, g.a || null);
   stage.show(unboxView);
-  $('open-from').textContent = `${g.s || '누군가'}님이 ${g.to ? g.to + '에게 ' : ''}선물을 보냈어요`;
+  $('open-from').textContent = `산타 인턴 ${g.s || '누군가'}님이 ${g.to ? g.to + '에게 ' : ''}선물을 배송했어요`;
   $('open-panel').hidden = true;
   $('open-skip').hidden = false;
   recv.step = 'shake';
