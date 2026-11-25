@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>산타 인턴 채용 시험 — 선물학 연구소</title>
+  <title>너무 바쁜 산타 테스트 — 선물학 연구소</title>
   <link rel="icon" href="data:," />
   <meta name="theme-color" content="#ECE4DD" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -909,6 +909,64 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
 .mama-final__list li { display: flex; justify-content: space-between; font-size: 13.5px; color: #5d5a54; }
 .mama-final__list b { color: #e0a51a; letter-spacing: 2px; }
 
+/* ---------- 너무 바쁜 산타 테스트 ---------- */
+.screen--rush { background: #f3e7d3; overflow: hidden; user-select: none; -webkit-user-select: none; touch-action: none; padding: 0; }
+.rush-cv { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.rush-hud { position: absolute; left: 0; right: 0; top: 0; padding: calc(env(safe-area-inset-top) + 10px) 12px 0; pointer-events: none; }
+.rush-hud__row { display: flex; align-items: center; justify-content: space-between; }
+.rush-stat { margin: 0; display: flex; flex-direction: column; min-width: 70px; }
+.rush-stat small { font-size: 10.5px; color: #8f6a4a; font-weight: 700; letter-spacing: .08em; }
+.rush-stat b { font: 900 22px var(--font); color: #2a2623; }
+.rush-stat--r { align-items: flex-end; }
+.rush-clock { margin: 0; width: 64px; height: 64px; border-radius: 50%; background: #c8372d; color: #fff; display: grid; place-items: center; align-content: center; box-shadow: 0 4px 0 #8a241c; }
+.rush-clock b { font: 900 26px/1 var(--font); } .rush-clock small { font-size: 10px; opacity: .85; }
+.screen--rush.is-low .rush-clock { animation: clock-beat .5s infinite alternate; }
+@keyframes clock-beat { to { transform: scale(1.1); } }
+.rush-timebar { display: block; height: 6px; margin: 8px 0 4px; border-radius: 4px; background: rgba(0,0,0,.1); overflow: hidden; }
+.rush-timebar i { display: block; height: 100%; background: #c8372d; transform-origin: left; }
+.rush-combo { margin: 0; min-height: 18px; text-align: center; font: 900 16px var(--font); color: #e0a51a; text-shadow: 0 2px 0 #fff; }
+.rush-tickets { display: flex; flex-direction: row-reverse; justify-content: flex-start; gap: 6px; margin-top: 2px; }
+.ticket { position: relative; flex: 0 0 calc(33.3% - 4px); background: #fffdf6; border: 1.5px solid #e2d6bd; border-radius: 10px; padding: 5px 6px 6px; box-shadow: 0 3px 0 rgba(0,0,0,.06); transition: transform .15s; }
+.ticket img { width: 34px; height: 34px; float: left; margin-right: 4px; border-radius: 6px; background: #f4f3f0; }
+.ticket__to { margin: 0; font-size: 11.5px; line-height: 1.25; color: #4a4236; font-weight: 600; min-height: 26px; }
+.ticket__req { clear: both; margin: 4px 0 0; display: flex; align-items: center; gap: 4px; font: 800 12px var(--font); color: #2a2623; }
+.ticket__req i { width: 14px; height: 14px; border-radius: 4px; display: inline-block; }
+.ticket__req span { margin-left: auto; font-size: 10.5px; font-weight: 700; }
+.ticket.is-now { border-color: #f2c230; background: #fff7da; transform: translateY(2px) scale(1.04); box-shadow: 0 0 0 3px rgba(242,194,48,.45); }
+.ticket.is-ready { border-color: #2e8a56; }
+.ticket.is-changed { animation: chg 0.5s 3; }
+@keyframes chg { 50% { background: #ffd9d4; } }
+.ticket__chg { position: absolute; top: -9px; right: 4px; background: #d8453a; color: #fff; font: 800 10px var(--font); padding: 2px 6px; border-radius: 6px; }
+.ticket-empty { margin: 10px auto; font-size: 12px; color: #8f6a4a; }
+.rush-say { position: absolute; left: 12px; right: 12px; top: calc(env(safe-area-inset-top) + 210px); margin: 0; text-align: center; font: 700 13.5px var(--font); color: #2a2623; pointer-events: none; }
+.rush-say::before { content: '🎅 '; }
+.rush-say.is-in { animation: speech-pop .3s ease; }
+.screen--rush.is-fever .rush-say, .screen--rush.is-fever .rush-stat b, .screen--rush.is-fever .rush-stat small { color: #fff; }
+.rush-feed { position: absolute; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom) + 170px); margin: 0; text-align: center; font: 800 14px var(--font); color: #d8453a; pointer-events: none; min-height: 18px; }
+.rush-feed[data-k="fever"] { color: #f2c230; font-size: 20px; }
+.rush-feed.is-in { animation: speech-pop .3s ease; }
+.rush-pad { position: absolute; left: 0; right: 0; bottom: 0; padding: 10px 12px calc(env(safe-area-inset-bottom) + 12px); background: rgba(255,255,255,.92); border-radius: 18px 18px 0 0; box-shadow: 0 -6px 20px rgba(0,0,0,.08); display: grid; gap: 8px; }
+.rush-papers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.rush-pad__row { display: grid; grid-template-columns: 1fr 1.6fr; gap: 8px; }
+.rush-btn { border: 0; border-radius: 14px; padding: 14px 6px; font: 800 16px var(--font); cursor: pointer; touch-action: manipulation; box-shadow: 0 4px 0 rgba(0,0,0,.18); transition: transform .06s; color: #2a2623; background: #f4efe6; }
+.rush-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(0,0,0,.18); }
+.rush-btn--paper { background: var(--c); color: #fff; display: flex; align-items: center; justify-content: center; gap: 6px; text-shadow: 0 1px 0 rgba(0,0,0,.25); }
+.rush-btn--ship { background: #2a2623; color: #fff; font-size: 18px; }
+.rush-count { position: absolute; inset: 0; display: grid; place-items: center; font: 900 72px var(--font); color: #fff; -webkit-text-stroke: 3px #2a2623; paint-order: stroke fill; pointer-events: none; text-shadow: 0 6px 0 rgba(0,0,0,.2); }
+.rush-count.is-in { animation: pop-in2 .5s cubic-bezier(.2,1.6,.4,1); }
+@keyframes pop-in2 { from { transform: scale(.3); opacity: 0; } }
+.rush-over { position: absolute; inset: 0; background: rgba(20,30,25,.6); display: grid; place-items: center; padding: 16px; z-index: 10; animation: screen-in .3s ease; }
+.rush-over__box { width: min(340px, 92vw); background: #fff; border-radius: 22px; padding: 18px 18px 14px; text-align: center; box-shadow: 0 0 0 6px #c8372d; }
+.rush-over__kicker { margin: 0; font: 800 12px var(--font); letter-spacing: .14em; color: #c8372d; }
+.rush-over__grade { margin: 4px 0 0; font: 900 26px var(--font); color: #1f5a3d; }
+.rush-over__score { margin: 6px 0 0; font: 600 16px var(--font); color: #8f8b84; }
+.rush-over__score b { font: 900 46px var(--font); color: #2a2623; margin-right: 2px; }
+.rush-over__best { margin: 0; font-size: 12px; color: #c8372d; font-weight: 700; }
+.rush-over__title { display: inline-block; margin: 8px 0; padding: 6px 12px; border-radius: 999px; background: #1f5a3d; color: #fff; font: 700 14px var(--font); }
+.rush-over__stats { list-style: none; margin: 4px 0 12px; padding: 10px 12px; background: #faf6ee; border-radius: 12px; display: grid; gap: 4px; }
+.rush-over__stats li { display: flex; justify-content: space-between; font-size: 13.5px; color: #5d5a54; } .rush-over__stats b { color: #2a2623; }
+.rush-over__sub { display: flex; justify-content: center; gap: 16px; margin-top: 10px; }
+
 </style>
   <script>
     // 파일을 더블클릭해서 연 경우: 모듈 스크립트가 막히므로 한 파일 완성본으로 이동
@@ -942,13 +1000,13 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
       <canvas class="lab-canvas" id="lab-canvas" aria-label="선물이 흘러가는 컨베이어와 선배 산타가 있는 작업실"></canvas>
       <div class="intro__ui">
         <p class="intro__eyebrow">선물학 연구소 · 2026 WINTER</p>
-        <h1 class="intro__title">산타 인턴 채용 시험</h1>
-        <p class="intro__question">선물을 직접 포장해서<br />고마운 사람에게 배송하면 합격!</p>
+        <h1 class="intro__title">너무 바쁜 산타 테스트</h1>
+        <p class="intro__question">크리스마스 이브, 주문이 쏟아진다!<br />60초 안에 최대한 많이 포장해서 출고하세요</p>
         <div class="intro__pick" id="intro-pick" aria-live="polite">
           <p class="intro__pick-label" id="pick-label">지나가는 선물을 눌러 보세요</p>
           <p class="intro__pick-note" id="pick-note"></p>
         </div>
-        <button class="tape-btn intro__start" type="button" id="intro-start">시험 보러 가기</button>
+        <button class="tape-btn intro__start" type="button" id="intro-start">테스트 시작</button>
         <button class="text-btn intro__recv" type="button" id="intro-recv">받은 선물 열기</button>
       </div>
       <p class="speech" id="speech" role="status"></p>
@@ -1020,8 +1078,48 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
           <div class="idcard__stamp" aria-hidden="true">수습<br />채용</div>
         </article>
         <div class="reg-card__actions">
-          <button class="tape-btn" type="button" data-go="select">첫 배송 하러 가기</button>
+          <button class="tape-btn" type="button" data-go="rush">근무 시작!</button>
           <button class="text-btn" type="button" id="card-redo">얼굴 다시 꾸미기</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ③ 너무 바쁜 산타 테스트 (컨베이어 타임어택) -->
+    <section class="screen screen--rush" id="rush" data-screen="rush" aria-label="너무 바쁜 산타 테스트" hidden>
+      <canvas class="rush-cv" id="rush-cv"></canvas>
+      <div class="rush-hud">
+        <div class="rush-hud__row">
+          <p class="rush-stat"><small>점수</small><b id="rush-score">0</b></p>
+          <p class="rush-clock"><b id="rush-time">60</b><small>초</small></p>
+          <p class="rush-stat rush-stat--r"><small>출고</small><b id="rush-done">0</b></p>
+        </div>
+        <span class="rush-timebar"><i id="rush-timebar"></i></span>
+        <p class="rush-combo" id="rush-combo"></p>
+        <div class="rush-tickets" id="rush-tickets"></div>
+      </div>
+      <p class="rush-say" id="rush-say"></p>
+      <p class="rush-feed" id="rush-feed"></p>
+      <div class="rush-pad">
+        <div class="rush-papers" id="rush-papers"></div>
+        <div class="rush-pad__row">
+          <button class="rush-btn rush-btn--ribbon" type="button" id="rush-ribbon">🎀 리본</button>
+          <button class="rush-btn rush-btn--ship" type="button" id="rush-ship">출고! 🛷</button>
+        </div>
+      </div>
+      <div class="rush-count" id="rush-count" hidden></div>
+      <div class="rush-over" id="rush-over" hidden>
+        <div class="rush-over__box">
+          <p class="rush-over__kicker">근무 종료!</p>
+          <p class="rush-over__grade" id="rush-grade"></p>
+          <p class="rush-over__score"><b id="rush-final">0</b>점</p>
+          <p class="rush-over__best" id="rush-best"></p>
+          <p class="rush-over__title" id="rush-title"></p>
+          <ul class="rush-over__stats" id="rush-stats"></ul>
+          <button class="tape-btn" type="button" id="rush-again">한 번 더!</button>
+          <div class="rush-over__sub">
+            <button class="text-btn" type="button" id="rush-card">결과 카드 저장</button>
+            <button class="text-btn" type="button" id="rush-gift">친구에게 진짜 선물 보내기</button>
+          </div>
         </div>
       </div>
     </section>
@@ -3545,7 +3643,7 @@ __m["js/router.js"] = (() => {
 
 const { state } = __m["js/state.js"];
 // 전체 흐름 순서
-const FLOW = ['intro', 'register', 'select', 'wrap', 'judge', 'send'];
+const FLOW = ['intro', 'register', 'rush', 'select', 'wrap', 'judge', 'send'];
 
 // 받은 선물·답장 링크 (#gift=… / #reply=…)
 let incoming = null;
@@ -3556,6 +3654,7 @@ const GUARDS = {
   request: () => (state.researcher.name ? null : 'register'),
   select: () => (state.researcher.name ? null : 'register'),
   wrap: () => (!state.researcher.name ? 'register' : state.giftId ? null : 'select'),
+  rush: () => (state.researcher.name ? null : 'register'),
   judge: () => (!state.researcher.name ? 'register' : state.giftId && state.wrap ? null : 'select'),
   send: () => (!state.researcher.name ? 'register' : state.giftId ? null : 'select'),
   open: () => (incoming?.kind === 'gift' ? null : 'intro'),
@@ -7993,7 +8092,8 @@ function paintSelectBar() {
 const STEPS = [
   { id: 'pack', label: '상자에 담기', title: '상자에 담기', how: () => '상자 색을 고르고, 선물을 잡아 상자 위에서 놓아요. 대충 놓아도 들어가요.' },
   { id: 'paper', label: '포장지', title: '포장지 직접 만들기', how: () => '바탕(내 이미지도 OK)을 고르고 손가락으로 그리거나 도장을 찍어요. 그린 그대로 선물에 입혀져요.' },
-  { id: 'mama', label: '포장하기', title: '포장 실기 9단계', how: () => '재고, 자르고, 감싸고, 접고, 묶기까지. 손으로 직접!' },
+  { id: 'fold', label: '접기', title: '종이 접기', how: () => '삐져나온 종이 끝의 동그라미를 잡고 화살표 쪽으로 끌어서 접어요.' },
+  { id: 'ribbon', label: '끈', title: '끈 그리기', how: () => '선물 위에 손가락으로 선을 그으면 그 모양대로 끈이 감겨요. ‘매듭’을 고르고 톡 누르면 리본이 달려요.' },
   { id: 'sticker', label: '스티커', title: '스티커 붙이기', how: () => '스티커를 고르고 선물을 톡 누르면 붙어요. 내 이미지로 스티커도 만들 수 있어요.' },
   { id: 'card', label: '편지', title: '한마디 쓰기', how: () => `${toName()}에게 전하고 싶은 한마디` },
 ];
@@ -8021,7 +8121,7 @@ function safe(fn) { try { return fn(); } catch (err) { console.warn('[선물학]
 
 function isDone(id) {
   const w = wrap();
-  return { pack: packed(), paper: !!w.paper, mama: !!w.mama, sticker: w.decos.length > 0, card: !!w.card.message.trim() }[id];
+  return { pack: packed(), paper: !!w.paper, fold: foldDone(), ribbon: !!(w.ribbon && (w.ribbon.strokes?.length || w.ribbon.bow)), mama: !!w.mama, sticker: w.decos.length > 0, card: !!w.card.message.trim() }[id];
 }
 function renderSteps() {
   $('wrap-steps').innerHTML = STEPS.map((s, i) => `<button class="wrap-step" type="button" role="tab" data-step="${s.id}">${i + 1}. ${s.label}</button>`).join('');
@@ -8049,8 +8149,8 @@ function setStep(id) {
     if (id !== 'pack' && !packed()) { autoPack(); hint('대충 밀어 넣고 뚜껑 닫았어요'); }
     // 포장지 단계에 처음 오면 바탕 종이부터 바로 씌워서, 그리는 대로 보이게
     if ((id === 'paper' || id === 'fold') && !wrap().paper) applyPaper();
-    const iTo = STEPS.findIndex(s => s.id === id), iM = STEPS.findIndex(s => s.id === 'mama');
-    if (iTo > iM && wrap().paper && !wrap().mama) { autoMama(); hint('포장은 선배가 대충 해 뒀어요'); }
+    const iTo = STEPS.findIndex(s => s.id === id), iFold = STEPS.findIndex(s => s.id === 'fold');
+    if (iTo > iFold && wrap().paper && !foldDone()) { wrapView.rebuild(wrap()); autoFold(); hint('종이 끝은 대충 접어 뒀어요'); }
   });
   W.step = id;
   safe(() => scheduleCrisis(id));
@@ -8376,7 +8476,7 @@ function finishWrap() {
   safe(() => { if (!packed()) autoPack(); });
   safe(() => { if (stage.view !== wrapView) { wrapView.rebuild(wrap()); stage.show(wrapView); } });
   safe(() => { if (!wrap().paper) applyPaper(); });
-  safe(() => { if (!wrap().mama) autoMama(); wrapView.rebuild(wrap()); });
+  safe(() => { wrapView.rebuild(wrap()); if (!foldDone()) autoFold(); });
   stopTimer();
   if ($('fold-handles')) $('fold-handles').hidden = true;
   go('judge');
@@ -8997,6 +9097,12 @@ function finishDraw() {
   sound.pick();
 }
 
+/** 물건 썸네일 (다른 화면에서도 씀) */
+function itemThumb(id) {
+  if (!thumbs.has(id)) { try { thumbs.set(id, stage.thumb(id)); } catch (_) { return null; } }
+  return thumbs.get(id);
+}
+
 // ---------- 초기화 ----------
 function initGame() {
   stage = new GameStage($('game-canvas'));
@@ -9082,7 +9188,403 @@ function initGame() {
   });
 }
 
-return { initGame };
+return { itemThumb, initGame };
+})();
+
+// ---- js/screens/rush.js ----
+__m["js/screens/rush.js"] = (() => {
+// ==========================================================
+// 너무 바쁜 산타 테스트 — 컨베이어 타임어택 (60초)
+//  컨베이어로 선물이 밀려옴 → 작업 칸에 들어오면 주문서대로
+//  포장지 색 고르기 → (필요하면) 리본 → 출고!
+//  틀리면 사고, 지나가면 놓침. 선배 재촉 · 주문 변경 · 덜컹 · 막판 피버
+// ==========================================================
+
+const { state } = __m["js/state.js"];
+const { go } = __m["js/router.js"];
+const { ITEMS, getItem } = __m["js/data/items.js"];
+const { itemThumb } = __m["js/screens/game.js"];
+const { sound } = __m["js/sound.js"];
+const $ = (id) => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const pick = (a) => a[Math.floor(Math.random() * a.length)];
+const ease = (t) => 1 - Math.pow(1 - clamp(t), 3);
+const TAU = Math.PI * 2;
+const SHIFT = 60;
+
+const PAPERS = [
+  { id: 'red', name: '빨강', color: '#d8453a', dark: '#a8302a', mark: 'dots' },
+  { id: 'green', name: '초록', color: '#2e8a56', dark: '#1f6a3f', mark: 'stripe' },
+  { id: 'gold', name: '금박', color: '#e0b23c', dark: '#b8862a', mark: 'star' },
+];
+const PAPER = Object.fromEntries(PAPERS.map(p => [p.id, p]));
+
+// 주문서: 물건 + 받는 사람
+const ORDERS = [
+  ['latte', '출근길 졸린 팀장님'], ['beans', '커피 중독 동기'], ['dripbag', '야근하는 김대리'], ['tea', '잠 못 드는 언니'],
+  ['cookies', '간식 담당 막내'], ['choco', '시험 끝난 사촌'], ['honey', '목 아픈 엄마'], ['cake', '생일인 룸메이트'],
+  ['candle', '이사 간 친구'], ['handcream', '손 튼 아빠'], ['socks', '발 시린 할머니'], ['blanket', '사무실 추위 타는 선배'],
+  ['perfume', '향 덕후 친구'], ['plant', '식물 잘 죽이는 친구'], ['flowers', '고백 준비 중인 친구'], ['book', '책 좋아하는 동생'],
+  ['polaroid', '곧 떠나는 교환학생'], ['lp', '음악 좋아하는 선배'], ['filmcam', '여행 가는 친구'], ['slime', '장난꾸러기 조카'],
+  ['rock', '돌 수집가 삼촌'], ['banana', '다이어트 중인 친구'], ['pajama', '집순이 친구'], ['giftcard', '취준생 후배'],
+];
+const NAGS = ['선배: 손 빨리! 썰매 출발 10분 전!', '선배: 주문서 잘 봐요, 색 틀리면 사고!', '선배: 리본 필요 없는 건 그냥 보내요!', '선배: 밀려온다 밀려와!', '선배: 루돌프들 기다려요!'];
+
+const R = {}; // 진행 상태
+let cv, g, W = 390, H = 600, raf = 0, imgs = new Map();
+
+function img(id) {
+  if (imgs.has(id)) return imgs.get(id);
+  const url = itemThumb(id); if (!url) return null;
+  const im = new Image(); im.src = url; imgs.set(id, im);
+  return im;
+}
+
+// ---------- 시작 ----------
+function reset() {
+  Object.assign(R, {
+    t: 0, running: true, ended: false, gifts: [], next: 0.6, speed: 55, jolt: 0, shake: 0,
+    score: 0, combo: 0, maxCombo: 0, ok: 0, wrong: 0, miss: 0, naked: 0, extraRibbon: 0, fever: false,
+    events: { change1: 14, jolt1: 24, change2: 33, jolt2: 46 }, nagAt: 8, flash: null, fly: [], snow: [], seq: 0,
+  });
+  $('rush-over').hidden = true;
+  $('rush-feed').textContent = '';
+  renderHud();
+  renderTickets();
+}
+function enterRush() {
+  cv = $('rush-cv'); g = cv.getContext('2d');
+  layout();
+  reset();
+  // 썸네일 미리 만들기
+  for (const [id] of ORDERS) img(id);
+  say('선배: 이브 저녁이에요. 60초 안에 최대한 많이 출고!');
+  countIn();
+}
+function leaveRush() { R.running = false; cancelAnimationFrame(raf); }
+
+function countIn() {
+  R.running = false; R.countIn = 3;
+  const el = $('rush-count'); el.hidden = false;
+  const step = () => {
+    if (R.countIn > 0) { el.textContent = R.countIn; el.classList.remove('is-in'); void el.offsetWidth; el.classList.add('is-in'); sound.tick(); R.countIn--; setTimeout(step, 650); }
+    else { el.textContent = '근무 시작!'; el.classList.remove('is-in'); void el.offsetWidth; el.classList.add('is-in'); sound.bell?.(); setTimeout(() => { el.hidden = true; }, 600); R.running = true; R.last = performance.now(); raf = requestAnimationFrame(loop); }
+  };
+  draw(0);
+  step();
+}
+
+function layout() {
+  const r = cv.getBoundingClientRect();
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  W = r.width; H = r.height;
+  cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+  g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  R.beltY = H * 0.64; R.zone = { x: W / 2 - 82, w: 164 };
+  R.sack = { x: W - 56, y: H * 0.2 };
+}
+window.addEventListener('resize', () => { if (cv && !$('rush').closest('[data-screen]').hidden) layout(); });
+
+// ---------- 선물 ----------
+function spawn() {
+  const recent = R.gifts.slice(-4).map(x => x.item);
+  let o; do { o = pick(ORDERS); } while (recent.includes(o[0]) && Math.random() < 0.9);
+  const t = R.t;
+  const gift = {
+    n: ++R.seq, item: o[0], to: o[1], x: -70, wrap: null, ribbon: false, state: 'belt', wrapT: 1, ribT: 1, bob: Math.random() * TAU,
+    want: { paper: pick(PAPERS).id, ribbon: Math.random() < (t < 10 ? 0.5 : 0.6) },
+  };
+  R.gifts.push(gift);
+  renderTickets();
+}
+const onBelt = () => R.gifts.filter(x => x.state === 'belt');
+function current() {
+  const z = R.zone; let best = null;
+  for (const x of onBelt()) if (x.x > z.x - 10 && x.x < z.x + z.w + 10) { if (!best || Math.abs(x.x - W / 2) < Math.abs(best.x - W / 2)) best = x; }
+  return best;
+}
+
+// ---------- 손동작 ----------
+function doPaper(id) {
+  if (!R.running) return;
+  const c = current();
+  if (!c) { feed('작업 칸에 선물이 없어요', 'warn'); sound.hm?.(); return; }
+  if (c.wrap === id) return;
+  c.wrap = id; c.wrapT = 0; c.ribbon = false;
+  sound.drape?.(0, 0.2); sound.rustle('paper', 1, 'rp' + id);
+  renderTickets();
+}
+function doRibbon() {
+  if (!R.running) return;
+  const c = current();
+  if (!c) { feed('작업 칸에 선물이 없어요', 'warn'); return; }
+  if (!c.wrap) { feed('포장지부터 싸야죠!', 'warn'); sound.hm?.(); return; }
+  c.ribbon = !c.ribbon; c.ribT = 0;
+  sound.rustle('cloth', 1, 'rr');
+  renderTickets();
+}
+function doShip() {
+  if (!R.running) return;
+  const c = current();
+  if (!c) { feed('보낼 선물이 없어요', 'warn'); return; }
+  c.state = 'ship'; c.shipT = 0; c.from = { x: c.x, y: R.beltY - 30 };
+  const okPaper = c.wrap === c.want.paper, okRib = c.ribbon === c.want.ribbon;
+  if (okPaper && okRib) {
+    R.ok++; R.combo++; R.maxCombo = Math.max(R.maxCombo, R.combo);
+    const pts = Math.round((100 + Math.min(10, R.combo - 1) * 20) * (R.fever ? 2 : 1));
+    R.score += pts;
+    pop(`+${pts}${R.combo > 1 ? ` · ${R.combo}콤보` : ''}`, 'ok', c.x);
+    sound.stamp?.(); if (R.combo % 5 === 0) { sound.bell?.(); say(pick(['선배: 오 손 빠른데요?', '선배: 이 속도 실화예요?', '선배: 정직원 각!'])); }
+  } else {
+    R.wrong++; R.combo = 0;
+    if (!c.wrap) { R.naked++; pop('알몸 배송?!', 'bad', c.x); say('선배: 포장도 안 하고 보내면 어떡해요!'); }
+    else if (!okPaper) { pop('색 틀림!', 'bad', c.x); say(`선배: ${c.to}은 ${PAPER[c.want.paper].name} 주문이었어요!`); }
+    else { if (c.ribbon && !c.want.ribbon) R.extraRibbon++; pop(c.ribbon ? '리본 필요 없대요!' : '리본 빠졌어요!', 'bad', c.x); say('선배: 주문서 리본 칸 봤어요?'); }
+    sound.hm?.(); R.shake = 0.35;
+  }
+  renderHud(); renderTickets();
+}
+
+// ---------- 피드백 ----------
+function pop(text, kind, x) { R.fly.push({ text, kind, x, y: R.beltY - 150 - R.fly.length * 26, t: 0 }); }
+function feed(t, kind) { const f = $('rush-feed'); f.textContent = t; f.dataset.k = kind || ''; f.classList.remove('is-in'); void f.offsetWidth; f.classList.add('is-in'); }
+function say(t) { const s = $('rush-say'); s.textContent = t; s.classList.remove('is-in'); void s.offsetWidth; s.classList.add('is-in'); }
+
+// ---------- 주문서 레일 ----------
+function ticketHTML(x) {
+  const P = PAPER[x.want.paper];
+  const done = x.wrap === x.want.paper && x.ribbon === x.want.ribbon;
+  const im = img(x.item);
+  return `<div class="ticket ${x === current() ? 'is-now' : ''} ${x.changed ? 'is-changed' : ''} ${done ? 'is-ready' : ''}">
+    ${x.changed ? '<span class="ticket__chg">주문 변경!</span>' : ''}
+    <img src="${im?.src || ''}" alt="" />
+    <p class="ticket__to">To. ${x.to}</p>
+    <p class="ticket__req"><i style="background:${P.color}"></i>${P.name}<span>${x.want.ribbon ? '🎀 리본' : '✕ 리본'}</span></p>
+  </div>`;
+}
+function renderTickets() {
+  const list = onBelt().filter(x => x.x < W - 20).sort((a, b) => b.x - a.x).slice(0, 3);
+  $('rush-tickets').innerHTML = list.map(ticketHTML).join('') || '<p class="ticket-empty">선물이 오고 있어요…</p>';
+}
+function renderHud() {
+  $('rush-score').textContent = R.score.toLocaleString();
+  $('rush-done').textContent = R.ok;
+  $('rush-combo').textContent = R.combo > 1 ? `${R.combo} 콤보` : '';
+  const left = Math.max(0, SHIFT - R.t);
+  $('rush-time').textContent = Math.ceil(left);
+  $('rush-timebar').style.transform = `scaleX(${left / SHIFT})`;
+  $('rush').classList.toggle('is-fever', R.fever);
+  $('rush').classList.toggle('is-low', left <= 10);
+}
+
+// ---------- 돌발 ----------
+function events() {
+  const E = R.events;
+  const later = onBelt().filter(x => x.x < R.zone.x - 30 && !x.changed);
+  if (E.change1 && R.t > E.change1 && later.length) { E.change1 = 0; changeOrder(pick(later)); }
+  if (E.change2 && R.t > E.change2 && later.length) { E.change2 = 0; changeOrder(pick(later)); }
+  if (E.jolt1 && R.t > E.jolt1) { E.jolt1 = 0; jolt(); }
+  if (E.jolt2 && R.t > E.jolt2) { E.jolt2 = 0; jolt(); }
+  if (!R.fever && R.t > SHIFT - 15) { R.fever = true; say('선배: 이브 피버 타임! 지금부터 점수 2배!'); sound.bell?.(); feed('🎄 이브 피버! 점수 ×2', 'fever'); }
+  if (R.t > R.nagAt) { R.nagAt = R.t + 7 + Math.random() * 5; if (!R.fever) say(pick(NAGS)); }
+}
+function changeOrder(x) {
+  if (Math.random() < 0.5) x.want.ribbon = !x.want.ribbon; else x.want.paper = pick(PAPERS.filter(p => p.id !== x.want.paper)).id;
+  x.changed = true;
+  say(`선배: 방금 ${x.to} 주문 바뀌었대요!`); sound.hm?.();
+  renderTickets();
+}
+function jolt() { R.jolt = 0.9; R.shake = 0.6; say('덜컹! 컨베이어가 미쳤어요!'); sound.knock('box', 1, 'jolt'); }
+
+// ---------- 루프 ----------
+function loop(now) {
+  if (!R.running) return;
+  const dt = Math.min(0.05, (now - R.last) / 1000); R.last = now;
+  R.t += dt;
+  if (R.t >= SHIFT) { end(); return; }
+  const base = 55 + R.t * 1.25 + (R.fever ? 25 : 0);
+  R.speed = base * (R.jolt > 0 ? 2.6 : 1);
+  R.jolt = Math.max(0, R.jolt - dt); R.shake = Math.max(0, R.shake - dt);
+  R.next -= dt;
+  if (R.next <= 0) { spawn(); R.next = Math.max(1.35, 3.1 - R.t * 0.03) * (R.fever ? 0.8 : 1); }
+  let changed = false;
+  for (const x of R.gifts) {
+    if (x.state === 'belt') {
+      const prevIn = x === current();
+      x.x += R.speed * dt;
+      x.wrapT = Math.min(1, x.wrapT + dt * 5); x.ribT = Math.min(1, x.ribT + dt * 5);
+      if (x.x > W + 60) { x.state = 'miss'; R.miss++; R.combo = 0; pop('놓쳤다!', 'bad', W - 40); say(pick(['선배: 하나 지나갔어요!!', '선배: 그거 누구 선물이었는데…', '선배: 놓친 건 내가 할게요… 하아'])); sound.hm?.(); changed = true; renderHud(); }
+      if (prevIn !== (x === current())) changed = true;
+    }
+    if (x.state === 'ship') x.shipT += dt * 2.2;
+  }
+  R.gifts = R.gifts.filter(x => x.state === 'belt' || (x.state === 'ship' && x.shipT < 1));
+  if (changed || Math.floor(R.t * 4) !== Math.floor((R.t - dt) * 4)) renderTickets();
+  events();
+  renderHud();
+  draw(dt);
+  raf = requestAnimationFrame(loop);
+}
+
+// ---------- 끝 ----------
+function end() {
+  R.running = false; R.ended = true;
+  R.t = SHIFT; renderHud();
+  const total = R.ok + R.wrong + R.miss;
+  const acc = total ? R.ok / total : 0;
+  const titles = [];
+  if (R.ok >= 18 && acc >= 0.85) titles.push('인간 포장 기계');
+  if (R.maxCombo >= 10) titles.push('콤보의 신');
+  if (R.naked >= 3) titles.push('알몸 배송 전문');
+  if (R.extraRibbon >= 3) titles.push('리본 중독 산타');
+  if (R.miss >= 6) titles.push('느긋한 산타');
+  if (acc >= 0.95 && R.ok >= 8) titles.push('실수 없는 산타');
+  if (R.wrong >= 6) titles.push('대충 산타');
+  if (!titles.length) titles.push(R.ok >= 12 ? '성실한 인턴' : '아직은 수습');
+  const grade = R.score >= 6000 ? '수석 산타 발탁' : R.score >= 3500 ? '정직원 합격' : R.score >= 1500 ? '인턴 합격' : '내년에 다시';
+  R.result = { score: R.score, ok: R.ok, wrong: R.wrong, miss: R.miss, combo: R.maxCombo, acc, title: titles[0], grade };
+  try { const best = Math.max(Number(localStorage.getItem('giftlab.rush.best') || 0), R.score); localStorage.setItem('giftlab.rush.best', best); R.result.best = best; } catch (_) { R.result.best = R.score; }
+  sound.bell?.(); setTimeout(() => sound.stamp?.(), 400);
+  const o = $('rush-over');
+  o.hidden = false;
+  $('rush-grade').textContent = grade;
+  $('rush-title').textContent = R.result.title;
+  $('rush-stats').innerHTML = [
+    ['출고 성공', `${R.ok}개`], ['사고', `${R.wrong}건`], ['놓침', `${R.miss}개`], ['최대 콤보', `${R.maxCombo}`], ['정확도', `${Math.round(acc * 100)}%`],
+  ].map(([k, v]) => `<li><span>${k}</span><b>${v}</b></li>`).join('');
+  $('rush-final').textContent = R.score.toLocaleString();
+  $('rush-best').textContent = R.result.best > R.score ? `내 최고 ${R.result.best.toLocaleString()}점` : '🎉 내 최고 기록!';
+  say(R.score >= 3500 ? '선배: 와… 내년 내 자리 위험한데요?' : R.score >= 1500 ? '선배: 수고했어요. 내일도 나와요!' : '선배: 괜찮아요, 이브는 원래 지옥이에요.');
+}
+
+// ---------- 결과 카드 (스토리 1080×1920) ----------
+async function shareCard() {
+  const r = R.result; if (!r) return;
+  const c = document.createElement('canvas'); c.width = 1080; c.height = 1920;
+  const x = c.getContext('2d'); const F = (w, px) => `${w} ${px}px "Pretendard", "Noto Sans KR", sans-serif`;
+  x.fillStyle = '#1f5a3d'; x.fillRect(0, 0, 1080, 1920);
+  x.fillStyle = '#c8372d'; x.fillRect(0, 0, 1080, 26);
+  for (let i = 0; i < 90; i++) { x.fillStyle = `rgba(255,255,255,${0.15 + Math.random() * 0.4})`; x.beginPath(); x.arc(Math.random() * 1080, Math.random() * 1920, 2 + Math.random() * 6, 0, TAU); x.fill(); }
+  x.textAlign = 'center'; x.fillStyle = '#f2c230'; x.font = F(700, 36); x.fillText('선물학 연구소 · 2026 WINTER', 540, 170);
+  x.fillStyle = '#fff'; x.font = F(800, 92); x.fillText('너무 바쁜', 540, 300); x.fillText('산타 테스트', 540, 410);
+  x.font = F(500, 42); x.fillStyle = 'rgba(255,255,255,.8)'; x.fillText(`응시자 ${state.researcher.name || '익명'} · 60초 근무 결과`, 540, 500);
+  x.fillStyle = '#fff'; x.beginPath(); x.roundRect?.(120, 580, 840, 980, 40); x.fill();
+  x.fillStyle = '#c8372d'; x.font = F(800, 70); x.fillText(r.grade, 540, 720);
+  x.fillStyle = '#26241f'; x.font = F(900, 170); x.fillText(r.score.toLocaleString(), 540, 920);
+  x.font = F(500, 40); x.fillStyle = '#8f8b84'; x.fillText('점', 540, 980);
+  const tw = x.measureText(r.title).width; x.font = F(700, 50); const tw2 = x.measureText(r.title).width + 90;
+  x.fillStyle = '#1f5a3d'; x.beginPath(); x.roundRect?.(540 - tw2 / 2, 1030, tw2, 96, 48); x.fill(); x.fillStyle = '#fff'; x.fillText(r.title, 540, 1095); void tw;
+  const rows = [['출고 성공', `${r.ok}개`], ['사고', `${r.wrong}건`], ['놓침', `${r.miss}개`], ['최대 콤보', `${r.combo}`]];
+  rows.forEach(([k, v], i) => { const y = 1230 + i * 78; x.textAlign = 'left'; x.fillStyle = '#5d5a54'; x.font = F(500, 44); x.fillText(k, 220, y); x.textAlign = 'right'; x.fillStyle = '#26241f'; x.font = F(800, 46); x.fillText(v, 860, y); });
+  x.textAlign = 'center'; x.fillStyle = 'rgba(255,255,255,.85)'; x.font = F(600, 40); x.fillText('나도 산타 테스트 해 보기 →', 540, 1720);
+  x.font = F(500, 32); x.fillStyle = 'rgba(255,255,255,.6)'; x.fillText('kimgateau.github.io/useless-gift', 540, 1780);
+  const blob = await new Promise(res => c.toBlob(res, 'image/png'));
+  const file = new File([blob], '너무바쁜산타_결과.png', { type: 'image/png' });
+  try { if (navigator.canShare?.({ files: [file] })) { await navigator.share({ files: [file], title: '너무 바쁜 산타 테스트' }); return; } } catch (e) { if (e?.name === 'AbortError') return; }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = file.name; document.body.append(a); a.click(); a.remove();
+}
+
+// ---------- 그리기 ----------
+function wrappedBox(x, y, w, h, P, ribbon, k = 1, rk = 1) {
+  g.save(); g.translate(x, y);
+  // 상자 (포장지)
+  g.fillStyle = 'rgba(0,0,0,.18)'; g.beginPath(); g.ellipse(0, h / 2 + 4, w * 0.55, 7, 0, 0, TAU); g.fill();
+  const sy = 0.6 + 0.4 * ease(k);
+  g.scale(1, sy); g.translate(0, (1 - sy) * h * 0.5 / sy);
+  g.fillStyle = P.dark; g.beginPath(); g.roundRect?.(-w / 2, -h / 2 - 10, w, 14, 4); g.fill(); // 윗면
+  g.fillStyle = P.color; g.beginPath(); g.roundRect?.(-w / 2, -h / 2, w, h, 5); g.fill();
+  g.save(); g.beginPath(); g.roundRect?.(-w / 2, -h / 2, w, h, 5); g.clip();
+  g.fillStyle = 'rgba(255,255,255,.35)'; g.strokeStyle = 'rgba(255,255,255,.35)'; g.lineWidth = 5;
+  if (P.mark === 'dots') for (let i = -3; i <= 3; i++) for (let j = -2; j <= 2; j++) { g.beginPath(); g.arc(i * 16 + (j % 2) * 8, j * 16, 3, 0, TAU); g.fill(); }
+  if (P.mark === 'stripe') for (let i = -6; i <= 6; i++) { g.beginPath(); g.moveTo(i * 14 - 40, -h); g.lineTo(i * 14 + 40, h); g.stroke(); }
+  if (P.mark === 'star') { g.font = '12px sans-serif'; g.textAlign = 'center'; for (let i = -3; i <= 3; i++) for (let j = -2; j <= 2; j++) g.fillText('★', i * 18 + (j % 2) * 9, j * 18 + 4); }
+  g.restore();
+  if (ribbon) {
+    const rr = ease(rk);
+    g.fillStyle = '#fff4d6'; g.fillRect(-5, -h / 2 - 10, 10, (h + 10) * rr); g.fillRect(-w / 2, -3, w * rr, 8);
+    g.fillStyle = '#fff4d6'; g.strokeStyle = 'rgba(0,0,0,.15)'; g.lineWidth = 1.5;
+    for (const s of [-1, 1]) { g.beginPath(); g.ellipse(s * 13 * rr, -h / 2 - 12, 13 * rr, 8 * rr, s * 0.4, 0, TAU); g.fill(); g.stroke(); }
+    g.beginPath(); g.arc(0, -h / 2 - 11, 5 * rr, 0, TAU); g.fill();
+  }
+  g.restore();
+}
+function draw(dt) {
+  if (!g) return;
+  g.save();
+  if (R.shake > 0) g.translate((Math.random() - 0.5) * 10 * R.shake, (Math.random() - 0.5) * 8 * R.shake);
+  // 벽 · 창문
+  const wall = g.createLinearGradient(0, 0, 0, H); wall.addColorStop(0, R.fever ? '#3a2350' : '#f3e7d3'); wall.addColorStop(1, R.fever ? '#24193a' : '#e9d9bf');
+  g.fillStyle = wall; g.fillRect(-20, -20, W + 40, H + 40);
+  g.fillStyle = R.fever ? '#14253f' : '#bfd8ec'; g.beginPath(); g.roundRect?.(22, H * 0.14, 110, 84, 6); g.fill();
+  g.strokeStyle = '#fff'; g.lineWidth = 5; g.strokeRect(22, H * 0.14, 110, 84); g.beginPath(); g.moveTo(77, H * 0.14); g.lineTo(77, H * 0.14 + 84); g.stroke();
+  // 눈
+  if (R.snow.length < (R.fever ? 70 : 25)) R.snow.push({ x: Math.random() * W, y: -10, v: 20 + Math.random() * 40, r: 1 + Math.random() * 2.5 });
+  g.fillStyle = 'rgba(255,255,255,.85)';
+  for (const s of R.snow) { s.y += s.v * (dt || 0); s.x += Math.sin(s.y / 30) * 0.3; g.beginPath(); g.arc(s.x, s.y, s.r, 0, TAU); g.fill(); }
+  R.snow = R.snow.filter(s => s.y < H + 10);
+  // 썰매 자루
+  const S = R.sack;
+  g.fillStyle = '#8a5a3a'; g.beginPath(); g.ellipse(S.x, S.y + 22, 44, 36, 0, 0, TAU); g.fill();
+  g.fillStyle = '#c8372d'; g.beginPath(); g.ellipse(S.x, S.y - 8, 34, 10, 0, 0, TAU); g.fill();
+  g.fillStyle = '#fff'; g.font = '700 11px sans-serif'; g.textAlign = 'center'; g.fillText('썰매행', S.x, S.y + 30);
+  // 컨베이어
+  const by = R.beltY;
+  g.fillStyle = '#4a4f5c'; g.fillRect(-20, by, W + 40, 30);
+  g.fillStyle = '#5d6373';
+  const off = (performance.now() / 1000 * R.speed) % 28;
+  for (let x = -28 + off; x < W + 28; x += 28) g.fillRect(x, by + 3, 14, 4);
+  g.fillStyle = '#2f333d'; for (let x = 14; x < W; x += 56) { g.beginPath(); g.arc(x, by + 22, 7, 0, TAU); g.fill(); }
+  g.fillStyle = '#8a8f9b'; g.fillRect(-20, by + 30, W + 40, 14);
+  // 작업 칸
+  const z = R.zone, c = current();
+  g.fillStyle = c ? 'rgba(242,194,48,.22)' : 'rgba(255,255,255,.18)'; g.fillRect(z.x, by - 140, z.w, 140);
+  g.strokeStyle = c ? '#f2c230' : 'rgba(0,0,0,.15)'; g.setLineDash([8, 6]); g.lineWidth = 3; g.strokeRect(z.x, by - 140, z.w, 140); g.setLineDash([]);
+  g.fillStyle = c ? '#b8862a' : 'rgba(0,0,0,.35)'; g.font = '700 12px sans-serif'; g.fillText('작업 칸', W / 2, by - 148);
+  // 선물들
+  for (const x of R.gifts) {
+    if (x.state === 'belt') {
+      const y = by - 4 + Math.sin(performance.now() / 160 + x.bob) * (R.jolt > 0 ? 6 : 1);
+      if (x.wrap) wrappedBox(x.x, y - 44, 92, 78, PAPER[x.wrap], x.ribbon, x.wrapT, x.ribT);
+      else { const im = img(x.item); if (im?.complete && im.naturalWidth) { g.save(); g.fillStyle = 'rgba(0,0,0,.15)'; g.beginPath(); g.ellipse(x.x, y + 2, 44, 7, 0, 0, TAU); g.fill(); g.beginPath(); g.roundRect?.(x.x - 50, y - 104, 100, 100, 18); g.clip(); g.drawImage(im, x.x - 54, y - 108, 108, 108); g.restore(); } else { g.fillStyle = '#ccc'; g.fillRect(x.x - 25, y - 50, 50, 50); } }
+      // 번호표
+      g.fillStyle = x === c ? '#2a2623' : 'rgba(42,38,35,.55)'; g.beginPath(); g.roundRect?.(x.x - 16, y + 6, 32, 18, 9); g.fill();
+      g.fillStyle = '#fff'; g.font = '700 11px sans-serif'; g.fillText(`#${x.n}`, x.x, y + 19);
+    } else if (x.state === 'ship') {
+      const k = ease(x.shipT), px = x.from.x + (S.x - x.from.x) * k, py = x.from.y + (S.y - x.from.y) * k - Math.sin(k * Math.PI) * 120;
+      g.save(); g.translate(px, py); g.rotate(k * 4); g.scale(1 - k * 0.5, 1 - k * 0.5);
+      if (x.wrap) wrappedBox(0, 0, 70, 60, PAPER[x.wrap], x.ribbon); else { const im = img(x.item); if (im?.complete) g.drawImage(im, -40, -40, 80, 80); }
+      g.restore();
+    }
+  }
+  // 떠오르는 글자
+  for (const f of R.fly) {
+    f.t += dt || 0;
+    g.globalAlpha = clamp(1.4 - f.t); g.font = '900 24px sans-serif'; g.textAlign = 'center';
+    g.lineWidth = 5; g.strokeStyle = '#fff'; g.strokeText(f.text, f.x, f.y - f.t * 50);
+    g.fillStyle = f.kind === 'ok' ? '#2e8a56' : '#d8453a'; g.fillText(f.text, f.x, f.y - f.t * 50);
+    g.globalAlpha = 1;
+  }
+  R.fly = R.fly.filter(f => f.t < 1.4);
+  g.restore();
+}
+
+// ---------- 묶기 ----------
+function initRush() {
+  $('rush-papers').innerHTML = PAPERS.map(p => `<button class="rush-btn rush-btn--paper" type="button" data-paper="${p.id}" style="--c:${p.color}"><i></i>${p.name}</button>`).join('');
+  $('rush-papers').addEventListener('pointerdown', (e) => { const b = e.target.closest('[data-paper]'); if (!b) return; e.preventDefault(); doPaper(b.dataset.paper); });
+  $('rush-ribbon').addEventListener('pointerdown', (e) => { e.preventDefault(); doRibbon(); });
+  $('rush-ship').addEventListener('pointerdown', (e) => { e.preventDefault(); doShip(); });
+  // 선물을 위로 휙 밀어도 출고
+  let sw = null;
+  $('rush-cv').addEventListener('pointerdown', (e) => { sw = { x: e.clientX, y: e.clientY }; });
+  $('rush-cv').addEventListener('pointerup', (e) => { if (sw && sw.y - e.clientY > 50) doShip(); sw = null; });
+  $('rush-again').addEventListener('click', () => { reset(); countIn(); });
+  $('rush-card').addEventListener('click', shareCard);
+  $('rush-gift').addEventListener('click', () => { leaveRush(); go('select'); });
+  window.__rush = R;
+}
+
+return { PAPERS, enterRush, leaveRush, initRush };
 })();
 
 // ---- js/main.js ----
@@ -9100,6 +9602,7 @@ const { startRouter, onScreen, go, currentScreen } = __m["js/router.js"];
 const { initRegister, onEnterRegister, onLeaveRegister } = __m["js/screens/register.js"];
 const { sound } = __m["js/sound.js"];
 const { initGame } = __m["js/screens/game.js"];
+const { initRush, enterRush, leaveRush } = __m["js/screens/rush.js"];
 // 모바일 주소창 높이 변화 대응
 const setVh = () => document.documentElement.style.setProperty('--vh', window.innerHeight + 'px');
 setVh(); window.addEventListener('resize', setVh);
@@ -9144,6 +9647,7 @@ onScreen((name) => {
   lab?.setActive(name === 'intro');
   if (name === 'intro') { leaving = false; intro.classList.remove('is-leaving'); }
   if (name === 'register') onEnterRegister(); else onLeaveRegister();
+  if (name === 'rush') enterRush(); else leaveRush();
   // 모션 패널은 인트로 전용
   document.body.classList.toggle('is-intro', name === 'intro');
 });
@@ -9168,6 +9672,7 @@ musicBtn.addEventListener('click', () => { sound.setMusic(!sound.musicOn); paint
 
 initRegister();
 initGame();
+initRush();
 startRouter();
 lab?.setActive(currentScreen() === 'intro');
 
