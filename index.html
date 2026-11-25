@@ -2356,8 +2356,25 @@ const AVATAR_TABS = [
     ],
   },
   {
-    id: 'shirt', label: '옷', colorKey: 'shirt', colorLabel: '가운 안 셔츠',
+    id: 'hat', label: '모자', key: 'hat',
+    icon: S('<path d="M8 26q2-14 12-16 8 0 12 10l-3 2"/><path d="M6 26h28"/><circle cx="31" cy="23" r="3"/>'),
+    options: [
+      { id: 'santa',   label: '산타 모자',  icon: S('<path d="M8 27q2-15 12-17 8 0 12 10"/><path d="M6 27h26v4H6z"/><circle cx="32" cy="22" r="3"/>') },
+      { id: 'elf',     label: '엘프 모자',  icon: S('<path d="M9 27L20 5l11 22"/><path d="M7 27h26v4H7z"/><circle cx="20" cy="5" r="2.5"/>') },
+      { id: 'rudolph', label: '루돌프 뿔',  icon: S('<path d="M9 24q0-14 11-14t11 14"/><path d="M12 13L8 4M10 8l-4 1M28 13l4-9M30 8l4 1"/>') },
+      { id: 'earmuff', label: '털 귀마개',  icon: S('<path d="M10 22q0-14 10-14t10 14"/><circle cx="9" cy="24" r="5"/><circle cx="31" cy="24" r="5"/>') },
+      { id: 'none',    label: '없음',      icon: S('<path d="M10 30L30 10" stroke-opacity=".4"/>') },
+    ],
+  },
+  {
+    id: 'outfit', label: '옷', key: 'outfit', colorKey: 'shirt', colorLabel: '옷 색',
     icon: S('<path d="M12 8l-6 5 3 5 3-2v16h16V16l3 2 3-5-6-5-4 3h-8z"/>'),
+    options: [
+      { id: 'santa',   label: '산타 옷',     icon: S('<path d="M12 8l-6 5 3 5 3-2v16h16V16l3 2 3-5-6-5-4 3h-8z"/><path d="M12 22h16" stroke-width="3"/><path d="M20 11v21" stroke-dasharray="2 2"/>') },
+      { id: 'elf',     label: '엘프 옷',     icon: S('<path d="M12 10l-6 5 3 5 3-2v14h16V18l3 2 3-5-6-5"/><path d="M12 10l3 4 2-4 3 4 3-4 2 4 3-4"/><path d="M12 23h16"/>') },
+      { id: 'rudolph', label: '루돌프 후드', icon: S('<path d="M12 12l-6 5 3 5 3-2v12h16V20l3 2 3-5-6-5"/><path d="M13 12q7 8 14 0"/><path d="M12 9L9 3M28 9l3-6"/>') },
+      { id: 'knit',    label: '크리스마스 니트', icon: S('<path d="M12 9l-6 5 3 5 3-2v15h16V17l3 2 3-5-6-5z"/><path d="M12 22l3-3 3 3 3-3 3 3 3-3 1 1"/><path d="M20 26v-2" />') },
+    ],
   },
 ];
 
@@ -2365,17 +2382,17 @@ const AVATAR_COLORS = {
   skin:         [0xf7d2b8, 0xefc09c, 0xdea47a, 0xc4865b, 0x9c6642, 0x6e4329],
   hairColor:    [0x3f2c22, 0x1d1a19, 0x6b4a32, 0xa47a4e, 0xd8b46e, 0xefe0b0, 0x8f939b, 0xb5463a, 0xe58aa8, 0x6f8fd8, 0x7aa58c, 0x9a7bd0],
   glassesColor: [0x2d3550, 0x1c1c1e, 0x9b3434, 0xc29a48, 0x7d8b98],
-  shirt:        [0x8a93b8, 0xd06a6a, 0x6aa58a, 0xdfb550, 0x4f68c8, 0x34343b],
+  shirt:        [0xc8372d, 0x2e7d4f, 0x8a2a3a, 0x8a5a3a, 0x2f4f8a, 0xe8e2d4],
 };
 
-// 연구원증 사진 배경 (셔츠 색과 짝)
-const PHOTO_BG = [0xc9cfe6, 0xefc9c4, 0xc6e2d3, 0xf2e2b6, 0xc3cdf0, 0xd6d6db];
+// 사원증 사진 배경 (옷 색과 짝)
+const PHOTO_BG = [0xf2cdc8, 0xc8e2d2, 0xe8c8cf, 0xead8c6, 0xc8d2ea, 0xdfe7ef];
 
-// 인트로의 선배 연구원
-const SENIOR_AVATAR = { skin: 0, hair: 'bob', hairColor: 0, brows: 'straight', eyes: 'sleepy', mouth: 'flat', glasses: 'rect', glassesColor: 0, shirt: 0, hat: 'santa' };
+// 인트로의 선배 산타
+const SENIOR_AVATAR = { skin: 0, hair: 'bob', hairColor: 0, brows: 'straight', eyes: 'sleepy', mouth: 'flat', glasses: 'rect', glassesColor: 0, shirt: 0, hat: 'santa', outfit: 'santa' };
 
-// 신입 기본값
-const DEFAULT_AVATAR = { skin: 1, hair: 'short', hairColor: 2, brows: 'arch', eyes: 'dot', mouth: 'smile', glasses: 'none', glassesColor: 0, shirt: 4 };
+// 인턴 기본값
+const DEFAULT_AVATAR = { skin: 1, hair: 'short', hairColor: 2, brows: 'arch', eyes: 'dot', mouth: 'smile', glasses: 'none', glassesColor: 0, shirt: 1, hat: 'elf', outfit: 'elf' };
 
 function randomAvatar() {
   const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
@@ -2387,6 +2404,7 @@ function randomAvatar() {
     glasses: Math.random() < 0.45 ? 'none' : opt('glasses'),
     glassesColor: Math.floor(Math.random() * AVATAR_COLORS.glassesColor.length),
     shirt: Math.floor(Math.random() * AVATAR_COLORS.shirt.length),
+    hat: opt('hat'), outfit: opt('outfit'),
   };
 }
 
@@ -2597,6 +2615,95 @@ function addSantaHat(head) {
   head.add(hat);
 }
 
+/** 엘프 모자: 초록 고깔 + 빨강·흰 띠 + 방울 */
+function addElfHat(head) {
+  const g = new THREE.Group(); g.position.set(0, 0.17, -0.02); g.rotation.set(-0.3, 0, 0.15);
+  const cone = mesh(new THREE.ConeGeometry(0.3, 0.6, 28, 1, true), mat(0x2e7d4f, { shininess: 10, side: THREE.DoubleSide }), 0, 0.3, 0);
+  g.add(cone);
+  g.add(mesh(new THREE.TorusGeometry(0.3, 0.045, 10, 36), mat(0xc8372d), 0, 0.02, 0).rotateX(Math.PI / 2));
+  g.add(mesh(new THREE.TorusGeometry(0.29, 0.02, 8, 36), mat(0xfbf8f2), 0, 0.07, 0).rotateX(Math.PI / 2));
+  g.add(mesh(new THREE.SphereGeometry(0.045, 12, 10), gloss(0xd6b25a, { shininess: 90 }), 0, 0.62, 0));
+  head.add(g);
+}
+/** 루돌프 뿔 머리띠 + 귀 */
+function addAntlers(head) {
+  const brown = mat(0x8a5a3a, { shininess: 8 });
+  const band = mesh(new THREE.TorusGeometry(R * 1.07, 0.02, 8, 40, Math.PI), mat(0x3a2a22), 0, 0, 0); band.rotation.x = -0.35; head.add(band);
+  const tube = (pts, r) => new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 16, r, 8, false), brown);
+  for (const s of [-1, 1]) {
+    const g = new THREE.Group(); g.position.set(s * 0.17, 0.25, -0.06); g.rotation.z = -s * 0.25;
+    g.add(tube([V(0, 0, 0), V(s * 0.03, 0.12, 0), V(s * 0.09, 0.24, 0), V(s * 0.08, 0.32, 0)], 0.022));
+    g.add(tube([V(s * 0.04, 0.14, 0), V(s * 0.1, 0.16, 0), V(s * 0.15, 0.22, 0)], 0.018));
+    g.add(tube([V(s * 0.02, 0.08, 0), V(-s * 0.03, 0.14, 0), V(-s * 0.05, 0.2, 0)], 0.016));
+    head.add(g);
+    const ear = mesh(new THREE.SphereGeometry(0.06, 12, 10), brown, s * 0.29, 0.15, -0.06); ear.scale.set(0.5, 1.2, 0.8); ear.rotation.z = s * 0.9; head.add(ear);
+  }
+}
+/** 털 귀마개 */
+function addEarmuffs(head) {
+  const band = mesh(new THREE.TorusGeometry(R * 1.09, 0.018, 8, 40, Math.PI), mat(0xc8372d), 0, 0, -0.02); head.add(band);
+  for (const s of [-1, 1]) { const m = mesh(new THREE.SphereGeometry(0.1, 16, 12), mat(0xfbf8f2, { shininess: 2 }), s * (R + 0.02), -0.03, -0.01); m.scale.set(0.7, 1, 1); head.add(m); }
+}
+function addHat(head, style) {
+  if (style === 'santa') addSantaHat(head);
+  if (style === 'elf') addElfHat(head);
+  if (style === 'rudolph') addAntlers(head);
+  if (style === 'earmuff') addEarmuffs(head);
+}
+
+/** 옷: 몸통을 붙이고, 팔 소매 재질(과 털 소맷단)을 돌려줌 */
+function knitTex(base, accent) {
+  const c = document.createElement('canvas'); c.width = 256; c.height = 128;
+  const g = c.getContext('2d'); const h = (n) => '#' + n.toString(16).padStart(6, '0');
+  g.fillStyle = h(base); g.fillRect(0, 0, 256, 128);
+  g.fillStyle = h(accent);
+  g.fillRect(0, 50, 256, 4); g.fillRect(0, 74, 256, 4);
+  for (let x = 0; x < 256; x += 32) { g.beginPath(); g.moveTo(x, 64); g.lineTo(x + 16, 58); g.lineTo(x + 32, 64); g.lineTo(x + 16, 70); g.fill(); }
+  for (let x = 16; x < 256; x += 64) for (const y of [26, 100]) { g.fillRect(x - 1, y - 8, 2, 16); g.fillRect(x - 8, y - 1, 16, 2); g.fillRect(x - 5, y - 5, 10, 2); g.fillRect(x - 5, y + 3, 10, 2); }
+  g.fillStyle = 'rgba(255,255,255,.18)'; for (let x = 0; x < 256; x += 6) g.fillRect(x, 0, 2, 128);
+  const t = new THREE.CanvasTexture(c); t.wrapS = THREE.RepeatWrapping; t.repeat.set(2, 1); return t;
+}
+function addOutfit(body, style, color, light) {
+  const prof = [[0, 0.36], [0.35, 0.36], [0.33, 0.62], [0.28, 1.06], [0.19, 1.2], [0, 1.22]].map(([x, y]) => new THREE.Vector2(x, y));
+  const cloth = mat(color, { shininess: 8 });
+  const fur = mat(0xfbf8f2, { shininess: 2 });
+  const trim = light ? mat(0xc8372d) : fur;
+  const dark = mat(new THREE.Color(color).multiplyScalar(0.7).getHex());
+  const belt = (y = 0.62) => {
+    body.add(mesh(new THREE.CylinderGeometry(0.336, 0.338, 0.07, 40), mat(0x1e1c22, { shininess: 40 }), 0, y, 0));
+    body.add(mesh(roundedBox(0.11, 0.09, 0.03, 0.01, 1), gloss(0xd6b25a, { shininess: 90 }), 0, y, 0.335));
+    body.add(mesh(roundedBox(0.07, 0.05, 0.034, 0.008, 1), mat(0x1e1c22), 0, y, 0.336));
+  };
+  if (style === 'elf') {
+    body.add(mesh(new THREE.LatheGeometry(prof, 40), cloth));
+    for (let i = 0; i < 10; i++) { const a = (i / 10) * Math.PI * 2; const c = mesh(new THREE.ConeGeometry(0.065, 0.16, 4), i % 2 ? mat(0xc8372d) : trim, Math.sin(a) * 0.24, 1.13, Math.cos(a) * 0.24); c.rotation.order = 'YXZ'; c.rotation.y = a; c.rotation.x = Math.PI / 2 + 0.7; body.add(c); }
+    for (let i = 0; i < 12; i++) { const a = (i / 12) * Math.PI * 2; const c = mesh(new THREE.ConeGeometry(0.05, 0.1, 4), dark, Math.sin(a) * 0.35, 0.33, Math.cos(a) * 0.35); c.rotation.x = Math.PI; body.add(c); }
+    belt(0.66);
+    return { mat: cloth, cuff: mat(0xc8372d) };
+  }
+  if (style === 'rudolph') {
+    body.add(mesh(new THREE.LatheGeometry(prof, 40), cloth));
+    const hood = mesh(new THREE.TorusGeometry(0.18, 0.075, 10, 24), cloth, 0, 1.2, -0.08); hood.rotation.x = Math.PI / 2 - 0.4; body.add(hood);
+    body.add(mesh(new THREE.SphereGeometry(0.05, 12, 10), gloss(0xd8342a, { shininess: 90 }), 0, 0.92, 0.29)); // 빨간 코 단추
+    for (const s of [-1, 1]) body.add(mesh(new THREE.SphereGeometry(0.02, 8, 6), mat(0x1e1c22), s * 0.07, 1.0, 0.27));
+    return { mat: cloth, cuff: dark };
+  }
+  if (style === 'knit') {
+    const knit = new THREE.MeshPhongMaterial({ map: knitTex(color, light ? 0xc8372d : 0xfbf8f2), shininess: 4 });
+    body.add(mesh(new THREE.LatheGeometry(prof, 40), knit));
+    body.add(mesh(new THREE.CylinderGeometry(0.11, 0.13, 0.1, 20), dark, 0, 1.23, 0));
+    body.add(mesh(new THREE.CylinderGeometry(0.352, 0.352, 0.08, 40), dark, 0, 0.39, 0));
+    return { mat: cloth, cuff: dark };
+  }
+  // santa
+  body.add(mesh(new THREE.LatheGeometry(prof, 40), cloth));
+  body.add(mesh(new THREE.TorusGeometry(0.345, 0.045, 10, 40), trim, 0, 0.38, 0).rotateX(Math.PI / 2));
+  body.add(mesh(new THREE.TorusGeometry(0.17, 0.045, 10, 30), trim, 0, 1.18, 0).rotateX(Math.PI / 2));
+  const strip = mesh(roundedBox(0.09, 0.72, 0.04, 0.02, 2), trim, 0, 0.8, 0.29); strip.rotation.x = -0.11; body.add(strip);
+  belt(0.64);
+  return { mat: cloth, cuff: trim };
+}
+
 /** 캐릭터 만들기 */
 function makeCharacter(input) {
   const av = normalizeAvatar(input);
@@ -2605,7 +2712,6 @@ function makeCharacter(input) {
   const body = new THREE.Group();
   root.add(body);
 
-  const coat = mat(0xfbfbf9, { shininess: 22 });
   const skin = mat(C.skin[av.skin] ?? C.skin[0], { shininess: 30, specular: 0x262020 });
   const hair = mat(colorOf('hairColor', av.hairColor), { shininess: 34, specular: 0x222222 });
   const ink = gloss(0x1e1c22);
@@ -2616,23 +2722,14 @@ function makeCharacter(input) {
     body.add(mesh(new THREE.CylinderGeometry(0.075, 0.07, 0.42, 14), mat(0x5d6380), x, 0.21, 0));
     body.add(mesh(roundedBox(0.16, 0.09, 0.24, 0.04, 2), mat(0x6e4a3a), x, 0.04, 0.04));
   }
-  // 가운
-  const coatProf = [[0, 0.36], [0.35, 0.36], [0.33, 0.62], [0.28, 1.06], [0.19, 1.2], [0, 1.22]].map(([x, y]) => new THREE.Vector2(x, y));
-  body.add(mesh(new THREE.LatheGeometry(coatProf, 40), coat));
-  // 셔츠 (가운 안쪽 V자)
-  const shirt = mesh(new THREE.ConeGeometry(0.11, 0.24, 3), mat(shirtColor), 0, 1.07, 0.19);
-  shirt.rotation.x = Math.PI; shirt.scale.set(1, 1, 0.3);
-  body.add(shirt);
-  [0.92, 0.76, 0.6].forEach(y => body.add(mesh(new THREE.SphereGeometry(0.02, 10, 8), mat(0x9fa6c8), 0, y, 0.3 - (0.92 - y) * 0.05)));
-  const badge = mesh(roundedBox(0.13, 0.07, 0.02, 0.01, 1), mat(0x2f55c4), 0.15, 0.95, 0.26);
-  badge.rotation.y = 0.35;
-  body.add(badge);
+  const sleeve = addOutfit(body, av.outfit, shirtColor, (C.shirt[av.shirt] ?? 0) === 0xe8e2d4);
 
   // 팔
   const arm = (side) => {
     const a = new THREE.Group();
     a.position.set(0.26 * side, 1.1, 0);
-    a.add(mesh(new THREE.CylinderGeometry(0.07, 0.085, 0.52, 14), coat, 0, -0.26, 0));
+    a.add(mesh(new THREE.CylinderGeometry(0.07, 0.085, 0.52, 14), sleeve.mat, 0, -0.26, 0));
+    if (sleeve.cuff) a.add(mesh(new THREE.TorusGeometry(0.082, 0.028, 8, 20), sleeve.cuff, 0, -0.5, 0).rotateX(Math.PI / 2));
     a.add(mesh(new THREE.SphereGeometry(0.068, 16, 12), skin, 0, -0.54, 0));
     a.rotation.z = 0.18 * side;
     body.add(a);
@@ -2651,7 +2748,7 @@ function makeCharacter(input) {
   const brows = addBrows(head, av.brows, hair);
   const { base: mouthBase, smile: mouthSmile } = addMouth(head, av.mouth);
   addGlasses(head, av.glasses, C.glassesColor[av.glassesColor] ?? C.glassesColor[0]);
-  if (av.hat === 'santa') addSantaHat(head);
+  addHat(head, av.hat);
   head.add(mesh(new THREE.SphereGeometry(0.022, 10, 8), mat(0xe9b99a), 0, -0.08, R - 0.004)); // 코
   // 귀
   for (const s of [-1, 1]) {
