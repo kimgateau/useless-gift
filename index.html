@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>선물학 연구소 — 신입 연구원 테스트</title>
+  <title>선물학 연구소 — 포장해서 보내는 선물</title>
   <link rel="icon" href="data:," />
   <meta name="theme-color" content="#ECE4DD" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -751,6 +751,19 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
 .screen--open .open-panel { touch-action: auto; user-select: text; }
 .intro__recv { position: relative; z-index: 3; margin-top: 4px; }
 
+/* 꾸미기 확장: 색 목록 스크롤 + 직접 고르기 */
+.maker-colors { max-height: 100%; min-height: 0; }
+.maker-colors__list { grid-template-columns: repeat(3, 26px); gap: 6px; overflow-y: auto; padding: 3px; align-content: start; }
+.maker-colors__list .swatch { width: 26px; height: 26px; }
+.swatch--custom {
+  position: relative; display: block; overflow: hidden;
+  background: conic-gradient(#f55, #fd5, #5d7, #5bf, #a6f, #f5a, #f55);
+}
+.swatch--custom::after { content: '+'; position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font: 700 15px/1 sans-serif; text-shadow: 0 1px 2px rgba(0,0,0,.5); pointer-events: none; }
+.swatch--custom input { position: absolute; inset: -6px; width: 150%; height: 150%; opacity: 0; cursor: pointer; border: 0; padding: 0; }
+.maker-tab { flex: 0 0 52px; }
+.maker-grid { grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); }
+
 </style>
   <script>
     // 파일을 더블클릭해서 연 경우: 모듈 스크립트가 막히므로 한 파일 완성본으로 이동
@@ -783,9 +796,9 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
     <section class="screen screen--intro" data-screen="intro" aria-label="인트로">
       <canvas class="lab-canvas" id="lab-canvas" aria-label="선물이 흘러가는 컨베이어와 선배 연구원이 있는 연구실"></canvas>
       <div class="intro__ui">
-        <p class="intro__eyebrow">USELESS GIFT DELIVERY</p>
-        <h1 class="intro__title">선물학 연구소<br />쓸데없는 선물 배송</h1>
-        <p class="intro__question">쓸모는 없지만 정성은 가득한 선물을 친구에게 보내 보세요</p>
+        <p class="intro__eyebrow">WRAP &amp; SEND</p>
+        <h1 class="intro__title">선물학 연구소</h1>
+        <p class="intro__question">고른 선물을 직접 포장해서<br />고마운 사람에게 보내 보세요</p>
         <div class="intro__pick" id="intro-pick" aria-live="polite">
           <p class="intro__pick-label" id="pick-label">지나가는 선물을 눌러 보세요</p>
           <p class="intro__pick-note" id="pick-note"></p>
@@ -889,7 +902,7 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
       </header>
       <div class="page-body page-body--wide">
         <label class="to-field">받는 사람 <input id="recipient" type="text" maxlength="10" placeholder="친구 이름" autocomplete="off" enterkeyhint="done" /></label>
-        <p class="page-lead">무엇을 보낼까요?<br /><small>쓸모없을수록 좋아요. 대신 포장은 정성껏.</small></p>
+        <p class="page-lead">무엇을 보낼까요?<br /><small>요즘 떠오르는 그 사람에게 어울리는 걸로</small></p>
         <div class="cat-tabs" id="cat-tabs" role="tablist"></div>
         <div class="item-grid" id="gift-grid" role="listbox" aria-label="선물 후보"></div>
       </div>
@@ -969,7 +982,7 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
         <input class="open-reply" id="open-reply" type="text" maxlength="30" placeholder="한마디 (선택)" />
         <div class="result-actions">
           <button class="tape-btn" type="button" id="open-send" disabled>답장 링크 보내기</button>
-          <button class="text-btn" type="button" id="open-mine">나도 쓸데없는 선물 보내기</button>
+          <button class="text-btn" type="button" id="open-mine">나도 선물 보내기</button>
         </div>
       </div>
       <button class="text-btn open-skip" type="button" id="open-skip">건너뛰고 바로 열기</button>
@@ -1004,7 +1017,7 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
     <div class="modal" id="draw-modal" hidden>
       <div class="modal__box draw-box" role="dialog" aria-modal="true" aria-label="물건 그리기">
         <button class="modal__close" type="button" id="draw-close" aria-label="닫기">✕</button>
-        <p class="tool-label">쓸데없는 물건을 그려 주세요</p>
+        <p class="tool-label">주고 싶은 선물을 그려 주세요</p>
         <div class="draw-slot" id="draw-slot"></div>
         <div class="draw-tools" id="draw-tools"></div>
         <input class="draw-name" id="draw-name" type="text" maxlength="14" placeholder="물건 이름 (예: 내 머리카락 한 올)" />
@@ -2272,122 +2285,235 @@ return { sound };
 // ---- js/data/avatar-parts.js ----
 __m["js/data/avatar-parts.js"] = (() => {
 // ==========================================================
-// 연구원 얼굴 만들기 — 부위 · 선택지 · 색 (임시 구성)
+// 내 캐릭터 꾸미기 — 부위 · 선택지 · 색
 // 선택지를 늘리려면: 여기 options에 추가 + js/avatar/character.js 에 모양 추가
-// icon: 선택 버튼에 들어갈 간단한 SVG (viewBox 0 0 40 40)
+// 색은 목록의 번호(0, 1, 2…) 또는 직접 고른 색(0xRRGGBB)으로 저장
+// icon: 선택 버튼 SVG (viewBox 0 0 40 40)
 // ==========================================================
 
 const S = (body) => `<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
-const FACE = '<circle cx="20" cy="22" r="12" stroke-opacity=".35"/>';
+const F = '<circle cx="20" cy="22" r="11" stroke-opacity=".3"/>';
+const opt = (id, label, body) => ({ id, label, icon: S(body) });
 
 const AVATAR_TABS = [
   {
-    id: 'face', label: '얼굴', icon: S('<circle cx="20" cy="21" r="12"/><path d="M15 25q5 3 10 0"/>'),
-    colorKey: 'skin', colorLabel: '피부색',
+    id: 'face', label: '얼굴', key: 'face', colorKey: 'skin', colorLabel: '피부색',
+    icon: S('<circle cx="20" cy="21" r="12"/><path d="M15 25q5 3 10 0"/>'),
+    options: [
+      opt('round', '동그란', '<circle cx="20" cy="21" r="12"/>'),
+      opt('oval', '갸름한', '<ellipse cx="20" cy="21" rx="10" ry="13"/>'),
+      opt('square', '각진', '<rect x="9" y="9" width="22" height="24" rx="7"/>'),
+      opt('heart', '하트형', '<path d="M8 15q0-7 12-7t12 7q0 12-12 19Q8 27 8 15z"/>'),
+      opt('chubby', '통통한', '<ellipse cx="20" cy="22" rx="13" ry="11"/>'),
+    ],
   },
   {
     id: 'hair', label: '헤어', key: 'hair', colorKey: 'hairColor', colorLabel: '머리색',
     icon: S('<path d="M8 22q0-14 12-14t12 14"/><path d="M8 22v8M32 22v8"/>'),
     options: [
-      { id: 'bob',   label: '단발',     icon: S(FACE + '<path d="M8 24q0-15 12-15t12 15v6M8 24v6M12 14l10 6"/>') },
-      { id: 'short', label: '짧은 커트', icon: S(FACE + '<path d="M9 20q0-12 11-12t11 12M12 15l4 3 3-4 3 4 4-3"/>') },
-      { id: 'long',  label: '긴 머리',   icon: S(FACE + '<path d="M8 36V22q0-14 12-14t12 14v14M20 9v6"/>') },
-      { id: 'bun',   label: '올림머리',  icon: S(FACE + '<circle cx="20" cy="6" r="4"/><path d="M9 20q0-10 11-10t11 10"/>') },
-      { id: 'curly', label: '곱슬',     icon: S(FACE + '<path d="M8 22q-2-4 1-6-1-5 4-6 2-4 7-2 5-2 7 2 5 1 4 6 3 2 1 6"/>') },
-      { id: 'buzz',  label: '아주 짧게', icon: S(FACE + '<path d="M10 17q2-8 10-8t10 8" stroke-dasharray="1 3"/>') },
+      opt('short', '짧은 커트', F + '<path d="M9 20q0-12 11-12t11 12"/>'),
+      opt('pixie', '픽시컷', F + '<path d="M9 21q-1-12 11-13 6 0 9 4l2-2v9"/>'),
+      opt('bob', '단발', F + '<path d="M8 28V22q0-14 12-14t12 14v6"/>'),
+      opt('hime', '히메컷', F + '<path d="M8 36V22q0-14 12-14t12 14v14M10 22v6h4M30 22v6h-4"/>'),
+      opt('long', '긴 생머리', F + '<path d="M8 36V22q0-14 12-14t12 14v14"/>'),
+      opt('wavy', '웨이브', F + '<path d="M8 22q0-14 12-14t12 14q2 3 0 6t0 7M8 22q-2 3 0 6t0 7"/>'),
+      opt('ponytail', '포니테일', F + '<path d="M9 20q0-11 11-11t11 11"/><path d="M31 14q6 4 4 14"/>'),
+      opt('twintail', '양갈래', F + '<path d="M9 20q0-11 11-11t11 11"/><path d="M8 18q-5 6-3 14M32 18q5 6 3 14"/>'),
+      opt('bun', '똥머리', F + '<circle cx="20" cy="6" r="4"/><path d="M9 20q0-10 11-10t11 10"/>'),
+      opt('doublebun', '양쪽 똥머리', F + '<circle cx="10" cy="9" r="4"/><circle cx="30" cy="9" r="4"/><path d="M9 20q0-10 11-10t11 10"/>'),
+      opt('braid', '땋은 머리', F + '<path d="M9 20q0-11 11-11t11 11"/><path d="M30 20l3 4-3 4 3 4-3 4"/>'),
+      opt('curly', '곱슬', F + '<path d="M8 22q-2-4 1-6-1-5 4-6 2-4 7-2 5-2 7 2 5 1 4 6 3 2 1 6"/>'),
+      opt('buzz', '아주 짧게', F + '<path d="M10 17q2-8 10-8t10 8" stroke-dasharray="1 3"/>'),
+      opt('bald', '민머리', F + '<path d="M13 12q3-2 6-2" stroke-opacity=".5"/>'),
     ],
   },
   {
-    id: 'brows', label: '눈썹', key: 'brows',
-    icon: S('<path d="M7 18q5-4 10 0M23 18q5-4 10 0"/>'),
+    id: 'bangs', label: '앞머리', key: 'bangs', colorKey: 'hairColor', colorLabel: '머리색',
+    icon: S('<path d="M8 20q0-12 12-12t12 12"/><path d="M12 12v8M20 10v9M28 12v8"/>'),
     options: [
-      { id: 'straight', label: '일자',   icon: S('<path d="M7 20h10M23 20h10"/>') },
-      { id: 'arch',     label: '아치',   icon: S('<path d="M7 22q5-6 10-1M23 21q5-5 10 1"/>') },
-      { id: 'soft',     label: '처진',   icon: S('<path d="M7 18l10 3M33 18l-10 3"/>') },
-      { id: 'thick',    label: '짙은',   icon: S('<path d="M7 20h10M23 20h10" stroke-width="4"/>') },
+      opt('none', '없음 (이마)', F + '<path d="M9 18q0-10 11-10t11 10"/>'),
+      opt('straight', '일자', F + '<path d="M9 18q0-10 11-10t11 10M9 18h22"/>'),
+      opt('side', '옆으로', F + '<path d="M9 18q0-10 11-10t11 10M9 14q10 1 22 8"/>'),
+      opt('parted', '가르마', F + '<path d="M9 20q0-12 11-12t11 12M20 9q-4 5-11 8M20 9q4 5 11 8"/>'),
+      opt('curtain', '커튼뱅', F + '<path d="M9 20q0-12 11-12t11 12M19 10q-3 8-9 12M21 10q3 8 9 12"/>'),
+      opt('seethrough', '시스루', F + '<path d="M9 18q0-10 11-10t11 10M13 12v6M17 11v7M21 11v7M25 11v6"/>'),
     ],
   },
   {
-    id: 'eyes', label: '눈', key: 'eyes',
+    id: 'eyes', label: '눈', key: 'eyes', colorKey: 'eyeColor', colorLabel: '눈동자 색',
     icon: S('<ellipse cx="13" cy="20" rx="4" ry="3"/><ellipse cx="27" cy="20" rx="4" ry="3"/>'),
     options: [
-      { id: 'sleepy', label: '무심한 눈', icon: S('<path d="M8 18h10M22 18h10"/><ellipse cx="13" cy="21" rx="3.5" ry="2" fill="currentColor"/><ellipse cx="27" cy="21" rx="3.5" ry="2" fill="currentColor"/>') },
-      { id: 'dot',    label: '점 눈',    icon: S('<circle cx="13" cy="20" r="2.5" fill="currentColor"/><circle cx="27" cy="20" r="2.5" fill="currentColor"/>') },
-      { id: 'round',  label: '동그란 눈', icon: S('<circle cx="13" cy="20" r="5"/><circle cx="27" cy="20" r="5"/><circle cx="13" cy="20" r="2.5" fill="currentColor"/><circle cx="27" cy="20" r="2.5" fill="currentColor"/>') },
-      { id: 'smile',  label: '웃는 눈',  icon: S('<path d="M8 22q5-6 10 0M22 22q5-6 10 0"/>') },
-      { id: 'sharp',  label: '날렵한 눈', icon: S('<path d="M8 21q5-4 10-1M22 20q5-3 10 1"/><ellipse cx="13" cy="21" rx="2.5" ry="1.6" fill="currentColor"/><ellipse cx="27" cy="21" rx="2.5" ry="1.6" fill="currentColor"/>') },
+      opt('dot', '점 눈', '<circle cx="13" cy="20" r="2.5" fill="currentColor"/><circle cx="27" cy="20" r="2.5" fill="currentColor"/>'),
+      opt('round', '동그란 눈', '<circle cx="13" cy="20" r="5"/><circle cx="27" cy="20" r="5"/><circle cx="13" cy="20" r="2.5" fill="currentColor"/><circle cx="27" cy="20" r="2.5" fill="currentColor"/>'),
+      opt('sparkle', '반짝이는 눈', '<ellipse cx="13" cy="20" rx="5" ry="6" fill="currentColor"/><ellipse cx="27" cy="20" rx="5" ry="6" fill="currentColor"/><circle cx="11" cy="17" r="1.6" fill="#fff" stroke="none"/><circle cx="25" cy="17" r="1.6" fill="#fff" stroke="none"/>'),
+      opt('lashes', '속눈썹', '<circle cx="13" cy="21" r="4"/><circle cx="27" cy="21" r="4"/><path d="M9 17l-2-2M17 17l2-2M23 17l-2-2M31 17l2-2"/>'),
+      opt('droopy', '처진 눈', '<path d="M8 19q5-2 10 2M22 21q5-4 10-2"/><circle cx="13" cy="22" r="2.2" fill="currentColor"/><circle cx="27" cy="22" r="2.2" fill="currentColor"/>'),
+      opt('cat', '올라간 눈', '<path d="M8 22q5-2 10-5M22 17q5 3 10 5"/><circle cx="13" cy="21" r="2" fill="currentColor"/><circle cx="27" cy="21" r="2" fill="currentColor"/>'),
+      opt('sleepy', '무심한 눈', '<path d="M8 18h10M22 18h10"/><ellipse cx="13" cy="21" rx="3.5" ry="2" fill="currentColor"/><ellipse cx="27" cy="21" rx="3.5" ry="2" fill="currentColor"/>'),
+      opt('sharp', '날렵한 눈', '<path d="M8 21q5-4 10-1M22 20q5-3 10 1"/><ellipse cx="13" cy="21" rx="2.5" ry="1.6" fill="currentColor"/><ellipse cx="27" cy="21" rx="2.5" ry="1.6" fill="currentColor"/>'),
+      opt('smile', '웃는 눈', '<path d="M8 22q5-6 10 0M22 22q5-6 10 0"/>'),
+      opt('closed', '감은 눈', '<path d="M8 20q5 4 10 0M22 20q5 4 10 0"/>'),
+      opt('wink', '윙크', '<circle cx="13" cy="20" r="2.5" fill="currentColor"/><path d="M22 21q5-5 10 0"/>'),
+      opt('star', '별 눈', '<path d="M13 15l1.5 3.5 3.5.5-2.5 2.5.6 3.5-3.1-1.7-3.1 1.7.6-3.5-2.5-2.5 3.5-.5zM27 15l1.5 3.5 3.5.5-2.5 2.5.6 3.5-3.1-1.7-3.1 1.7.6-3.5-2.5-2.5 3.5-.5z" fill="currentColor"/>'),
     ],
   },
   {
-    id: 'mouth', label: '입', key: 'mouth',
+    id: 'brows', label: '눈썹', key: 'brows', colorKey: 'hairColor', colorLabel: '눈썹 색',
+    icon: S('<path d="M7 18q5-4 10 0M23 18q5-4 10 0"/>'),
+    options: [
+      opt('straight', '일자', '<path d="M7 20h10M23 20h10"/>'),
+      opt('arch', '아치', '<path d="M7 22q5-6 10-1M23 21q5-5 10 1"/>'),
+      opt('soft', '처진', '<path d="M7 18l10 3M33 18l-10 3"/>'),
+      opt('thick', '짙은', '<path d="M7 20h10M23 20h10" stroke-width="4"/>'),
+      opt('thin', '얇은', '<path d="M7 20q5-2 10 0M23 20q5-2 10 0" stroke-width="1.2"/>'),
+      opt('angry', '화난', '<path d="M7 17l10 4M33 17l-10 4" stroke-width="3"/>'),
+    ],
+  },
+  {
+    id: 'nose', label: '코', key: 'nose',
+    icon: S('<path d="M20 12v10q0 3-3 3"/>'),
+    options: [
+      opt('dot', '작은 코', '<circle cx="20" cy="22" r="2" fill="currentColor"/>'),
+      opt('button', '동그란 코', '<circle cx="20" cy="22" r="4"/>'),
+      opt('long', '오똑한 코', '<path d="M20 12v10q0 3-3 3"/>'),
+      opt('none', '없음', '<path d="M14 26L26 14" stroke-opacity=".35"/>'),
+    ],
+  },
+  {
+    id: 'mouth', label: '입', key: 'mouth', colorKey: 'lipColor', colorLabel: '입술 색',
     icon: S('<path d="M12 22q8 6 16 0"/>'),
     options: [
-      { id: 'flat',  label: '일자',   icon: S('<path d="M13 21h14"/>') },
-      { id: 'smile', label: '미소',   icon: S('<path d="M12 19q8 7 16 0"/>') },
-      { id: 'grin',  label: '활짝',   icon: S('<path d="M11 18h18q-2 9-9 9t-9-9z"/>') },
-      { id: 'o',     label: '오',     icon: S('<ellipse cx="20" cy="21" rx="4" ry="5"/>') },
+      opt('smile', '미소', '<path d="M12 19q8 7 16 0"/>'),
+      opt('grin', '활짝', '<path d="M11 18h18q-2 9-9 9t-9-9z"/>'),
+      opt('flat', '일자', '<path d="M13 21h14"/>'),
+      opt('o', '오', '<ellipse cx="20" cy="21" rx="4" ry="5"/>'),
+      opt('cat', '고양이 입', '<path d="M12 19q4 5 8 0 4 5 8 0"/>'),
+      opt('tongue', '메롱', '<path d="M12 19q8 6 16 0"/><path d="M17 22q3 6 6 0" fill="currentColor"/>'),
+      opt('smirk', '씩 웃음', '<path d="M13 22q8 2 14-5"/>'),
+      opt('pout', '뾰로통', '<ellipse cx="20" cy="22" rx="4" ry="3"/>'),
+    ],
+  },
+  {
+    id: 'cheek', label: '볼', key: 'cheek', colorKey: 'cheekColor', colorLabel: '볼 색',
+    icon: S('<circle cx="11" cy="24" r="4"/><circle cx="29" cy="24" r="4"/>'),
+    options: [
+      opt('none', '없음', F),
+      opt('blush', '발그레', F + '<ellipse cx="12" cy="25" rx="3.5" ry="2" fill="currentColor" stroke="none" opacity=".5"/><ellipse cx="28" cy="25" rx="3.5" ry="2" fill="currentColor" stroke="none" opacity=".5"/>'),
+      opt('freckles', '주근깨', F + '<circle cx="11" cy="24" r=".8" fill="currentColor"/><circle cx="14" cy="25" r=".8" fill="currentColor"/><circle cx="12" cy="27" r=".8" fill="currentColor"/><circle cx="26" cy="25" r=".8" fill="currentColor"/><circle cx="29" cy="24" r=".8" fill="currentColor"/><circle cx="28" cy="27" r=".8" fill="currentColor"/>'),
+      opt('both', '발그레+주근깨', F + '<ellipse cx="12" cy="25" rx="3.5" ry="2" fill="currentColor" stroke="none" opacity=".4"/><ellipse cx="28" cy="25" rx="3.5" ry="2" fill="currentColor" stroke="none" opacity=".4"/><circle cx="13" cy="24" r=".8" fill="currentColor"/><circle cx="27" cy="24" r=".8" fill="currentColor"/>'),
+      opt('mole', '점', F + '<circle cx="27" cy="27" r="1.3" fill="currentColor"/>'),
+      opt('heart', '하트 볼', F + '<path d="M28 24q-2-2-3 0t3 3q4-2 3-3t-3 0z" fill="currentColor"/>'),
+    ],
+  },
+  {
+    id: 'hat', label: '모자', key: 'hat', colorKey: 'hatColor', colorLabel: '모자 색',
+    icon: S('<path d="M8 24q0-14 12-14t12 14z"/><path d="M5 24h30"/>'),
+    options: [
+      opt('none', '없음', '<path d="M10 30L30 10" stroke-opacity=".4"/>'),
+      opt('beanie', '비니', '<path d="M9 26q0-16 11-16t11 16z"/><path d="M9 26h22v4H9z"/><circle cx="20" cy="9" r="2.5"/>'),
+      opt('cap', '볼캡', '<path d="M10 24q0-13 11-13t10 13z"/><path d="M10 24h-6q2 3 8 3"/>'),
+      opt('beret', '베레모', '<ellipse cx="20" cy="18" rx="14" ry="6"/><path d="M20 12v-3"/>'),
+      opt('bucket', '버킷햇', '<path d="M12 22l2-10h12l2 10z"/><path d="M6 24q14-6 28 0"/>'),
+      opt('headband', '머리띠', '<path d="M8 22q0-13 12-13t12 13" stroke-width="3"/>'),
+      opt('catband', '고양이 귀', '<path d="M8 22q0-13 12-13t12 13"/><path d="M10 13l2-7 5 4M30 13l-2-7-5 4"/>'),
+      opt('ribbon', '리본 핀', '<path d="M20 16l-8-5v10zM20 16l8-5v10z"/><circle cx="20" cy="16" r="2" fill="currentColor"/>'),
     ],
   },
   {
     id: 'glasses', label: '안경', key: 'glasses', colorKey: 'glassesColor', colorLabel: '테 색',
     icon: S('<rect x="5" y="15" width="12" height="9" rx="2"/><rect x="23" y="15" width="12" height="9" rx="2"/><path d="M17 19h6"/>'),
     options: [
-      { id: 'none',  label: '없음',   icon: S('<path d="M10 30L30 10" stroke-opacity=".4"/>') },
-      { id: 'rect',  label: '사각',   icon: S('<rect x="5" y="15" width="12" height="9" rx="1"/><rect x="23" y="15" width="12" height="9" rx="1"/><path d="M17 19h6"/>') },
-      { id: 'round', label: '동그란', icon: S('<circle cx="11" cy="20" r="6"/><circle cx="29" cy="20" r="6"/><path d="M17 20h6"/>') },
-      { id: 'half',  label: '반무테', icon: S('<path d="M5 16h12M23 16h12M17 17h6"/><path d="M5 16q0 8 6 8t6-8M23 16q0 8 6 8t6-8" stroke-opacity=".35"/>') },
+      opt('none', '없음', '<path d="M10 30L30 10" stroke-opacity=".4"/>'),
+      opt('rect', '사각', '<rect x="5" y="15" width="12" height="9" rx="1"/><rect x="23" y="15" width="12" height="9" rx="1"/><path d="M17 19h6"/>'),
+      opt('round', '동그란', '<circle cx="11" cy="20" r="6"/><circle cx="29" cy="20" r="6"/><path d="M17 20h6"/>'),
+      opt('half', '반무테', '<path d="M5 16h12M23 16h12M17 17h6"/><path d="M5 16q0 8 6 8t6-8M23 16q0 8 6 8t6-8" stroke-opacity=".35"/>'),
+      opt('sun', '선글라스', '<path d="M5 16h12v4q0 5-6 5t-6-5zM23 16h12v4q0 5-6 5t-6-5z" fill="currentColor"/><path d="M17 18h6"/>'),
+      opt('heart', '하트 안경', '<path d="M11 25q-7-5-6-9t6-1q5-3 6 1t-6 9zM29 25q-7-5-6-9t6-1q5-3 6 1t-6 9z"/><path d="M17 18h6"/>'),
     ],
   },
   {
-    id: 'shirt', label: '옷', colorKey: 'shirt', colorLabel: '가운 안 셔츠',
+    id: 'earrings', label: '귀걸이', key: 'earrings',
+    icon: S('<path d="M12 12q-4 0-4 6t4 6"/><circle cx="12" cy="28" r="3"/>'),
+    options: [
+      opt('none', '없음', '<path d="M10 30L30 10" stroke-opacity=".4"/>'),
+      opt('stud', '작은 큐빅', '<circle cx="20" cy="20" r="3" fill="currentColor"/>'),
+      opt('hoop', '링', '<circle cx="20" cy="22" r="7"/>'),
+      opt('pearl', '진주', '<path d="M20 10v6"/><circle cx="20" cy="22" r="5"/>'),
+    ],
+  },
+  {
+    id: 'outfit', label: '옷', key: 'outfit', colorKey: 'topColor', colorLabel: '옷 색',
     icon: S('<path d="M12 8l-6 5 3 5 3-2v16h16V16l3 2 3-5-6-5-4 3h-8z"/>'),
+    options: [
+      opt('coat', '연구소 가운', '<path d="M12 8l-6 5 3 5 3-2v16h16V16l3 2 3-5-6-5-4 3h-8z"/><path d="M20 11v21"/>'),
+      opt('hoodie', '후드티', '<path d="M12 10l-6 5 3 5 3-2v14h16V18l3 2 3-5-6-5"/><path d="M13 10q7 8 14 0"/><path d="M17 15v5M23 15v5"/>'),
+      opt('knit', '니트', '<path d="M12 9l-6 5 3 5 3-2v15h16V17l3 2 3-5-6-5z"/><path d="M15 9h10v3H15z"/><path d="M12 20h16M12 25h16" stroke-opacity=".5"/>'),
+      opt('stripe', '줄무늬 티', '<path d="M12 9l-6 5 3 5 3-2v15h16V17l3 2 3-5-6-5-4 2h-8z"/><path d="M12 19h16M12 24h16M12 29h16"/>'),
+      opt('shirt', '셔츠', '<path d="M12 9l-6 5 3 5 3-2v15h16V17l3 2 3-5-6-5z"/><path d="M16 9l4 5 4-5M20 14v18"/>'),
+      opt('cardigan', '가디건', '<path d="M12 9l-6 5 3 5 3-2v15h16V17l3 2 3-5-6-5z"/><path d="M17 9l3 9 3-9M20 18v14"/><circle cx="21.5" cy="22" r=".8" fill="currentColor"/><circle cx="21.5" cy="27" r=".8" fill="currentColor"/>'),
+    ],
   },
 ];
 
 const AVATAR_COLORS = {
-  skin:         [0xf7d2b8, 0xefc09c, 0xdea47a, 0xc4865b, 0x9c6642, 0x6e4329],
-  hairColor:    [0x3f2c22, 0x1d1a19, 0x6b4a32, 0xa47a4e, 0xd8b46e, 0x8f939b],
-  glassesColor: [0x2d3550, 0x1c1c1e, 0x9b3434, 0xc29a48, 0x7d8b98],
-  shirt:        [0x8a93b8, 0xd06a6a, 0x6aa58a, 0xdfb550, 0x4f68c8, 0x34343b],
+  skin:        [0xfbe0cc, 0xf7d2b8, 0xefc09c, 0xe4ae86, 0xdea47a, 0xc4865b, 0xa86e48, 0x9c6642, 0x7d5034, 0x6e4329],
+  hairColor:   [0x3f2c22, 0x1d1a19, 0x6b4a32, 0xa47a4e, 0xd8b46e, 0xefe0b0, 0x8f939b, 0xb5463a, 0xe58aa8, 0x6f8fd8, 0x7aa58c, 0x9a7bd0],
+  eyeColor:    [0x1e1c22, 0x4a3022, 0x6b4a32, 0x3f6fae, 0x4f8a5e, 0x7b8794, 0x8a5cc4],
+  lipColor:    [0x8a4a4a, 0xc8505a, 0xe07a7a, 0xb0466e, 0x9a5a48, 0xd88a6a],
+  cheekColor:  [0xf2a0a8, 0xf5b49a, 0xe88aa8, 0xd97a6a, 0xc0806a],
+  hatColor:    [0x2f3a5c, 0xd84a3a, 0xf2c230, 0x3e9a5c, 0xf4efe6, 0x1d1d21, 0xe58aa8, 0x9a7bd0, 0x8a6a4a],
+  glassesColor:[0x2d3550, 0x1c1c1e, 0x9b3434, 0xc29a48, 0x7d8b98, 0xe58aa8],
+  topColor:    [0x8a93b8, 0xd06a6a, 0x6aa58a, 0xdfb550, 0x4f68c8, 0x34343b, 0xf4efe6, 0xe58aa8, 0x9a7bd0, 0xf08a3a, 0x6fb8d8, 0x8a6a4a],
+};
+/** 번호면 목록에서, 직접 고른 색(0xRRGGBB)이면 그대로 */
+const colorOf = (key, v) => (typeof v === 'number' && v > 255 ? v : (AVATAR_COLORS[key]?.[v] ?? AVATAR_COLORS[key]?.[0] ?? 0x888888));
+
+// 사진 배경: 옷 색을 밝게
+const PHOTO_BG = [0xc9cfe6, 0xefc9c4, 0xc6e2d3, 0xf2e2b6, 0xc3cdf0, 0xd6d6db];
+const photoBg = (av) => {
+  const c = colorOf('topColor', av.topColor ?? av.shirt ?? 0);
+  const r = (c >> 16) & 255, g = (c >> 8) & 255, b = c & 255, k = 0.55;
+  return (Math.round(r + (255 - r) * k) << 16) | (Math.round(g + (255 - g) * k) << 8) | Math.round(b + (255 - b) * k);
 };
 
-// 연구원증 사진 배경 (셔츠 색과 짝)
-const PHOTO_BG = [0xc9cfe6, 0xefc9c4, 0xc6e2d3, 0xf2e2b6, 0xc3cdf0, 0xd6d6db];
-
 // 인트로의 선배 연구원
-const SENIOR_AVATAR = { skin: 0, hair: 'bob', hairColor: 0, brows: 'straight', eyes: 'sleepy', mouth: 'flat', glasses: 'rect', glassesColor: 0, shirt: 0 };
+const SENIOR_AVATAR = { face: 'oval', skin: 1, hair: 'bob', bangs: 'side', hairColor: 0, brows: 'straight', eyes: 'sleepy', eyeColor: 0, nose: 'dot', mouth: 'flat', lipColor: 0, cheek: 'none', cheekColor: 0, hat: 'none', hatColor: 0, glasses: 'rect', glassesColor: 0, earrings: 'none', outfit: 'coat', topColor: 0 };
 
-// 신입 기본값
-const DEFAULT_AVATAR = { skin: 1, hair: 'short', hairColor: 2, brows: 'arch', eyes: 'dot', mouth: 'smile', glasses: 'none', glassesColor: 0, shirt: 4 };
+// 처음 기본값
+const DEFAULT_AVATAR = { face: 'round', skin: 2, hair: 'short', bangs: 'straight', hairColor: 2, brows: 'arch', eyes: 'dot', eyeColor: 0, nose: 'dot', mouth: 'smile', lipColor: 0, cheek: 'blush', cheekColor: 0, hat: 'none', hatColor: 0, glasses: 'none', glassesColor: 0, earrings: 'none', outfit: 'coat', topColor: 4 };
+
+/** 예전에 저장한 얼굴(필드가 적음)도 그대로 쓸 수 있게 채움 */
+const normalizeAvatar = (av) => ({ ...DEFAULT_AVATAR, ...(av || {}), topColor: av?.topColor ?? av?.shirt ?? DEFAULT_AVATAR.topColor });
 
 function randomAvatar() {
   const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
-  const opt = (key) => pick(AVATAR_TABS.find(t => t.key === key).options).id;
+  const o = (key) => pick(AVATAR_TABS.find(t => t.key === key).options).id;
+  const c = (key) => Math.floor(Math.random() * AVATAR_COLORS[key].length);
   return {
-    skin: Math.floor(Math.random() * AVATAR_COLORS.skin.length),
-    hair: opt('hair'), hairColor: Math.floor(Math.random() * AVATAR_COLORS.hairColor.length),
-    brows: opt('brows'), eyes: opt('eyes'), mouth: opt('mouth'),
-    glasses: Math.random() < 0.45 ? 'none' : opt('glasses'),
-    glassesColor: Math.floor(Math.random() * AVATAR_COLORS.glassesColor.length),
-    shirt: Math.floor(Math.random() * AVATAR_COLORS.shirt.length),
+    face: o('face'), skin: c('skin'), hair: o('hair'), bangs: o('bangs'), hairColor: c('hairColor'),
+    brows: o('brows'), eyes: o('eyes'), eyeColor: c('eyeColor'), nose: o('nose'), mouth: o('mouth'), lipColor: c('lipColor'),
+    cheek: o('cheek'), cheekColor: c('cheekColor'), hat: Math.random() < 0.55 ? 'none' : o('hat'), hatColor: c('hatColor'),
+    glasses: Math.random() < 0.55 ? 'none' : o('glasses'), glassesColor: c('glassesColor'), earrings: Math.random() < 0.6 ? 'none' : o('earrings'),
+    outfit: o('outfit'), topColor: c('topColor'),
   };
 }
 
-return { AVATAR_TABS, AVATAR_COLORS, PHOTO_BG, SENIOR_AVATAR, DEFAULT_AVATAR, randomAvatar };
+return { AVATAR_TABS, AVATAR_COLORS, colorOf, PHOTO_BG, photoBg, SENIOR_AVATAR, DEFAULT_AVATAR, normalizeAvatar, randomAvatar };
 })();
 
 // ---- js/avatar/character.js ----
 __m["js/avatar/character.js"] = (() => {
 // ==========================================================
-// 연구원 캐릭터 — 부위 조합으로 만드는 3D 인물
-// 인트로의 선배 연구원과 등록 화면의 내 연구원이 같은 모델을 씀
-// avatar = { skin, hair, hairColor, brows, eyes, mouth, glasses, glassesColor, shirt }
+// 내 캐릭터 — 부위 조합으로 만드는 3D 인물
+// 인트로의 선배, 등록 화면의 내 캐릭터, 받는 쪽 화면의 '보낸 사람'이 같은 모델을 씀
+// avatar 필드는 js/data/avatar-parts.js 참고 (normalizeAvatar로 빈 값 채움)
 // ==========================================================
 
 const { roundedBox, mesh, mat, gloss, blobShadow } = __m["js/intro3d/models.js"];
-const { AVATAR_COLORS } = __m["js/data/avatar-parts.js"];
+const { colorOf, normalizeAvatar } = __m["js/data/avatar-parts.js"];
 const THREE = window.THREE;
 const R = 0.31; // 머리 반지름
+const V = (x, y, z) => new THREE.Vector3(x, y, z);
 
 function rectFrame(w, h, t) {
   const sh = new THREE.Shape();
@@ -2397,76 +2523,154 @@ function rectFrame(w, h, t) {
   sh.holes.push(hole);
   return new THREE.ExtrudeGeometry(sh, { depth: 0.012, bevelEnabled: false });
 }
+function heartShape(s) {
+  const h = new THREE.Shape();
+  h.moveTo(0, -s * 0.9); h.bezierCurveTo(-s * 1.3, -s * 0.1, -s * 0.7, s * 0.9, 0, s * 0.35); h.bezierCurveTo(s * 0.7, s * 0.9, s * 1.3, -s * 0.1, 0, -s * 0.9);
+  return h;
+}
+const tube = (pts, r, m, seg = 24) => new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), seg, r, 10, false), m);
 
-// ---------- 헤어 ----------
+// ---------- 얼굴형 ----------
+function headGeo(face) {
+  const g = new THREE.SphereGeometry(R, 44, 34);
+  const p = g.attributes.position;
+  for (let i = 0; i < p.count; i++) {
+    let x = p.getX(i), y = p.getY(i), z = p.getZ(i);
+    const t = y / R; // -1(턱) ~ 1(정수리)
+    if (face === 'oval') { x *= 0.93; z *= 0.97; y *= 1.08; if (t < 0) { x *= 1 + t * 0.12; } }
+    if (face === 'square') { const k = 1 + 0.12 * Math.pow(Math.abs(x / R) * Math.abs(t < 0 ? t : 0.4), 1); x *= k; if (t < -0.4) y *= 0.94; }
+    if (face === 'heart') { if (t < 0) { x *= 1 + t * 0.28; z *= 1 + t * 0.08; } else x *= 1.04; }
+    if (face === 'chubby') { x *= 1.08; if (t < 0.1) { x *= 1.05; z *= 1.03; } y *= 0.96; }
+    p.setXYZ(i, x, y, z);
+  }
+  g.computeVertexNormals();
+  return g;
+}
+
+// ---------- 헤어 (뒤·옆·위) ----------
 function addHair(head, style, hair) {
-  const cap = (theta, s = 1.05) => mesh(new THREE.SphereGeometry(R * s, 32, 24, 0, Math.PI * 2, 0, Math.PI * theta), hair, 0, 0.02, -0.025);
-  const fringe = (theta, rotY = 0, s = 1.035) => {
-    const f = mesh(new THREE.SphereGeometry(R * s, 24, 12, -Math.PI * 0.5, Math.PI, 0, Math.PI * theta), hair, 0, 0.025, 0.01);
-    f.rotation.y = rotY;
-    return f;
-  };
-  const sides = (h, d = 0.22, y = -0.04) => [-1, 1].map(s => mesh(roundedBox(0.075, h, d, 0.035, 3), hair, (R - 0.005) * s, y, -0.06));
-
+  const cap = (theta, s = 1.05, y = 0.005, z = -0.004) => { const c = mesh(new THREE.SphereGeometry(R * s, 32, 24, 0, Math.PI * 2, 0, Math.PI * theta), hair, 0, y, z); c.rotation.x = -0.5; return c; };
+  const sides = (h, d = 0.22, y = -0.04, w = 0.075) => [-1, 1].map(s => mesh(roundedBox(w, h, d, 0.035, 3), hair, (R - 0.005) * s, y, -0.06));
+  const back = (w, h, d, y, z = -0.2) => mesh(roundedBox(w, h, d, Math.min(w, h, d) * 0.45, 3), hair, 0, y, z);
+  const ball = (r, x, y, z) => mesh(new THREE.SphereGeometry(r, 16, 12), hair, x, y, z);
   switch (style) {
+    case 'bald': break;
+    case 'buzz': head.add(cap(0.47, 1.012)); break;
     case 'short':
-      head.add(cap(0.5), fringe(0.2));
+      head.add(cap(0.5));
       for (const s of [-1, 1]) head.add(mesh(roundedBox(0.06, 0.16, 0.18, 0.03, 2), hair, (R - 0.01) * s, 0.0, -0.06));
       break;
-    case 'long': {
-      head.add(cap(0.56), fringe(0.24, 0.3), fringe(0.24, -0.3));
-      head.add(...sides(0.5, 0.24, -0.16));
-      head.add(mesh(roundedBox(0.58, 0.62, 0.16, 0.08, 3), hair, 0, -0.22, -0.2));
+    case 'pixie': {
+      head.add(cap(0.5, 1.06));
+      for (let i = 0; i < 7; i++) { const a = (i / 7) * Math.PI - Math.PI / 2; const t = mesh(new THREE.ConeGeometry(0.05, 0.12, 8), hair, Math.sin(a) * 0.16, 0.3, -0.05 + Math.cos(a) * 0.06); t.rotation.set(-0.5, 0, -Math.sin(a) * 0.7); head.add(t); }
+      for (const s of [-1, 1]) head.add(mesh(roundedBox(0.05, 0.14, 0.14, 0.025, 2), hair, (R - 0.01) * s, -0.01, -0.07));
       break;
     }
-    case 'bun':
-      head.add(cap(0.52, 1.03), fringe(0.18, 0.4, 1.02));
-      head.add(mesh(new THREE.SphereGeometry(0.115, 20, 16), hair, 0, 0.27, -0.2));
+    case 'bob': head.add(cap(0.55), ...sides(0.26), back(0.58, 0.3, 0.14, -0.06)); break;
+    case 'hime':
+      head.add(cap(0.56), ...sides(0.16, 0.1, -0.06, 0.07), back(0.6, 0.7, 0.16, -0.24));
+      for (const s of [-1, 1]) head.add(mesh(roundedBox(0.07, 0.2, 0.08, 0.03, 2), hair, (R - 0.03) * s, -0.12, 0.13)); // 볼 옆으로 자른 옆머리
       break;
+    case 'long': head.add(cap(0.56), ...sides(0.5, 0.24, -0.16), back(0.58, 0.68, 0.16, -0.24)); break;
+    case 'wavy': {
+      head.add(cap(0.57, 1.06));
+      for (let i = 0; i < 6; i++) for (const s of [-1, 0, 1]) head.add(ball(0.09 - i * 0.004, s * (0.24 + (i % 2) * 0.03), -0.02 - i * 0.1, -0.12 - Math.abs(s) * 0.02 + (s === 0 ? -0.1 : 0)));
+      break;
+    }
+    case 'ponytail': {
+      head.add(cap(0.52, 1.04));
+      head.add(ball(0.06, 0, 0.12, -0.31));
+      head.add(tube([V(0, 0.12, -0.32), V(0, 0.02, -0.42), V(0, -0.2, -0.42), V(0, -0.38, -0.36)], 0.065, hair));
+      head.add(mesh(new THREE.TorusGeometry(0.06, 0.014, 6, 14), mat(0xe0452a), 0, 0.1, -0.35).rotateX(Math.PI / 2 - 0.3));
+      break;
+    }
+    case 'twintail': {
+      head.add(cap(0.52, 1.04));
+      for (const s of [-1, 1]) {
+        head.add(ball(0.055, s * 0.3, 0.05, -0.08));
+        head.add(tube([V(s * 0.31, 0.04, -0.09), V(s * 0.42, -0.06, -0.1), V(s * 0.45, -0.26, -0.08), V(s * 0.4, -0.42, -0.06)], 0.055, hair));
+        head.add(mesh(new THREE.TorusGeometry(0.05, 0.012, 6, 14), mat(0xe0452a), s * 0.32, 0.03, -0.09).rotateY(Math.PI / 2));
+      }
+      break;
+    }
+    case 'bun': head.add(cap(0.52, 1.03), ball(0.115, 0, 0.27, -0.2)); break;
+    case 'doublebun': head.add(cap(0.52, 1.03), ball(0.095, -0.2, 0.25, -0.1), ball(0.095, 0.2, 0.25, -0.1)); break;
+    case 'braid': {
+      head.add(cap(0.53, 1.04));
+      for (let i = 0; i < 8; i++) head.add(ball(0.06 - i * 0.003, 0.24 + Math.sin(i * 1.2) * 0.02, -0.08 - i * 0.065, -0.02 + i * 0.03 - (i % 2) * 0.02));
+      head.add(mesh(new THREE.SphereGeometry(0.03, 8, 6), mat(0xe0452a), 0.25, -0.6, 0.2));
+      break;
+    }
     case 'curly': {
       head.add(cap(0.5, 1.02));
       const n = 22;
       for (let i = 0; i < n; i++) {
         const a = (i / n) * Math.PI * 2;
         for (const el of [0.25, 0.55, 0.8]) {
-          if (el === 0.25 && Math.sin(a) > 0.2) continue; // 이마는 비워 둠
-          const x = Math.cos(a) * Math.sin(el * 1.4) * R * 1.08;
-          const z = -Math.sin(a) * Math.sin(el * 1.4) * R * 1.08;
-          const y = Math.cos(el * 1.4) * R * 1.05 + 0.02;
-          if ((i + el * 10) % 2 < 1) head.add(mesh(new THREE.SphereGeometry(0.075, 12, 10), hair, x, y, z));
+          if (el === 0.25 && Math.sin(a) > 0.2) continue;
+          const x = Math.cos(a) * Math.sin(el * 1.4) * R * 1.08, z = -Math.sin(a) * Math.sin(el * 1.4) * R * 1.08, y = Math.cos(el * 1.4) * R * 1.05 + 0.02;
+          if ((i + el * 10) % 2 < 1) head.add(ball(0.075, x, y, z));
         }
       }
-      head.add(mesh(new THREE.SphereGeometry(0.09, 12, 10), hair, 0, R * 1.02, 0));
+      head.add(ball(0.09, 0, R * 1.02, 0));
       break;
     }
-    case 'buzz':
-      head.add(cap(0.47, 1.012));
+    default: head.add(cap(0.55), ...sides(0.24));
+  }
+}
+
+// ---------- 앞머리 ----------
+function addBangs(head, style, hair, hairStyle) {
+  if (['bald', 'buzz', 'curly'].includes(hairStyle) || style === 'none') return;
+  const fringe = (theta, rotY = 0, s = 1.065, y = 0.0) => {
+    const f = mesh(new THREE.SphereGeometry(R * s, 24, 12, -Math.PI * 0.5, Math.PI, 0, Math.PI * theta), hair, 0, y, 0.01);
+    f.rotation.y = rotY;
+    return f;
+  };
+  switch (style) {
+    case 'straight': head.add(fringe(0.39)); break;
+    case 'side': { const f = fringe(0.37, 0.45); f.rotation.z = -0.25; head.add(f); break; }
+    case 'parted': head.add(fringe(0.33, 0.6), fringe(0.33, -0.6)); break;
+    case 'curtain': { const a = fringe(0.38, 0.75), b = fringe(0.38, -0.75); a.rotation.z = 0.12; b.rotation.z = -0.12; head.add(a, b); break; }
+    case 'seethrough':
+      head.add(fringe(0.27));
+      for (let i = 0; i < 7; i++) { const x = (i - 3) * 0.045; const s = mesh(roundedBox(0.022, 0.12, 0.012, 0.008, 1), hair, x, 0.12, Math.sqrt(Math.max(0, (R * 1.03) ** 2 - x * x - 0.12 ** 2)) + 0.005); s.rotation.x = -0.35; head.add(s); }
       break;
-    case 'bob':
-    default:
-      head.add(cap(0.55), fringe(0.25, 0.35));
-      head.add(...sides(0.24));
+    default: head.add(fringe(0.22));
   }
 }
 
 // ---------- 눈 ----------
-function addEyes(head, style, ink, skinMat) {
+function addEyes(head, style, ink, iris) {
   const eyes = [];
   for (const s of [-1, 1]) {
     let eye;
     const x = 0.1 * s, y = -0.025, z = R - 0.02;
+    const big = (rx, ry, shine = true, lash = false) => {
+      const g = new THREE.Group(); g.position.set(x, y, z - 0.006);
+      const w = mesh(new THREE.SphereGeometry(rx, 16, 12), gloss(0xffffff), 0, 0, 0); w.scale.set(1, ry / rx, 0.4);
+      const ir = mesh(new THREE.SphereGeometry(rx * 0.68, 14, 10), gloss(iris), 0, -rx * 0.08, rx * 0.3); ir.scale.set(1, ry / rx, 0.5);
+      const pu = mesh(new THREE.SphereGeometry(rx * 0.32, 10, 8), ink, 0, -rx * 0.08, rx * 0.42); pu.scale.set(1, ry / rx, 0.5);
+      g.add(w, ir, pu);
+      if (shine) { g.add(mesh(new THREE.SphereGeometry(rx * 0.2, 6, 5), new THREE.MeshBasicMaterial({ color: 0xffffff }), -rx * 0.25 * s, ry * 0.3, rx * 0.6)); g.add(mesh(new THREE.SphereGeometry(rx * 0.1, 6, 5), new THREE.MeshBasicMaterial({ color: 0xffffff }), rx * 0.25 * s, -ry * 0.25, rx * 0.6)); }
+      if (lash) for (let k = 0; k < 3; k++) { const l = mesh(roundedBox(0.008, 0.03, 0.006, 0.003, 1), ink, s * (0.02 + k * 0.018), ry * 0.9, 0.01); l.rotation.z = -s * (0.3 + k * 0.35); g.add(l); }
+      g.userData.sy = 1;
+      return g;
+    };
     switch (style) {
-      case 'dot':
-        eye = mesh(new THREE.SphereGeometry(0.03, 12, 10), ink, x, y, z); eye.scale.set(1, 1, 0.5); eye.userData.sy = 1; break;
-      case 'round': {
-        eye = new THREE.Group(); eye.position.set(x, y, z - 0.004);
-        const white = mesh(new THREE.SphereGeometry(0.05, 16, 12), gloss(0xffffff), 0, 0, 0); white.scale.set(1, 1.1, 0.4);
-        const iris = mesh(new THREE.SphereGeometry(0.03, 14, 10), ink, 0, -0.003, 0.016); iris.scale.set(1, 1.1, 0.5);
-        const shine = mesh(new THREE.SphereGeometry(0.009, 6, 5), new THREE.MeshBasicMaterial({ color: 0xffffff }), 0.01, 0.012, 0.03);
-        eye.add(white, iris, shine); eye.userData.sy = 1; break;
-      }
-      case 'smile':
-        eye = mesh(new THREE.TorusGeometry(0.035, 0.011, 6, 14, Math.PI), ink, x, y - 0.01, z); eye.userData.sy = 1; break;
+      case 'dot': eye = mesh(new THREE.SphereGeometry(0.03, 12, 10), ink, x, y, z); eye.scale.set(1, 1, 0.5); eye.userData.sy = 1; break;
+      case 'round': eye = big(0.05, 0.055, true); break;
+      case 'sparkle': eye = big(0.06, 0.07, true); eye.children[1].material = gloss(iris); break;
+      case 'lashes': eye = big(0.045, 0.05, true, true); break;
+      case 'droopy': eye = big(0.045, 0.045, true); eye.rotation.z = -0.25 * s; head.add(mesh(roundedBox(0.08, 0.011, 0.01, 0.005, 1), ink, x, y + 0.04, z + 0.004).rotateZ(-0.3 * s)); break;
+      case 'cat': eye = big(0.048, 0.04, true); eye.rotation.z = 0.3 * s; head.add(mesh(roundedBox(0.09, 0.012, 0.01, 0.005, 1), ink, x + 0.01 * s, y + 0.035, z + 0.004).rotateZ(0.35 * s)); break;
+      case 'smile': eye = mesh(new THREE.TorusGeometry(0.035, 0.011, 6, 14, Math.PI), ink, x, y - 0.01, z); eye.userData.sy = 1; break;
+      case 'closed': eye = mesh(new THREE.TorusGeometry(0.035, 0.01, 6, 14, Math.PI), ink, x, y + 0.012, z); eye.rotation.z = Math.PI; eye.userData.sy = 1; break;
+      case 'wink':
+        if (s < 0) { eye = mesh(new THREE.SphereGeometry(0.03, 12, 10), ink, x, y, z); eye.scale.set(1, 1, 0.5); }
+        else { eye = mesh(new THREE.TorusGeometry(0.035, 0.011, 6, 14, Math.PI), ink, x, y - 0.01, z); }
+        eye.userData.sy = 1; break;
+      case 'star': { const st = new THREE.Shape(); for (let k = 0; k < 10; k++) { const a = (k / 10) * Math.PI * 2 + Math.PI / 2, r = k % 2 ? 0.018 : 0.042; k ? st.lineTo(Math.cos(a) * r, Math.sin(a) * r) : st.moveTo(Math.cos(a) * r, Math.sin(a) * r); } eye = mesh(new THREE.ExtrudeGeometry(st, { depth: 0.01, bevelEnabled: false }), gloss(iris === 0x1e1c22 ? 0xf2c230 : iris), x, y, z - 0.004); eye.userData.sy = 1; break; }
       case 'sharp':
         eye = mesh(new THREE.SphereGeometry(0.036, 12, 8), ink, x, y, z); eye.scale.set(1.2, 0.5, 0.5); eye.rotation.z = 0.18 * s; eye.userData.sy = 0.5;
         head.add(mesh(roundedBox(0.08, 0.012, 0.012, 0.005, 1), ink, x, y + 0.03, z + 0.005).rotateZ(0.2 * s));
@@ -2476,6 +2680,7 @@ function addEyes(head, style, ink, skinMat) {
         eye = mesh(new THREE.SphereGeometry(0.036, 12, 8), ink, x, y, z); eye.scale.set(1.15, 0.62, 0.5); eye.userData.sy = 0.62;
         head.add(mesh(roundedBox(0.075, 0.012, 0.012, 0.005, 1), ink, x, y + 0.021, z + 0.008));
     }
+    if (eye.userData.sy == null) eye.userData.sy = 1;
     head.add(eye); eyes.push(eye);
   }
   return eyes;
@@ -2485,14 +2690,15 @@ function addEyes(head, style, ink, skinMat) {
 function addBrows(head, style, hair) {
   const brows = [];
   for (const s of [-1, 1]) {
-    let b, rz = 0, y = 0.075;
+    let b, rz = 0;
+    const y = 0.075;
     if (style === 'arch') {
       b = mesh(new THREE.TorusGeometry(0.05, 0.009, 6, 12, Math.PI * 0.7), hair, 0.1 * s, y - 0.03, R - 0.012);
       b.rotation.z = Math.PI * 0.15; rz = Math.PI * 0.15;
     } else {
-      const thick = style === 'thick' ? 0.028 : 0.018;
-      b = mesh(roundedBox(0.085, thick, 0.016, thick * 0.4, 1), hair, 0.1 * s, y, R - 0.01);
-      rz = style === 'soft' ? 0.22 * s : -0.06 * s;
+      const thick = style === 'thick' ? 0.028 : style === 'thin' ? 0.01 : 0.018;
+      b = mesh(roundedBox(style === 'thin' ? 0.08 : 0.085, thick, 0.016, thick * 0.4, 1), hair, 0.1 * s, y, R - 0.01);
+      rz = style === 'soft' ? 0.22 * s : style === 'angry' ? -0.35 * s : -0.06 * s;
       b.rotation.z = rz;
     }
     b.userData.base = { y: b.position.y, rz };
@@ -2501,9 +2707,19 @@ function addBrows(head, style, hair) {
   return brows;
 }
 
+// ---------- 코 ----------
+function addNose(head, style, skinColor) {
+  const tone = new THREE.Color(skinColor).multiplyScalar(0.9).getHex();
+  if (style === 'none') return;
+  if (style === 'button') { const n = mesh(new THREE.SphereGeometry(0.034, 12, 10), mat(tone), 0, -0.085, R - 0.004); n.scale.set(1.1, 0.8, 0.8); head.add(n); return; }
+  if (style === 'long') { const n = mesh(new THREE.ConeGeometry(0.026, 0.09, 10), mat(tone), 0, -0.07, R + 0.004); n.rotation.x = 0.35; head.add(n); return; }
+  head.add(mesh(new THREE.SphereGeometry(0.022, 10, 8), mat(tone), 0, -0.08, R - 0.004));
+}
+
 // ---------- 입 ----------
-function addMouth(head, style) {
-  const lip = mat(0x8a4a4a);
+function addMouth(head, style, lipColor) {
+  const lip = mat(lipColor);
+  const dark = mat(new THREE.Color(lipColor).multiplyScalar(0.75).getHex());
   const flat = mesh(roundedBox(0.065, 0.011, 0.011, 0.005, 1), lip, 0, -0.15, R - 0.035);
   const smile = mesh(new THREE.TorusGeometry(0.03, 0.007, 6, 12, Math.PI * 0.7), lip, 0, -0.135, R - 0.04);
   smile.rotation.z = Math.PI + Math.PI * 0.15;
@@ -2511,14 +2727,79 @@ function addMouth(head, style) {
   if (style === 'smile') base = smile;
   if (style === 'grin') {
     base = new THREE.Group(); base.position.set(0, -0.14, R - 0.045);
-    const m = mesh(new THREE.SphereGeometry(0.045, 16, 10, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2), mat(0x7a3434), 0, 0.01, 0);
-    m.scale.set(1.1, 0.8, 0.5);
-    base.add(m);
+    const m = mesh(new THREE.SphereGeometry(0.045, 16, 10, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2), dark, 0, 0.01, 0);
+    m.scale.set(1.1, 0.8, 0.5); base.add(m);
+    base.add(mesh(roundedBox(0.06, 0.012, 0.01, 0.004, 1), mat(0xffffff), 0, 0.003, 0.018));
   }
-  if (style === 'o') { base = mesh(new THREE.SphereGeometry(0.026, 12, 10), mat(0x7a3434), 0, -0.15, R - 0.035); base.scale.set(0.9, 1.15, 0.4); }
+  if (style === 'o') { base = mesh(new THREE.SphereGeometry(0.026, 12, 10), dark, 0, -0.15, R - 0.035); base.scale.set(0.9, 1.15, 0.4); }
+  if (style === 'cat') {
+    base = new THREE.Group(); base.position.set(0, -0.135, R - 0.035);
+    for (const s of [-1, 1]) { const t = mesh(new THREE.TorusGeometry(0.018, 0.006, 6, 10, Math.PI), lip, s * 0.018, 0, 0); t.rotation.z = Math.PI; base.add(t); }
+  }
+  if (style === 'tongue') {
+    base = new THREE.Group(); base.position.set(0, -0.135, R - 0.04);
+    const sm = mesh(new THREE.TorusGeometry(0.03, 0.007, 6, 12, Math.PI * 0.7), lip, 0, 0, 0); sm.rotation.z = Math.PI + Math.PI * 0.15; base.add(sm);
+    const t = mesh(new THREE.SphereGeometry(0.018, 10, 8), mat(0xe86a7a), 0.008, -0.03, 0.012); t.scale.set(1, 1.2, 0.5); base.add(t);
+  }
+  if (style === 'smirk') { base = mesh(new THREE.TorusGeometry(0.035, 0.007, 6, 12, Math.PI * 0.45), lip, 0.01, -0.14, R - 0.04); base.rotation.z = Math.PI + 0.6; }
+  if (style === 'pout') { base = mesh(new THREE.SphereGeometry(0.022, 12, 10), lip, 0, -0.15, R - 0.028); base.scale.set(1.2, 0.75, 0.6); }
   for (const m of [flat, smile, base]) if (!m.parent) head.add(m);
   flat.visible = base === flat; smile.visible = base === smile;
   return { base, smile };
+}
+
+// ---------- 볼 ----------
+function addCheeks(head, style, color) {
+  if (style === 'none') return;
+  const blush = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.5, depthWrite: false });
+  for (const s of [-1, 1]) {
+    const x = 0.17 * s, y = -0.09;
+    const z = Math.sqrt(Math.max(0, R * R - x * x - y * y)) + 0.002;
+    const place = (o, dx = 0, dy = 0) => { o.position.set(x + dx, y + dy, z); o.lookAt(o.position.clone().multiplyScalar(2)); head.add(o); return o; };
+    if (style === 'blush' || style === 'both') { const b = place(new THREE.Mesh(new THREE.CircleGeometry(0.045, 18), blush)); b.scale.set(1.3, 0.75, 1); }
+    if (style === 'freckles' || style === 'both') for (const [dx, dy] of [[-0.02, 0.01], [0.01, 0.02], [0.02, -0.01], [-0.005, -0.015]]) place(new THREE.Mesh(new THREE.CircleGeometry(0.006, 8), new THREE.MeshBasicMaterial({ color: 0x8a5a3a })), dx, dy + 0.02);
+    if (style === 'mole' && s > 0) place(new THREE.Mesh(new THREE.CircleGeometry(0.008, 10), new THREE.MeshBasicMaterial({ color: 0x3a2a22 })), -0.02, -0.04);
+    if (style === 'heart' && s > 0) { const h = place(new THREE.Mesh(new THREE.ShapeGeometry(heartShape(0.025)), new THREE.MeshBasicMaterial({ color, side: THREE.DoubleSide }))); h.rotateZ(Math.PI); }
+  }
+}
+
+// ---------- 모자 ----------
+function addHat(head, style, color) {
+  if (style === 'none') return;
+  const m = mat(color, { shininess: 8 });
+  const dark = mat(new THREE.Color(color).multiplyScalar(0.8).getHex(), { shininess: 8 });
+  switch (style) {
+    case 'beanie':
+      head.add(mesh(new THREE.SphereGeometry(R * 1.1, 32, 20, 0, Math.PI * 2, 0, Math.PI * 0.5), m, 0, 0.04, -0.02));
+      head.add(mesh(new THREE.CylinderGeometry(R * 1.12, R * 1.12, 0.09, 32, 1, true), dark, 0, 0.06, -0.02));
+      head.add(mesh(new THREE.SphereGeometry(0.06, 12, 10), dark, 0, R * 1.12 + 0.07, -0.02));
+      break;
+    case 'cap':
+      head.add(mesh(new THREE.SphereGeometry(R * 1.08, 32, 20, 0, Math.PI * 2, 0, Math.PI * 0.46), m, 0, 0.05, -0.02));
+      head.add(mesh(new THREE.CylinderGeometry(0.26, 0.26, 0.018, 32, 1, false, -Math.PI / 2, Math.PI), m, 0, 0.1, 0.18).rotateX(0.12));
+      head.add(mesh(new THREE.SphereGeometry(0.02, 8, 6), dark, 0, R * 1.08 + 0.05, -0.02));
+      break;
+    case 'beret': { const b = mesh(new THREE.SphereGeometry(0.36, 28, 16), m, 0.04, 0.2, -0.04); b.scale.set(1, 0.36, 1); b.rotation.z = -0.15; head.add(b); head.add(mesh(new THREE.CylinderGeometry(0.008, 0.012, 0.05, 8), dark, 0.05, 0.34, -0.04)); break; }
+    case 'bucket':
+      head.add(mesh(new THREE.CylinderGeometry(0.28, 0.345, 0.24, 32), m, 0, 0.21, -0.01));
+      head.add(mesh(new THREE.CylinderGeometry(0.345, 0.47, 0.08, 32, 1, true), new THREE.MeshPhongMaterial({ color, shininess: 8, side: THREE.DoubleSide }), 0, 0.07, -0.01));
+      break;
+    case 'headband': { const t = mesh(new THREE.TorusGeometry(R * 1.07, 0.024, 8, 40, Math.PI), m, 0, 0.0, 0); t.rotation.x = -0.4; head.add(t); break; }
+    case 'catband': {
+      const t = mesh(new THREE.TorusGeometry(R * 1.07, 0.018, 8, 40, Math.PI), dark, 0, 0, 0); t.rotation.x = -0.4; head.add(t);
+      for (const s of [-1, 1]) {
+        const e = mesh(new THREE.ConeGeometry(0.08, 0.15, 4), m, s * 0.17, 0.3, -0.04); e.rotation.set(-0.3, Math.PI / 4, -s * 0.35); e.scale.z = 0.45; head.add(e);
+      }
+      break;
+    }
+    case 'ribbon': {
+      const g = new THREE.Group(); g.position.set(0.17, 0.25, 0.12); g.rotation.z = -0.4;
+      for (const s of [-1, 1]) { const w = mesh(new THREE.ConeGeometry(0.06, 0.1, 4), m, s * 0.05, 0, 0); w.rotation.z = s * Math.PI / 2; w.scale.z = 0.4; g.add(w); }
+      g.add(mesh(new THREE.SphereGeometry(0.022, 10, 8), dark, 0, 0, 0.01));
+      head.add(g);
+      break;
+    }
+  }
 }
 
 // ---------- 안경 ----------
@@ -2532,48 +2813,104 @@ function addGlasses(head, style, color) {
     if (style === 'half') {
       head.add(mesh(roundedBox(0.15, 0.02, 0.014, 0.006, 1), m, x, y + 0.04, z + 0.006));
       const rim = mesh(new THREE.TorusGeometry(0.07, 0.004, 6, 24, Math.PI), mat(0xb9bec6), x, y + 0.035, z + 0.006);
-      rim.rotation.z = Math.PI; rim.scale.y = 0.75;
-      head.add(rim);
+      rim.rotation.z = Math.PI; rim.scale.y = 0.75; head.add(rim);
     }
+    if (style === 'sun') { const l = mesh(new THREE.CircleGeometry(0.07, 24), new THREE.MeshPhongMaterial({ color: 0x1a1a20, shininess: 120, specular: 0x888888 }), x, y, z + 0.008); l.scale.set(1.1, 0.8, 1); head.add(l); head.add(mesh(new THREE.TorusGeometry(0.07, 0.006, 6, 24), m, x, y, z + 0.008).scale.set(1.1, 0.8, 1) && head.children[head.children.length - 1]); }
+    if (style === 'heart') { const h = mesh(new THREE.ExtrudeGeometry(heartShape(0.06), { depth: 0.008, bevelEnabled: false }), new THREE.MeshPhongMaterial({ color, transparent: true, opacity: 0.75, shininess: 80 }), x, y + 0.005, z); h.rotation.z = Math.PI; head.add(h); }
   }
   head.add(mesh(roundedBox(0.05, 0.01, 0.01, 0.004, 1), m, 0, style === 'half' ? 0.01 : -0.01, R + 0.018));
 }
 
+// ---------- 귀걸이 ----------
+function addEarrings(head, style) {
+  if (style === 'none') return;
+  for (const s of [-1, 1]) {
+    const x = (R - 0.005) * s, y = -0.09, z = 0.0;
+    if (style === 'stud') head.add(mesh(new THREE.OctahedronGeometry(0.016), new THREE.MeshPhongMaterial({ color: 0xe8f4ff, shininess: 120, specular: 0xffffff }), x, y, z));
+    if (style === 'hoop') { const h = mesh(new THREE.TorusGeometry(0.035, 0.006, 8, 20), gloss(0xd6b25a, { shininess: 90 }), x, y - 0.035, z); h.rotation.y = Math.PI / 2; head.add(h); }
+    if (style === 'pearl') { head.add(mesh(new THREE.CylinderGeometry(0.003, 0.003, 0.04, 6), gloss(0xd6b25a), x, y - 0.02, z)); head.add(mesh(new THREE.SphereGeometry(0.02, 12, 10), gloss(0xf7f2e8, { shininess: 100 }), x, y - 0.05, z)); }
+  }
+}
+
+// ---------- 옷 ----------
+function stripeTex(c1, c2, vertical = false, n = 10) {
+  const c = document.createElement('canvas'); c.width = c.height = 128;
+  const g = c.getContext('2d');
+  g.fillStyle = '#' + c1.toString(16).padStart(6, '0'); g.fillRect(0, 0, 128, 128);
+  g.fillStyle = '#' + c2.toString(16).padStart(6, '0');
+  for (let i = 0; i < n; i++) vertical ? g.fillRect(i * 128 / n, 0, 128 / n / 2.4, 128) : g.fillRect(0, i * 128 / n, 128, 128 / n / 2.2);
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(vertical ? 3 : 1, 1);
+  return t;
+}
+function addOutfit(body, style, color) {
+  const prof = [[0, 0.36], [0.35, 0.36], [0.33, 0.62], [0.28, 1.06], [0.19, 1.2], [0, 1.22]].map(([x, y]) => new THREE.Vector2(x, y));
+  const shade = (k) => new THREE.Color(color).multiplyScalar(k).getHex();
+  let sleeve;
+  if (style === 'coat') {
+    const coat = mat(0xfbfbf9, { shininess: 22 });
+    body.add(mesh(new THREE.LatheGeometry(prof, 40), coat));
+    const shirt = mesh(new THREE.ConeGeometry(0.11, 0.24, 3), mat(color), 0, 1.07, 0.19);
+    shirt.rotation.x = Math.PI; shirt.scale.set(1, 1, 0.3); body.add(shirt);
+    [0.92, 0.76, 0.6].forEach(y => body.add(mesh(new THREE.SphereGeometry(0.02, 10, 8), mat(0x9fa6c8), 0, y, 0.3 - (0.92 - y) * 0.05)));
+    const badge = mesh(roundedBox(0.13, 0.07, 0.02, 0.01, 1), mat(0x2f55c4), 0.15, 0.95, 0.26); badge.rotation.y = 0.35; body.add(badge);
+    sleeve = coat;
+  } else if (style === 'hoodie') {
+    const m = mat(color, { shininess: 6 });
+    body.add(mesh(new THREE.LatheGeometry(prof, 40), m));
+    const hood = mesh(new THREE.TorusGeometry(0.18, 0.07, 10, 24), m, 0, 1.2, -0.08); hood.rotation.x = Math.PI / 2 - 0.4; body.add(hood);
+    for (const s of [-1, 1]) body.add(mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.12, 6), mat(0xf4efe6), s * 0.05, 1.07, 0.262));
+    body.add(mesh(roundedBox(0.3, 0.13, 0.03, 0.04, 2), mat(shade(0.88)), 0, 0.62, 0.3));
+    sleeve = m;
+  } else if (style === 'knit') {
+    const m = new THREE.MeshPhongMaterial({ map: stripeTex(color, shade(0.85), true, 16), shininess: 4 });
+    body.add(mesh(new THREE.LatheGeometry(prof, 40), m));
+    body.add(mesh(new THREE.CylinderGeometry(0.11, 0.13, 0.1, 20), mat(shade(0.9)), 0, 1.23, 0));
+    sleeve = mat(color, { shininess: 4 });
+  } else if (style === 'stripe') {
+    const m = new THREE.MeshPhongMaterial({ map: stripeTex(0xf7f5f0, color, false, 9), shininess: 6 });
+    body.add(mesh(new THREE.LatheGeometry(prof, 40), m));
+    sleeve = m;
+  } else if (style === 'shirt') {
+    const m = mat(color, { shininess: 14 });
+    body.add(mesh(new THREE.LatheGeometry(prof, 40), m));
+    for (const s of [-1, 1]) { const c = mesh(new THREE.ConeGeometry(0.07, 0.1, 3), mat(shade(1.1 > 1 ? 1 : 1.1)), s * 0.07, 1.17, 0.13); c.rotation.set(Math.PI, 0, s * 0.6); c.scale.z = 0.3; body.add(c); }
+    [1.02, 0.88, 0.74, 0.6].forEach(y => body.add(mesh(new THREE.SphereGeometry(0.014, 8, 6), mat(0xf4efe6), 0, y, 0.3 - (1.02 - y) * 0.05)));
+    sleeve = m;
+  } else { // cardigan
+    const m = mat(color, { shininess: 6 });
+    body.add(mesh(new THREE.LatheGeometry(prof, 40), m));
+    const inner = mesh(new THREE.ConeGeometry(0.12, 0.5, 3), mat(0xf7f5f0), 0, 0.95, 0.2); inner.rotation.x = Math.PI; inner.scale.set(1, 1, 0.3); body.add(inner);
+    [0.82, 0.68, 0.54].forEach(y => body.add(mesh(new THREE.SphereGeometry(0.016, 8, 6), mat(shade(0.6)), 0.04, y, 0.3 - (0.82 - y) * 0.04)));
+    sleeve = m;
+  }
+  return sleeve;
+}
+
 /** 캐릭터 만들기 */
-function makeCharacter(av) {
-  const C = AVATAR_COLORS;
+function makeCharacter(input) {
+  const av = normalizeAvatar(input);
   const root = new THREE.Group();
   const body = new THREE.Group();
   root.add(body);
 
-  const coat = mat(0xfbfbf9, { shininess: 22 });
-  const skin = mat(C.skin[av.skin] ?? C.skin[0], { shininess: 30, specular: 0x262020 });
-  const hair = mat(C.hairColor[av.hairColor] ?? C.hairColor[0], { shininess: 34, specular: 0x222222 });
+  const skinC = colorOf('skin', av.skin);
+  const skin = mat(skinC, { shininess: 30, specular: 0x262020 });
+  const hairC = colorOf('hairColor', av.hairColor);
+  const hair = mat(hairC, { shininess: 34, specular: 0x222222 });
   const ink = gloss(0x1e1c22);
-  const shirtColor = C.shirt[av.shirt] ?? C.shirt[0];
 
   // 다리·신발
   for (const x of [-0.13, 0.13]) {
     body.add(mesh(new THREE.CylinderGeometry(0.075, 0.07, 0.42, 14), mat(0x5d6380), x, 0.21, 0));
     body.add(mesh(roundedBox(0.16, 0.09, 0.24, 0.04, 2), mat(0x6e4a3a), x, 0.04, 0.04));
   }
-  // 가운
-  const coatProf = [[0, 0.36], [0.35, 0.36], [0.33, 0.62], [0.28, 1.06], [0.19, 1.2], [0, 1.22]].map(([x, y]) => new THREE.Vector2(x, y));
-  body.add(mesh(new THREE.LatheGeometry(coatProf, 40), coat));
-  // 셔츠 (가운 안쪽 V자)
-  const shirt = mesh(new THREE.ConeGeometry(0.11, 0.24, 3), mat(shirtColor), 0, 1.07, 0.19);
-  shirt.rotation.x = Math.PI; shirt.scale.set(1, 1, 0.3);
-  body.add(shirt);
-  [0.92, 0.76, 0.6].forEach(y => body.add(mesh(new THREE.SphereGeometry(0.02, 10, 8), mat(0x9fa6c8), 0, y, 0.3 - (0.92 - y) * 0.05)));
-  const badge = mesh(roundedBox(0.13, 0.07, 0.02, 0.01, 1), mat(0x2f55c4), 0.15, 0.95, 0.26);
-  badge.rotation.y = 0.35;
-  body.add(badge);
+  const sleeve = addOutfit(body, av.outfit, colorOf('topColor', av.topColor));
 
   // 팔
   const arm = (side) => {
     const a = new THREE.Group();
     a.position.set(0.26 * side, 1.1, 0);
-    a.add(mesh(new THREE.CylinderGeometry(0.07, 0.085, 0.52, 14), coat, 0, -0.26, 0));
+    a.add(mesh(new THREE.CylinderGeometry(0.07, 0.085, 0.52, 14), sleeve, 0, -0.26, 0));
     a.add(mesh(new THREE.SphereGeometry(0.068, 16, 12), skin, 0, -0.54, 0));
     a.rotation.z = 0.18 * side;
     body.add(a);
@@ -2585,33 +2922,36 @@ function makeCharacter(av) {
   const head = new THREE.Group();
   head.position.set(0, 1.5, 0);
   body.add(head);
-  head.add(mesh(new THREE.SphereGeometry(R, 40, 30), skin));
+  head.add(mesh(headGeo(av.face), skin));
   body.add(mesh(new THREE.CylinderGeometry(0.08, 0.09, 0.12, 14), skin, 0, 1.24, 0));
   addHair(head, av.hair, hair);
-  const eyes = addEyes(head, av.eyes, ink, skin);
+  addBangs(head, av.bangs, hair, av.hair);
+  const eyes = addEyes(head, av.eyes, ink, colorOf('eyeColor', av.eyeColor));
   const brows = addBrows(head, av.brows, hair);
-  const { base: mouthBase, smile: mouthSmile } = addMouth(head, av.mouth);
-  addGlasses(head, av.glasses, C.glassesColor[av.glassesColor] ?? C.glassesColor[0]);
-  head.add(mesh(new THREE.SphereGeometry(0.022, 10, 8), mat(0xe9b99a), 0, -0.08, R - 0.004)); // 코
-  // 귀
+  const { base: mouthBase, smile: mouthSmile } = addMouth(head, av.mouth, colorOf('lipColor', av.lipColor));
+  addNose(head, av.nose, skinC);
+  addCheeks(head, av.cheek, colorOf('cheekColor', av.cheekColor));
+  addGlasses(head, av.glasses, colorOf('glassesColor', av.glassesColor));
+  addHat(head, av.hat, colorOf('hatColor', av.hatColor));
   for (const s of [-1, 1]) {
     const ear = mesh(new THREE.SphereGeometry(0.05, 12, 10), skin, (R - 0.01) * s, -0.04, 0);
     ear.scale.set(0.5, 1, 0.8);
     head.add(ear);
   }
+  addEarrings(head, av.earrings);
 
   const shadow = blobShadow(0.9, 0.55);
   shadow.position.y = 0.01;
   root.add(shadow);
 
-  root.userData = { body, head, eyes, brows, armL, armR, mouthBase, mouthSmile, nod: 0, hop: 0, hopV: 0, blinkAt: 0, browUp: 0, frown: 0, smileUntil: 0 };
+  root.userData = { body, head, eyes, brows, armL, armR, mouthBase, mouthSmile, nod: 0, hop: 0, hopV: 0, blinkAt: 0, browUp: 0, frown: 0, smileUntil: 0, noBlink: ['smile', 'closed', 'wink', 'star'].includes(av.eyes) };
   return root;
 }
 
 /** 표정·깜빡임·눈썹 — 인트로·등록 화면 공용 */
 function animateFace(c, now, dt) {
   if (now > c.blinkAt) { c.blinkAt = now + 2200 + Math.random() * 2800; c.blinkEnd = now + 120; }
-  const closed = now < (c.blinkEnd || 0);
+  const closed = !c.noBlink && now < (c.blinkEnd || 0);
   for (const e of c.eyes) e.scale.y = closed ? 0.1 : e.userData.sy;
   c.browUp = Math.max(0, c.browUp - dt * 0.6);
   c.frown = Math.max(0, c.frown - dt * 0.9);
@@ -3468,17 +3808,17 @@ __m["js/screens/register.js"] = (() => {
 
 const { state, update } = __m["js/state.js"];
 const { go } = __m["js/router.js"];
-const { AVATAR_TABS, AVATAR_COLORS, PHOTO_BG, DEFAULT_AVATAR, randomAvatar } = __m["js/data/avatar-parts.js"];
+const { AVATAR_TABS, AVATAR_COLORS, photoBg, DEFAULT_AVATAR, normalizeAvatar, randomAvatar, colorOf } = __m["js/data/avatar-parts.js"];
 const { AvatarStudio } = __m["js/avatar/studio.js"];
 const { sound } = __m["js/sound.js"];
 const STEPS = ['face', 'name', 'card'];
 const hex = (n) => '#' + n.toString(16).padStart(6, '0');
 let studio = null;
-let tab = 'hair';
+let tab = 'face';
 
 const $ = (id) => document.getElementById(id);
 const screen = () => document.querySelector('[data-screen="register"]');
-const avatar = () => state.researcher.avatar || DEFAULT_AVATAR;
+const avatar = () => normalizeAvatar(state.researcher.avatar || DEFAULT_AVATAR);
 
 function setAvatar(patch, bounce = true) {
   const av = { ...avatar(), ...patch };
@@ -3529,16 +3869,22 @@ function renderOptions() {
   $('maker-colors').hidden = !colors;
   if (colors) {
     $('maker-colors-label').textContent = t.colorLabel;
+    const cur = av[t.colorKey];
+    const custom = typeof cur === 'number' && cur > 255;
     $('maker-colors-list').innerHTML = colors.map((c, i) => `
-      <button class="swatch" type="button" role="option" data-color="${i}" aria-selected="${av[t.colorKey] === i}"
-        style="background:${hex(c)}" aria-label="${t.colorLabel} ${i + 1}"></button>`).join('');
+      <button class="swatch" type="button" role="option" data-color="${i}" aria-selected="${cur === i}"
+        style="background:${hex(c)}" aria-label="${t.colorLabel} ${i + 1}"></button>`).join('') + `
+      <label class="swatch swatch--custom" aria-selected="${custom}" title="직접 고르기"
+        style="${custom ? `background:${hex(cur)}` : ''}">
+        <input type="color" data-custom value="${hex(colorOf(t.colorKey, cur))}" aria-label="${t.colorLabel} 직접 고르기">
+      </label>`;
   }
 }
 
 // ---------- 연구원증 ----------
 function issueCard() {
   const av = avatar();
-  const bg = PHOTO_BG[av.shirt] ?? PHOTO_BG[0];
+  const bg = photoBg(av);
   $('card-photo').style.background = hex(bg);
   // 미리보기 캔버스가 잠깐 보이도록 한 프레임 뒤에 촬영
   const url = studio?.snapshot(bg);
@@ -3580,6 +3926,17 @@ function initRegister() {
     const b = e.target.closest('[data-color]'); if (!b) return;
     const t = AVATAR_TABS.find(x => x.id === tab);
     setAvatar({ [t.colorKey]: Number(b.dataset.color) }); sound.tick();
+  });
+  $('maker-colors-list').addEventListener('input', (e) => {
+    if (!e.target.matches('[data-custom]')) return;
+    const t = AVATAR_TABS.find(x => x.id === tab);
+    const v = parseInt(e.target.value.slice(1), 16) || 0x010101;
+    const av = { ...avatar(), [t.colorKey]: Math.max(256, v) };
+    update({ researcher: { ...state.researcher, avatar: av } });
+    studio?.setAvatar(av, { bounce: false });
+    e.target.parentElement.style.background = e.target.value;
+    e.target.parentElement.setAttribute('aria-selected', 'true');
+    $('maker-colors-list').querySelectorAll('[data-color]').forEach(b => b.setAttribute('aria-selected', 'false'));
   });
   $('maker-random').addEventListener('click', () => { setAvatar(randomAvatar()); studio?.react('smile'); sound.shuffle(); });
   $('maker-next').addEventListener('click', () => setStep('name'));
@@ -3703,10 +4060,10 @@ return { REQUESTS, getRequest, fitOf };
 // ---- js/data/items.js ----
 __m["js/data/items.js"] = (() => {
 // ==========================================================
-// 쓸데없는 선물 목록 (정성껏 포장해서 친구에게 보내는 게 목적)
-// cat   : leftover 먹다 남은 · used 다 쓴 · found 주운 · handmade 직접 만든
+// 선물 목록 — 일상에서 마음을 담아 건네는 선물 (정성껏 포장해서 링크로 보내기)
+// cat   : cafe 카페·간식 · rest 쉬는 시간 · memory 추억·취향 · handmade 직접 만든 · prank 장난
 // model : 3D 모형 이름 (js/game/item-models.js) — 없으면 id 그대로
-// opts  : 모형 변형 (single 한 짝, burnt 다 탐 …)
+// opts  : 모형 변형
 // shape : 포장 모양 — box · flat · cyl · blob · stick
 // size  : [가로, 높이, 깊이]
 // liquid: 담긴 액체 양 0–1 (쏟아짐 물리)
@@ -3715,42 +4072,58 @@ __m["js/data/items.js"] = (() => {
 
 const ITEM_CATS = [
   { id: 'all', label: '전체' },
-  { id: 'leftover', label: '먹다 남은' },
-  { id: 'used', label: '다 쓴' },
-  { id: 'found', label: '주운 것' },
+  { id: 'cafe', label: '카페·간식' },
+  { id: 'rest', label: '쉬는 시간' },
+  { id: 'memory', label: '추억·취향' },
   { id: 'handmade', label: '직접 만든' },
+  { id: 'prank', label: '장난' },
 ];
 
 const ITEMS = [
-  // ---- 먹다 남은 ----
-  { id: 'banana', cat: 'leftover', name: '먹다 남은 바나나', desc: '한 입 먹었음', shape: 'blob', size: [0.9, 0.36, 0.36] },
-  { id: 'apple_bite', model: 'apple', cat: 'leftover', name: '한 입 먹은 사과', desc: '갈변 진행 중', shape: 'blob', size: [0.4, 0.44, 0.4] },
-  { id: 'coffee_half', model: 'mug', cat: 'leftover', name: '식은 커피 반 잔', desc: '어제 내린 것', shape: 'cyl', size: [0.55, 0.5, 0.44], liquid: 0.55 },
-  { id: 'noodle_broth', model: 'noodle_open', cat: 'leftover', name: '국물만 남은 컵라면', desc: '면은 내가 먹었음', shape: 'cyl', size: [0.5, 0.52, 0.5], liquid: 0.6 },
-  { id: 'mala', cat: 'leftover', name: '마라샹궈 국물', desc: '건더기 조금 · 뚜껑 없음', shape: 'cyl', size: [0.8, 0.42, 0.8], liquid: 0.8 },
-  { id: 'cola', cat: 'leftover', name: '김 빠진 콜라 반 캔', desc: '미지근함', shape: 'cyl', size: [0.26, 0.48, 0.26], liquid: 0.5 },
-  { id: 'bungeo', cat: 'leftover', name: '식은 붕어빵 꼬리', desc: '머리는 내가 먹음', shape: 'flat', size: [0.7, 0.16, 0.36] },
-  { id: 'cake', cat: 'leftover', name: '딸기 뺀 케이크 조각', desc: '딸기는 내가 먹음', shape: 'box', size: [0.6, 0.42, 0.45] },
-  // ---- 다 쓴 ----
-  { id: 'pen', cat: 'used', name: '다 쓴 볼펜', desc: '잉크 0%', shape: 'stick', size: [0.7, 0.14, 0.14] },
-  { id: 'candle_burnt', model: 'candle', opts: { burnt: true }, cat: 'used', name: '다 탄 향초', desc: '향은 기억 속에', shape: 'cyl', size: [0.42, 0.48, 0.42] },
-  { id: 'tissue', cat: 'used', name: '휴지 한 칸', desc: '새것 (아마도)', shape: 'flat', size: [0.5, 0.03, 0.5] },
-  { id: 'sock_one', model: 'socks', opts: { single: true }, cat: 'used', name: '양말 한 짝', desc: '나머지 한 짝은 행방불명', shape: 'flat', size: [0.6, 0.16, 0.42] },
-  { id: 'giftcard', cat: 'used', name: '잔액 0원 기프트카드', desc: '마음만 충전됨', shape: 'flat', size: [0.6, 0.04, 0.38] },
-  { id: 'ticket', cat: 'used', name: '지난주 영화 티켓', desc: '이미 봤음 · 재미있었음', shape: 'flat', size: [0.7, 0.05, 0.36] },
-  { id: 'receipt', cat: 'used', name: '구겨진 영수증', desc: '이 포장지 산 영수증', shape: 'flat', size: [0.32, 0.05, 0.52] },
-  { id: 'emptybox', cat: 'used', name: '빈 상자', desc: '상자 안에 상자', shape: 'box', size: [0.55, 0.45, 0.5] },
-  { id: 'earbuds', cat: 'used', name: '알맹이 없는 이어폰 케이스', desc: '이어폰은 잃어버림', shape: 'box', size: [0.34, 0.3, 0.26] },
-  // ---- 주운 것 ----
-  { id: 'rock', cat: 'found', name: '잘생긴 돌멩이', desc: '강가에서 주움', shape: 'blob', size: [0.56, 0.38, 0.46] },
-  { id: 'leaf', cat: 'found', name: '예쁜 낙엽', desc: '바스락', shape: 'flat', size: [0.5, 0.06, 0.4] },
-  { id: 'cap', cat: 'found', name: '병뚜껑', desc: '꽤 반짝임', shape: 'flat', size: [0.2, 0.08, 0.2] },
-  { id: 'slime', cat: 'found', name: '슬라임', desc: '아직 끈적함', shape: 'blob', size: [0.56, 0.36, 0.56] },
-  { id: 'plant', cat: 'found', name: '물 안 준 화분', desc: '살아 있긴 함', shape: 'cyl', size: [0.42, 0.72, 0.42] },
+  // ---- 카페·간식 ----
+  { id: 'latte', model: 'mug', cat: 'cafe', name: '따뜻한 라떼 한 잔', desc: '흔들면 쏟아져요', shape: 'cyl', size: [0.55, 0.5, 0.44], liquid: 0.8 },
+  { id: 'hm_mug', cat: 'cafe', name: '휴먼메이드 머그', desc: '커피까지 채워서', shape: 'cyl', size: [0.55, 0.5, 0.44], liquid: 0.7 },
+  { id: 'beans', cat: 'cafe', name: '원두 한 봉', desc: '요즘 내가 마시는 것', shape: 'box', size: [0.56, 0.86, 0.32] },
+  { id: 'dripbag', cat: 'cafe', name: '드립백 세트', desc: '아침마다 하나씩', shape: 'box', size: [0.85, 0.45, 0.45] },
+  { id: 'tea', cat: 'cafe', name: '허브티', desc: '잠 안 올 때', shape: 'box', size: [0.72, 0.36, 0.4] },
+  { id: 'cookies', cat: 'cafe', name: '버터 쿠키 틴', desc: '하나씩 아껴 먹기', shape: 'cyl', size: [0.72, 0.32, 0.72] },
+  { id: 'choco', cat: 'cafe', name: '초콜릿', desc: '당 떨어질 때', shape: 'flat', size: [0.76, 0.16, 0.5] },
+  { id: 'honey', cat: 'cafe', name: '꿀 한 병', desc: '유리병이라 조심', shape: 'cyl', size: [0.38, 0.47, 0.38] },
+  { id: 'cake', cat: 'cafe', name: '딸기 케이크 조각', desc: '부드러워서 살살', shape: 'box', size: [0.6, 0.42, 0.45] },
+  { id: 'bungeo', cat: 'cafe', name: '따끈한 붕어빵', desc: '팥 가득', shape: 'flat', size: [0.7, 0.16, 0.36] },
+  { id: 'apple', cat: 'cafe', name: '빨간 사과', desc: '제일 예쁜 걸로 골랐어', shape: 'blob', size: [0.4, 0.44, 0.4] },
+  // ---- 쉬는 시간 ----
+  { id: 'candle', cat: 'rest', name: '향초', desc: '숲 냄새', shape: 'cyl', size: [0.42, 0.48, 0.42] },
+  { id: 'diffuser', cat: 'rest', name: '디퓨저', desc: '책상 위에', shape: 'cyl', size: [0.36, 0.8, 0.36] },
+  { id: 'handcream', cat: 'rest', name: '핸드크림', desc: '손 트지 말라고', shape: 'stick', size: [0.64, 0.17, 0.16] },
+  { id: 'bathbomb', cat: 'rest', name: '배스밤 세트', desc: '오늘은 푹 쉬기', shape: 'box', size: [0.66, 0.28, 0.28] },
+  { id: 'socks', cat: 'rest', name: '수면 양말', desc: '발 시릴 때', shape: 'flat', size: [0.6, 0.16, 0.42] },
+  { id: 'slippers', cat: 'rest', name: '털 슬리퍼', desc: '집에서 신어', shape: 'box', size: [0.66, 0.18, 0.5] },
+  { id: 'blanket', cat: 'rest', name: '무릎 담요', desc: '사무실 필수품', shape: 'cyl', size: [0.78, 0.42, 0.42] },
+  { id: 'pajama', cat: 'rest', name: '잠옷', desc: '잘 자라는 뜻', shape: 'flat', size: [0.86, 0.19, 0.6] },
+  { id: 'perfume', cat: 'rest', name: '향수', desc: '내가 좋아하는 향', shape: 'box', size: [0.36, 0.5, 0.24] },
+  { id: 'plant', cat: 'rest', name: '작은 화분', desc: '물은 일주일에 한 번', shape: 'cyl', size: [0.42, 0.72, 0.42] },
+  { id: 'flowers', cat: 'rest', name: '꽃다발', desc: '기울이면 흙이 쏟아져요', shape: 'cyl', size: [0.42, 0.92, 0.42] },
+  // ---- 추억·취향 ----
+  { id: 'book', cat: 'memory', name: '밑줄 그은 책', desc: '좋았던 문장 표시해 둠', shape: 'box', size: [0.56, 0.86, 0.16] },
+  { id: 'polaroid', cat: 'memory', name: '같이 찍은 폴라로이드', desc: '둘 다 잘 나온 걸로', shape: 'flat', size: [0.46, 0.04, 0.56] },
+  { id: 'frame', cat: 'memory', name: '사진 액자', desc: '그날 사진', shape: 'flat', size: [0.6, 0.07, 0.75] },
+  { id: 'lp', cat: 'memory', name: 'LP 한 장', desc: '같이 듣던 앨범', shape: 'flat', size: [0.82, 0.05, 0.82] },
+  { id: 'ticket', cat: 'memory', name: '같이 본 영화 티켓', desc: '버리기 아까워서', shape: 'flat', size: [0.7, 0.05, 0.36] },
+  { id: 'filmcam', cat: 'memory', name: '일회용 필름 카메라', desc: '27장 남음', shape: 'box', size: [0.5, 0.3, 0.22] },
+  { id: 'beams_key', cat: 'memory', name: '빔즈 키링', desc: '열쇠 잃어버리지 마', shape: 'flat', size: [0.42, 0.06, 0.18] },
+  { id: 'giftcard', cat: 'memory', name: '카페 기프트카드', desc: '커피 한 잔 사 먹어', shape: 'flat', size: [0.6, 0.04, 0.38] },
+  { id: 'pen', cat: 'memory', name: '만년필', desc: '편지 쓸 때', shape: 'stick', size: [0.7, 0.14, 0.14] },
+  { id: 'planner', cat: 'memory', name: '내년 다이어리', desc: '첫 장은 내가 써 둠', shape: 'box', size: [0.56, 0.76, 0.12] },
   // ---- 직접 만든 ----
-  { id: 'letter', cat: 'handmade', name: '손편지', desc: '내용을 직접 써요', custom: { label: '편지 내용', max: 60, placeholder: '너한테 주려고 아껴 둔 거야…' }, shape: 'flat', size: [0.66, 0.04, 0.46] },
-  { id: 'coupon', cat: 'handmade', name: '쿠폰북', desc: '쿠폰 이름을 직접 정해요', custom: { label: '쿠폰 이름', max: 14, placeholder: '설거지 면제권' }, shape: 'flat', size: [0.6, 0.07, 0.32] },
-  { id: 'draw', cat: 'handmade', name: '직접 그린 물건', desc: '그린 대로 만들어져요', draw: true, shape: 'box', size: [0.6, 0.6, 0.06] },
+  { id: 'letter', cat: 'handmade', name: '손편지', desc: '내용을 직접 써요', custom: { label: '편지 내용', max: 60, placeholder: '요즘 고생 많았지. 늘 고마워!' }, shape: 'flat', size: [0.66, 0.04, 0.46] },
+  { id: 'coupon', cat: 'handmade', name: '쿠폰북', desc: '쿠폰 이름을 직접 정해요', custom: { label: '쿠폰 이름', max: 14, placeholder: '밥 한 끼 쏘기권' }, shape: 'flat', size: [0.6, 0.07, 0.32] },
+  { id: 'draw', cat: 'handmade', name: '직접 그린 선물', desc: '그린 대로 만들어져요', draw: true, shape: 'box', size: [0.6, 0.6, 0.06] },
+  // ---- 장난 ----
+  { id: 'banana', cat: 'prank', name: '먹다 남은 바나나', desc: '한 입 먹었음', shape: 'blob', size: [0.9, 0.36, 0.36] },
+  { id: 'rock', cat: 'prank', name: '잘생긴 돌멩이', desc: '강가에서 주움 · 무거움', shape: 'blob', size: [0.56, 0.38, 0.46] },
+  { id: 'slime', cat: 'prank', name: '슬라임', desc: '잡아당기면 늘어나요', shape: 'blob', size: [0.56, 0.36, 0.56] },
+  { id: 'mala', cat: 'prank', name: '마라샹궈 국물', desc: '뚜껑 없음 · 출렁출렁', shape: 'cyl', size: [0.8, 0.42, 0.8], liquid: 0.8 },
 ];
 
 const getItem = (id) => ITEMS.find(i => i.id === id) || ITEMS[0];
@@ -3759,7 +4132,7 @@ const getItem = (id) => ITEMS.find(i => i.id === id) || ITEMS[0];
 let customVer = 0;
 function setCustomItem({ name, ops, size }) {
   const it = ITEMS.find(i => i.id === 'draw');
-  it.name = name || '직접 그린 물건';
+  it.name = name || '직접 그린 선물';
   it.art = ops || [];
   if (size) it.size = size;
   customVer++;
@@ -6525,7 +6898,7 @@ return { MATERIAL, LIQUID, GRAB_HINT, PackView };
 // ---- js/screens/game.js ----
 __m["js/screens/game.js"] = (() => {
 // ==========================================================
-// 쓸데없는 선물 보내기: 선물 고르기(직접 그리기 포함) → 포장 6단계 → 링크 보내기
+// 선물 보내기: 선물 고르기(직접 그리기 포함) → 포장 6단계 → 링크 보내기
 // 받은 쪽: 링크(#gift=…)로 열어서 흔들고·풀고·찢고·열기 → 반응 고르고 답장 링크(#reply=…)
 // ==========================================================
 
@@ -6630,7 +7003,7 @@ const STEPS = [
   { id: 'fold', label: '접기', title: '종이 접기', how: () => '삐져나온 종이 끝의 동그라미를 잡고 화살표 쪽으로 끌어서 접어요.' },
   { id: 'ribbon', label: '끈', title: '끈 그리기', how: () => '선물 위에 손가락으로 선을 그으면 그 모양대로 끈이 감겨요. ‘매듭’을 고르고 톡 누르면 리본이 달려요.' },
   { id: 'sticker', label: '스티커', title: '스티커 붙이기', how: () => '스티커를 고르고 선물을 톡 누르면 붙어요. 내 이미지로 스티커도 만들 수 있어요.' },
-  { id: 'card', label: '편지', title: '한마디 쓰기', how: () => `${toName()}에게 한마디. 쓸데없는 선물일수록 진지하게.` },
+  { id: 'card', label: '편지', title: '한마디 쓰기', how: () => `${toName()}에게 전하고 싶은 한마디` },
 ];
 const STYLES = [{ id: 'neat', name: '반듯하게' }, { id: 'crumple', name: '구김 살려' }, { id: 'twist', name: '양끝 날개' }];
 const RIB_STYLES = [
@@ -7166,7 +7539,7 @@ function customItemData() {
 async function enterSend() {
   if (!state.giftId || !state.wrap) { go('select'); return; }
   const it = getItem(state.giftId), to = toName();
-  $('send-lead').innerHTML = `<b></b>에게 보낼 쓸데없는 선물이 준비됐어요`;
+  $('send-lead').innerHTML = `<b></b>에게 보낼 선물이 준비됐어요`;
   $('send-lead').querySelector('b').textContent = to;
   $('send-gift').textContent = `안에 든 것: ??? (열어 봐야 알아요)`;
   $('send-img').src = safe(() => stage.snapshot(state.giftId, state.wrap, { bg: 0xe9e7e2 })) || '';
@@ -7201,7 +7574,7 @@ async function shareLink(url, text, input) {
 
 // ---------- ⑦ 받은 선물 열기 ----------
 const recv = { editor: new PaperEditor(), payload: null, stamp: null, step: '' };
-const STAMPS_R = [['😂', '어이없어서 웃김'], ['🤦', '이걸 왜…'], ['🥹', '감동이야'], ['😡', '돌려줄게'], ['🙏', '평생 간직함']];
+const STAMPS_R = [['🥹', '감동이야'], ['🥰', '너무 좋아'], ['😂', '웃겨 ㅋㅋ'], ['🙏', '고마워'], ['🤗', '나도 보낼게']];
 async function enterOpen() {
   const inc = getIncoming();
   if (!inc || inc.kind !== 'gift') { go('intro'); return; }
@@ -7261,7 +7634,7 @@ function reveal() {
   const notes = [pk.br && '깨져 있음', pk.sp > 0.12 && '안에서 쏟아짐', pk.sq > 0.15 && '찌그러짐', pk.bz && '멍듦', pk.so && '흙이 쏟아짐'].filter(Boolean);
   $('open-item').innerHTML = '';
   const b = document.createElement('b'); b.textContent = it.name;
-  $('open-item').append('쓸데없는 선물: ', b, notes.length ? ` (${notes.join(' · ')})` : '');
+  $('open-item').append('선물: ', b, notes.length ? ` (${notes.join(' · ')})` : '');
   const L = $('open-letter'); L.innerHTML = '';
   const lines = [];
   if (g.t && (g.i === 'letter' || g.i === 'coupon')) lines.push(g.i === 'coupon' ? `🎟 ${g.t} 쿠폰` : `✉ ${g.t}`);
