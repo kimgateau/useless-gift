@@ -768,6 +768,108 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
 .idcard__role { color: #c8372d; font-weight: 600; }
 .intro__eyebrow { color: #c8372d; }
 
+/* ---------- 선배 산타 심사 ---------- */
+.screen--judge { user-select: none; -webkit-user-select: none; }
+.judge-top { position: absolute; left: 0; right: 0; top: calc(env(safe-area-inset-top) + 16px); z-index: 4; text-align: center; padding: 0 16px; pointer-events: none; }
+.judge-kicker { margin: 0; font-size: 11px; letter-spacing: .14em; color: #c8372d; font-weight: 600; }
+.judge-speech {
+  margin: 10px auto 0; display: inline-block; max-width: 300px; padding: 10px 14px; border-radius: 16px;
+  background: #fff; font-size: 15px; color: var(--text-strong); box-shadow: 0 6px 18px rgba(0,0,0,.08); position: relative;
+}
+.judge-speech::after { content: ''; position: absolute; right: 34px; bottom: -7px; width: 14px; height: 14px; background: #fff; transform: rotate(45deg); }
+.judge-speech.is-pop { animation: speech-pop .3s ease; }
+@keyframes speech-pop { from { transform: scale(.9); } }
+.judge-panel {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 5;
+  padding: 16px 20px calc(env(safe-area-inset-bottom) + 16px); background: rgba(255,255,255,.97); border-radius: 20px 20px 0 0;
+  box-shadow: 0 -10px 30px rgba(0,0,0,.08); display: flex; flex-direction: column; gap: 12px; align-items: stretch;
+}
+.judge-rows { list-style: none; margin: 0 auto; padding: 0; width: 100%; max-width: 380px; display: grid; gap: 9px; }
+.judge-row { display: grid; grid-template-columns: 64px 1fr 34px; align-items: center; gap: 10px; font-size: 13px; color: #5d5a54; opacity: .35; transition: opacity .3s; }
+.judge-row.is-on { opacity: 1; }
+.judge-bar { height: 10px; border-radius: 6px; background: #eeece7; overflow: hidden; }
+.judge-bar i { display: block; height: 100%; width: 0; border-radius: 6px; background: #2e7d4f; transition: width .7s cubic-bezier(.2,.8,.3,1); }
+.judge-bar i.is-mid { background: #dfa53a; } .judge-bar i.is-low { background: #c8372d; }
+.judge-row b { text-align: right; font: 600 14px var(--font); color: var(--text-strong); }
+.judge-result { display: flex; align-items: center; justify-content: center; gap: 16px; }
+.judge-stamp {
+  width: 88px; height: 88px; border-radius: 50%; border: 3px solid #c8372d; color: #c8372d;
+  display: grid; place-items: center; text-align: center; font: 700 17px/1.1 var(--font); transform: rotate(-12deg);
+  animation: stamp-in .45s cubic-bezier(.2,1.6,.4,1);
+}
+.judge-stamp[data-g="s"] { border-color: #b8862a; color: #b8862a; box-shadow: inset 0 0 0 4px #fff, inset 0 0 0 6px #b8862a; }
+.judge-stamp[data-g="c"] { border-color: #6f6b65; color: #6f6b65; }
+.judge-total { margin: 0; font: 700 30px/1 var(--font); color: var(--text-strong); }
+.judge-total small { font-size: 13px; font-weight: 500; color: #8f8b84; margin-left: 4px; }
+.judge-title { margin: 6px 0 0; display: inline-block; padding: 5px 10px; border-radius: 999px; background: #1f5a3d; color: #fff; font-size: 13px; }
+.judge-actions { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.judge-sub { display: flex; gap: 18px; }
+.judge-skip { align-self: center; }
+.open-judge { margin-top: 8px !important; padding-top: 8px; border-top: 1px dashed #e4d9bd; font-size: 12.5px; color: #1f5a3d; text-align: left !important; }
+
+/* 안에 뭐 들었게? */
+.open-quiz {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 5; padding: 16px 18px calc(env(safe-area-inset-bottom) + 18px);
+  background: rgba(255,255,255,.96); border-radius: 20px 20px 0 0; box-shadow: 0 -10px 30px rgba(0,0,0,.08);
+  display: flex; flex-direction: column; align-items: center; gap: 6px; animation: panel-up .35s ease-out; touch-action: auto;
+}
+.open-quiz__q { margin: 0; font: 700 18px var(--font); color: var(--text-strong); }
+.open-quiz__hint { margin: 0 0 6px; font-size: 12.5px; color: #8f8b84; }
+.open-quiz__opts { display: grid; gap: 8px; width: 100%; max-width: 340px; }
+.quiz-opt { border: 1.5px solid #e1ded7; background: #fff; border-radius: 14px; padding: 12px; font: 500 15px var(--font); color: var(--text-strong); cursor: pointer; transition: transform .12s, opacity .2s; }
+.quiz-opt:active { transform: scale(.97); }
+.quiz-opt.is-ok { border-color: #2e7d4f; background: #eaf5ee; color: #1f5a3d; }
+.quiz-opt.is-no { border-color: #c8372d; background: #fbeceb; color: #a02a22; }
+.quiz-opt.is-off { opacity: .4; }
+.screen--open .open-skip { z-index: 6; }
+.open-guessed { font-size: 13px; color: #1f5a3d; }
+.reply-guess { margin: 0; font-size: 14px; color: #1f5a3d; text-align: center; }
+
+/* 돌발 상황 */
+.crisis { position: absolute; inset: 0; z-index: 8; pointer-events: none; }
+.crisis__card {
+  position: absolute; left: 50%; top: calc(env(safe-area-inset-top) + 150px); transform: translateX(-50%); width: min(320px, 86vw);
+  background: #fff; border: 2px solid #c8372d; border-radius: 16px; padding: 12px 14px 14px; text-align: center;
+  box-shadow: 0 10px 30px rgba(200,55,45,.25); pointer-events: auto; animation: crisis-in .35s cubic-bezier(.2,1.5,.4,1);
+}
+@keyframes crisis-in { from { transform: translateX(-50%) scale(.6) rotate(-6deg); opacity: 0; } }
+.crisis__title { margin: 0; font: 800 13px var(--font); letter-spacing: .1em; color: #c8372d; }
+.crisis__text { margin: 4px 0 10px; font: 600 15px/1.4 var(--font); color: var(--text-strong); }
+.crisis__rub { position: relative; height: 70px; border-radius: 12px; background: repeating-linear-gradient(45deg, #f3e9c9 0 10px, #ece0b8 10px 20px); overflow: hidden; touch-action: none; cursor: grab; }
+.crisis__rub span { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: rgba(46,125,79,.3); transition: width .1s; }
+.crisis__rub em { position: absolute; inset: 0; display: grid; place-items: center; font: 600 13px var(--font); color: #8a7a4a; font-style: normal; }
+.crisis__btn { border: 0; border-radius: 12px; background: #c8372d; color: #fff; padding: 12px 18px; font: 700 15px var(--font); cursor: pointer; }
+.crisis__btn:active { transform: scale(.96); }
+.crisis__time { display: block; height: 5px; margin-top: 12px; border-radius: 3px; background: #f1e3e1; overflow: hidden; }
+.crisis__time i { display: block; height: 100%; width: 100%; background: #c8372d; transform-origin: left; }
+.crisis__deer {
+  position: absolute; top: 46%; left: 0; border: 0; background: none; font-size: 64px; line-height: 1; padding: 10px; cursor: pointer; pointer-events: auto;
+  animation: deer-run 4.2s linear forwards; filter: drop-shadow(0 4px 6px rgba(0,0,0,.2));
+}
+.crisis__deer small { position: absolute; right: 4px; top: 38px; font-size: 26px; }
+@keyframes deer-run {
+  0% { transform: translate(-90px, 0) scaleX(-1); } 25% { transform: translate(28vw, -60px) scaleX(-1); }
+  50% { transform: translate(62vw, 30px) scaleX(-1); } 51% { transform: translate(62vw, 30px) scaleX(1); }
+  75% { transform: translate(20vw, -40px) scaleX(1); } 100% { transform: translate(105vw, 0) scaleX(-1); }
+}
+.crisis__snow { position: absolute; inset: 0; overflow: hidden; }
+.crisis__snow i { position: absolute; top: -20px; color: #fff; font-style: normal; text-shadow: 0 0 4px rgba(120,150,200,.6); animation: snow-fall linear forwards; }
+@keyframes snow-fall { to { transform: translate(var(--dx), 110vh) rotate(360deg); } }
+.crisis.is-done .crisis__card { animation: crisis-out .3s ease forwards; }
+@keyframes crisis-out { to { transform: translateX(-50%) scale(.8); opacity: 0; } }
+
+/* 근무 일지 */
+.tool-chip.is-locked { opacity: .55; border-style: dashed; }
+.career { width: 100%; max-width: 360px; padding: 12px 14px; border-radius: 14px; background: #fff; border: 1px solid #e6e2d9; display: grid; gap: 6px; }
+.career:empty { display: none; }
+.career__promo { margin: 0 0 4px; padding: 10px; border-radius: 10px; background: #1f5a3d; color: #fff; text-align: center; font-size: 14px; animation: stamp-in .5s cubic-bezier(.2,1.6,.4,1); }
+.career__promo small { display: block; margin-top: 2px; font-size: 12px; opacity: .85; }
+.career__row { margin: 0; display: flex; justify-content: space-between; font-size: 13px; color: #6f6b65; }
+.career__row b { color: var(--text-strong); }
+.career__bar { height: 8px; border-radius: 5px; background: #eeece7; overflow: hidden; }
+.career__bar i { display: block; height: 100%; background: #c8372d; border-radius: 5px; }
+.career__next { margin: 0; font-size: 12px; color: #8f8b84; }
+
 </style>
   <script>
     // 파일을 더블클릭해서 연 경우: 모듈 스크립트가 막히므로 한 파일 완성본으로 이동
@@ -874,7 +976,7 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
           </header>
           <div class="idcard__photo" id="card-photo"><img id="card-img" alt="" /></div>
           <p class="idcard__name" id="card-name"></p>
-          <p class="idcard__role">산타 인턴 (수습)</p>
+          <p class="idcard__role" id="card-role">산타 인턴 (수습)</p>
           <p class="idcard__no">No. <span id="researcher-no"></span></p>
           <div class="idcard__stamp" aria-hidden="true">수습<br />채용</div>
         </article>
@@ -939,6 +1041,17 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
         <button type="button" class="gizmo__h gizmo__del" data-g="del" aria-label="떼기">✕</button>
       </div>
       <div class="countdown" id="countdown" aria-live="assertive"></div>
+      <div class="crisis" id="crisis" hidden>
+        <div class="crisis__card">
+          <p class="crisis__title" id="crisis-title">돌발 상황!</p>
+          <p class="crisis__text" id="crisis-text"></p>
+          <div class="crisis__rub" id="crisis-rub" hidden><span id="crisis-rub-fill"></span><em>여기를 문질러요</em></div>
+          <button class="crisis__btn" type="button" id="crisis-btn" hidden></button>
+          <span class="crisis__time"><i id="crisis-time"></i></span>
+        </div>
+        <button class="crisis__deer" type="button" id="crisis-deer" aria-label="루돌프 잡기" hidden>🦌<small>🎀</small></button>
+        <div class="crisis__snow" id="crisis-snow" hidden></div>
+      </div>
       <div class="wrap-panel">
         <div class="wrap-steps" id="wrap-steps" role="tablist"></div>
         <div class="wrap-tools" id="wrap-tools"></div>
@@ -950,14 +1063,41 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
       <input type="file" id="photo-input" accept="image/*" hidden />
     </section>
 
+    <!-- ⑤-1 선배 산타 심사 -->
+    <section class="screen screen--judge" data-screen="judge" aria-label="선배 산타 심사" hidden>
+      <div class="judge-top">
+        <p class="judge-kicker">산타 인턴 채용 시험 · 실기 심사</p>
+        <p class="judge-speech" id="judge-speech" aria-live="polite">선배 산타가 포장을 살펴보는 중…</p>
+      </div>
+      <div class="judge-panel">
+        <ul class="judge-rows" id="judge-rows"></ul>
+        <div class="judge-result" id="judge-result" hidden>
+          <div class="judge-stamp" id="judge-stamp"></div>
+          <div class="judge-sum">
+            <p class="judge-total" id="judge-total"></p>
+            <p class="judge-title" id="judge-title"></p>
+          </div>
+        </div>
+        <div class="judge-actions" id="judge-actions" hidden>
+          <button class="tape-btn" type="button" id="judge-send">배송하러 가기</button>
+          <div class="judge-sub">
+            <button class="text-btn" type="button" id="judge-card">결과 카드 저장</button>
+            <button class="text-btn" type="button" id="judge-retry">다시 포장하기</button>
+          </div>
+        </div>
+        <button class="text-btn judge-skip" type="button" id="judge-skip">바로 결과 보기</button>
+      </div>
+    </section>
+
     <!-- ⑥ 보내기 -->
     <section class="screen screen--send page" data-screen="send" aria-label="선물 보내기" hidden>
       <header class="page-head">
-        <button class="reg-back" type="button" data-go="wrap" aria-label="포장으로 돌아가기">←</button>
+        <button class="reg-back" type="button" data-go="judge" aria-label="심사 결과로 돌아가기">←</button>
         <p class="page-step">선물 보내기</p><span class="reg-head__sp"></span>
       </header>
       <div class="page-body send">
         <p class="page-lead" id="send-lead"></p>
+        <div class="career" id="career"></div>
         <figure class="result-photo"><img id="send-img" alt="내가 포장한 선물" /></figure>
         <p class="send-gift" id="send-gift"></p>
         <div class="send-link"><input id="send-url" type="text" readonly aria-label="선물 링크" /></div>
@@ -978,6 +1118,11 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
         <p class="open-step" id="open-step"></p>
       </div>
       <div class="open-guide" id="open-guide" aria-hidden="true"></div>
+      <div class="open-quiz" id="open-quiz" hidden>
+        <p class="open-quiz__q">안에 뭐가 들었을까요?</p>
+        <p class="open-quiz__hint">흔들면서 소리를 잘 들어 봐요</p>
+        <div class="open-quiz__opts" id="open-quiz-opts"></div>
+      </div>
       <div class="open-panel" id="open-panel" hidden>
         <p class="open-item" id="open-item"></p>
         <div class="open-letter" id="open-letter"></div>
@@ -999,6 +1144,7 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
         <div class="reply-stamp" id="reply-stamp"></div>
         <p class="reply-who" id="reply-who"></p>
         <blockquote class="reply-msg" id="reply-msg"></blockquote>
+        <p class="reply-guess" id="reply-guess"></p>
         <p class="reply-gift" id="reply-gift"></p>
         <div class="result-actions">
           <button class="tape-btn" type="button" id="reply-again">또 보내기</button>
@@ -2145,6 +2291,45 @@ class SoundBoard {
     this._grain(out, t, { buf: 'white', type: 'highpass', freq: 2600, dur: 0.1, gain: 0.55, attack: 0.001 });
     this._crackle(out, t, { count: 18, span: 0.22, freq: [3000, 9000], q: 4, gain: 0.3, len: [0.004, 0.018] });
     for (let i = 0; i < 7; i++) this._grain(out, t + 0.04 + i * 0.045 + R() * 0.03, { type: 'bandpass', freq: 3500 + R() * 4500, q: 22, dur: 0.06, gain: 0.28, attack: 0.001 });
+  }
+  /** 상자 흔들 때 안에서 나는 소리 — 물건 성질마다 다르게 (내용물 맞히기 힌트) */
+  rattle(kind, pan = 0) {
+    if (!this._ok('rattle', 140)) return;
+    const t = this.ctx.currentTime + 0.005, out = this._out(pan * 0.8);
+    const box = () => this._grain(out, t, { buf: 'pink', type: 'lowpass', freq: 480, dur: 0.05, gain: 0.45, attack: 0.002 });
+    switch (kind) {
+      case 'ceramic': case 'glass': // 딸그락: 높고 맑은 짤랑
+        box();
+        for (let i = 0; i < 2; i++) this._grain(out, t + 0.01 + i * 0.05, { type: 'bandpass', freq: (kind === 'glass' ? 4200 : 2900) + R() * 600, q: 30, dur: 0.12, gain: 0.35, attack: 0.001 });
+        break;
+      case 'heavy': // 쿵: 낮고 묵직
+        this._grain(out, t, { buf: 'pink', type: 'lowpass', freq: 170, dur: 0.12, gain: 1.4, attack: 0.002 });
+        this._grain(out, t + 0.01, { buf: 'pink', type: 'lowpass', freq: 420, dur: 0.04, gain: 0.4, attack: 0.002 });
+        break;
+      case 'jelly': this.squish(pan); break;
+      case 'liquid': // 찰랑
+        this._grain(out, t, { buf: 'pink', type: 'bandpass', freq: 700, q: 2, dur: 0.22, gain: 0.5, attack: 0.04, release: 0.1 });
+        this._crackle(out, t + 0.05, { count: 7, span: 0.15, freq: [900, 2400], q: 8, gain: 0.12, len: [0.01, 0.03] });
+        break;
+      case 'paper': // 사락: 가볍게 미끄러짐
+        this._grain(out, t, { buf: 'pink', type: 'bandpass', freq: 2600, q: 0.8, dur: 0.12, gain: 0.35, attack: 0.02, release: 0.05 });
+        break;
+      case 'soil': // 사르륵: 흙 구르는 소리
+        box();
+        this._crackle(out, t + 0.01, { count: 16, span: 0.18, freq: [1500, 5000], q: 2, gain: 0.12, len: [0.002, 0.006] });
+        break;
+      case 'soft': case 'bruise': // 툭: 둔하고 부드럽게
+        this._grain(out, t, { buf: 'pink', type: 'lowpass', freq: 330, dur: 0.07, gain: 0.6, attack: 0.006 });
+        break;
+      case 'bouncy': // 통통: 두 번 튐
+        box(); this._grain(out, t + 0.09, { buf: 'pink', type: 'lowpass', freq: 600, dur: 0.035, gain: 0.3, attack: 0.002 });
+        break;
+      case 'can': // 깡: 금속
+        box(); this._grain(out, t + 0.005, { type: 'bandpass', freq: 1700, q: 14, dur: 0.15, gain: 0.3, attack: 0.001 });
+        break;
+      default: // 일반 상자 속 물건
+        box(); this._crackle(out, t, { count: 3, span: 0.03, freq: [1800, 4000], q: 1, gain: 0.25, len: [0.003, 0.008] });
+    }
   }
   /** 슬라임 — 찌걱 */
   squish(pan = 0) {
@@ -3301,7 +3486,7 @@ __m["js/router.js"] = (() => {
 
 const { state } = __m["js/state.js"];
 // 전체 흐름 순서
-const FLOW = ['intro', 'register', 'select', 'wrap', 'send'];
+const FLOW = ['intro', 'register', 'select', 'wrap', 'judge', 'send'];
 
 // 받은 선물·답장 링크 (#gift=… / #reply=…)
 let incoming = null;
@@ -3312,6 +3497,7 @@ const GUARDS = {
   request: () => (state.researcher.name ? null : 'register'),
   select: () => (state.researcher.name ? null : 'register'),
   wrap: () => (!state.researcher.name ? 'register' : state.giftId ? null : 'select'),
+  judge: () => (!state.researcher.name ? 'register' : state.giftId && state.wrap ? null : 'select'),
   send: () => (!state.researcher.name ? 'register' : state.giftId ? null : 'select'),
   open: () => (incoming?.kind === 'gift' ? null : 'intro'),
   reply: () => (incoming?.kind === 'reply' ? null : 'intro'),
@@ -3530,6 +3716,49 @@ class AvatarStudio {
 return { AvatarStudio };
 })();
 
+// ---- js/data/career.js ----
+__m["js/data/career.js"] = (() => {
+// ==========================================================
+// 근무 일지 — 배송한 횟수가 쌓이면 승진하고, 직급마다 재료가 열림
+// 이 기기(브라우저)에만 저장 (서버 없음)
+// ==========================================================
+
+const KEY = 'giftlab.career.v1';
+
+const RANKS = [
+  { id: 'intern', min: 0, name: '산타 인턴 (수습)', short: '인턴' },
+  { id: 'staff',  min: 2, name: '정직원 산타', short: '정직원', unlock: '크리스마스 도장 🎄 ❄ 🎁' },
+  { id: 'senior', min: 4, name: '선임 산타', short: '선임', unlock: '반짝이 리본 · 파라코드' },
+  { id: 'chief',  min: 7, name: '수석 산타', short: '수석', unlock: '금색 끈' },
+];
+/** 재료 → 열리는 직급 */
+const LOCKS = { xmas: 'staff', glitter: 'senior', para: 'senior', gold: 'chief' };
+const XMAS_STAMPS = ['🎄', '❄', '🎁'];
+
+function load() { try { return JSON.parse(localStorage.getItem(KEY)) || { count: 0, best: 0, log: [] }; } catch (_) { return { count: 0, best: 0, log: [] }; } }
+function save(c) { try { localStorage.setItem(KEY, JSON.stringify(c)); } catch (_) {} }
+
+const career = () => load();
+const rankOf = (count) => [...RANKS].reverse().find(r => count >= r.min) || RANKS[0];
+const nextRank = (count) => RANKS.find(r => r.min > count) || null;
+const unlocked = (key) => { const need = LOCKS[key]; if (!need) return true; const r = RANKS.find(x => x.id === need); return load().count >= r.min; };
+const lockRank = (key) => RANKS.find(x => x.id === LOCKS[key]);
+
+/** 배송 한 건 기록 → 승진했으면 promoted에 새 직급 */
+function addDelivery({ to, item, score }) {
+  const c = load();
+  const before = rankOf(c.count);
+  c.count += 1;
+  c.best = Math.max(c.best || 0, score || 0);
+  c.log = [{ to, item, score, at: Date.now() }, ...(c.log || [])].slice(0, 20);
+  save(c);
+  const after = rankOf(c.count);
+  return { count: c.count, rank: after, promoted: after.id !== before.id ? after : null, next: nextRank(c.count) };
+}
+
+return { RANKS, LOCKS, XMAS_STAMPS, career, rankOf, nextRank, unlocked, lockRank, addDelivery };
+})();
+
 // ---- js/screens/register.js ----
 __m["js/screens/register.js"] = (() => {
 // ==========================================================
@@ -3542,6 +3771,7 @@ const { go } = __m["js/router.js"];
 const { AVATAR_TABS, AVATAR_COLORS, PHOTO_BG, DEFAULT_AVATAR, normalizeAvatar, randomAvatar, colorOf } = __m["js/data/avatar-parts.js"];
 const { AvatarStudio } = __m["js/avatar/studio.js"];
 const { sound } = __m["js/sound.js"];
+const { career, rankOf } = __m["js/data/career.js"];
 const STEPS = ['face', 'name', 'card'];
 const hex = (n) => '#' + n.toString(16).padStart(6, '0');
 let studio = null;
@@ -3621,6 +3851,7 @@ function issueCard() {
   const url = studio?.snapshot(bg);
   if (url) $('card-img').src = url;
   $('card-name').textContent = state.researcher.name;
+  $('card-role').textContent = rankOf(career().count).name;
   $('researcher-no').textContent = state.researcher.no;
   const d = new Date();
   $('card-date').textContent = `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
@@ -3904,6 +4135,7 @@ const RIBBONS = [
   { id: 'neon',    name: '형광 실',     kind: 'cord', color: 0xff2b8c, r: 0.006 },
   { id: 'twine',   name: '흰 실',       kind: 'cord', color: 0xf4f1e8, r: 0.008 },
   { id: 'para',    name: '파라코드',    kind: 'cord', texture: 'paracord', r: 0.013 },
+  { id: 'gold',    name: '금색 끈',     kind: 'cord', color: 0xd6b25a, r: 0.011 },
 ];
 
 const DECOS = [
@@ -5796,292 +6028,6 @@ class ReactionView {
 return { GameStage, frameCamera, WrapView, ReactionView };
 })();
 
-// ---- js/game/unbox.js ----
-__m["js/game/unbox.js"] = (() => {
-// ==========================================================
-// 받은 선물 열어 보기 (링크로 받은 친구 쪽 화면)
-//  흔들기 → 끈 풀기 → 포장지 찢기 → 뚜껑 열기 → 짠
-//  선물은 보낸 사람이 만든 그대로(makeWrapped) 다시 만들어서, 부분(part)별로 떼어 냄
-// ==========================================================
-
-const { makeRoom, mesh, mat, roundedBox } = __m["js/intro3d/models.js"];
-const { addLabLights } = __m["js/intro3d/lighting.js"];
-const { makeCharacter, animateFace } = __m["js/avatar/character.js"];
-const { makeWrapped, disposeModel } = __m["js/game/wrap-model.js"];
-const { frameCamera } = __m["js/game/stage.js"];
-const { lumpy } = __m["js/intro3d/gifts.js"];
-const { sound } = __m["js/sound.js"];
-const THREE = window.THREE;
-const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
-
-class UnboxView {
-  constructor() {
-    const s = this.scene = new THREE.Scene();
-    addLabLights(s, { keyPos: [-2, 4.5, 5] });
-    s.add(makeRoom());
-    // 선물을 올려 둔 하얀 탁자
-    const table = new THREE.Group();
-    table.add(mesh(roundedBox(3.2, 0.08, 1.8, 0.03, 2), mat(0xf4f3ef, { shininess: 30 }), 0, -0.04, 0));
-    table.add(mesh(roundedBox(3.0, 0.6, 1.6, 0.02, 1), mat(0xe6e4df), 0, -0.38, 0));
-    s.add(table);
-    this.camera = new THREE.PerspectiveCamera(30, 1, 0.1, 60);
-    this.root = new THREE.Group(); s.add(this.root);
-    this.flying = [];
-    this.t = 0;
-  }
-
-  setup(giftId, wrap, avatar) {
-    if (this.model) { this.root.remove(this.model); disposeModel(this.model); }
-    for (const f of this.flying) this.root.remove(f.m);
-    this.flying = [];
-    if (this.char) this.scene.remove(this.char);
-    this.wrap = wrap;
-    this.model = makeWrapped(giftId, wrap);
-    this.root.add(this.model);
-    this.parts = { paper: [], ribbon: [], card: [], item: null, box: null };
-    for (const c of this.model.children) {
-      const p = c.userData.part;
-      if (p === 'paper' || p === 'ribbon' || p === 'card') this.parts[p].push(c);
-      if (p === 'item') this.parts.item = c;
-      c.traverse(o => { if (o.userData?.part === 'box') this.parts.box = o; if (o.userData?.part === 'item' && o !== c) this.parts.item = o; });
-    }
-    // 보낸 사람 캐릭터 (뒤에서 지켜봄)
-    if (avatar) {
-      this.char = makeCharacter(avatar);
-      this.char.scale.setScalar(0.78);
-      this.char.position.set(-1.0, -0.02, -0.6);
-      this.char.rotation.y = 0.45;
-      this.scene.add(this.char);
-    }
-    this.stage = 'shake';
-    this.energy = 0; this.tilt = 0; this.tiltV = 0; this.pop = 0; this.popV = 0;
-    this.lid = this.wrap.pack?.lid || 0; this.lidT = this.lid; this.rise = 0;
-    this.revealT = 0;
-    this.layout(this.W || innerWidth, this.H || innerHeight);
-  }
-  hasRibbon() { return this.parts.ribbon.length > 0; }
-  hasPaper() { return this.parts.paper.length > 0; }
-  hasBox() { return !!this.parts.box; }
-
-  layout(W, H) {
-    this.W = W; this.H = H;
-    if (!this.model) return;
-    const { w, h } = this.model.userData;
-    this.target = new THREE.Vector3(-0.3, h * 0.45, 0);
-    frameCamera(this.camera, W, H, this.target, Math.max(1.9, Math.max(w, h) * 2.3), { portraitY: 0.44, landscapeX: 0.5, landscapeK: 1.25 });
-    this.camBase = this.camera.position.clone();
-  }
-  /** 선물 위치(화면) — 안내 화살표용 */
-  giftScreen() {
-    const p = new THREE.Vector3(0, this.model.userData.h * 0.6, 0).applyMatrix4(this.model.matrixWorld).project(this.camera);
-    return { x: (p.x + 1) / 2 * this.W, y: (1 - p.y) / 2 * this.H };
-  }
-
-  // ---------- 손동작 ----------
-  /** 흔들기: 좌우로 끈 만큼 기울고, 방향이 바뀔 때마다 소리 */
-  shake(dx) {
-    if (this.stage !== 'shake') return false;
-    this.tiltV += dx * 0.04;
-    const dir = Math.sign(dx);
-    if (dir && dir !== this.lastDir && Math.abs(dx) > 4) {
-      this.lastDir = dir;
-      const pk = this.wrap.pack || {};
-      if (pk.broken) sound.shatter?.((Math.random() - 0.5));
-      else if ((pk.level ?? 0) > 0.05) sound.rustle('cloth', 0.9, 'slosh' + dir);
-      else sound.knock('box', 0.7, 'rattle' + dir);
-    }
-    this.energy += Math.abs(dx);
-    return this.energy > 520;
-  }
-  /** 끈 풀기: 끈과 리본이 위로 튀어 날아감 */
-  untie() {
-    for (const m of this.parts.ribbon) this._fly(m, new THREE.Vector3((Math.random() - 0.5) * 1.5, 3 + Math.random(), 1.2), 6);
-    this.parts.ribbon = [];
-    sound.rustle('cloth', 1, 'untie'); this.popV += 3;
-  }
-  /** 포장지 찢기: 종이가 조각조각 흩어짐 */
-  tear(dirX = 1) {
-    const shell = this.parts.paper.find(p => p.userData.isShell);
-    const tex = shell?.material?.map || null;
-    const { w, h, d } = this.model.userData;
-    for (const m of this.parts.paper) { m.visible = false; }
-    for (const m of this.parts.card) this._fly(m, new THREE.Vector3(dirX * 1.2, 2.2, 1.5), 4);
-    this.parts.paper = []; this.parts.card = [];
-    const pm = new THREE.MeshPhongMaterial({ map: tex, color: tex ? 0xffffff : 0xdedad2, side: THREE.DoubleSide, shininess: 6 });
-    for (let i = 0; i < 16; i++) {
-      const g = lumpy(new THREE.PlaneGeometry(0.12 + Math.random() * 0.18, 0.1 + Math.random() * 0.16, 3, 3), 0.02, i, 7);
-      const piece = new THREE.Mesh(g, pm);
-      const side = Math.random();
-      piece.position.set((Math.random() - 0.5) * w, Math.random() * h, side < 0.6 ? d / 2 + 0.02 : (Math.random() - 0.5) * d);
-      if (side >= 0.6) piece.position.y = h + 0.02;
-      this.root.add(piece);
-      this._fly(piece, new THREE.Vector3(dirX * (0.6 + Math.random() * 1.8), 1.5 + Math.random() * 2, 0.6 + Math.random() * 1.6), 9, true);
-    }
-    sound.rustle('paper', 1, 'tear1'); setTimeout(() => sound.rustle('paper', 1, 'tear2'), 120);
-    this.popV += 4;
-  }
-  /** 뚜껑 열기 + 물건이 쏙 올라옴 */
-  openLid() { this.lidT = 1.05; this.riseT = 1; sound.knock('box', 0.8, 'lid'); setTimeout(() => sound.pick(), 260); }
-  /** 상자 없이 바로 물건 */
-  revealBare() { this.riseT = 0.6; sound.pick(); this.popV += 3; }
-
-  _fly(obj, v, spin = 5, temp = false) {
-    // 모형 안에 있던 걸 그대로 날려 보냄
-    const wp = new THREE.Vector3(); obj.getWorldPosition(wp);
-    const wq = new THREE.Quaternion(); obj.getWorldQuaternion(wq);
-    if (obj.parent !== this.root) { obj.parent?.remove(obj); this.root.add(obj); obj.position.copy(this.root.worldToLocal(wp)); obj.quaternion.copy(wq); }
-    obj.scale.multiplyScalar(this.model.scale.x);
-    this.flying.push({ m: obj, v: v.clone(), w: new THREE.Vector3((Math.random() - 0.5) * spin, (Math.random() - 0.5) * spin, (Math.random() - 0.5) * spin), t: 0, temp });
-  }
-
-  frame(now, dt) {
-    if (!this.model) return;
-    this.t += dt;
-    // 흔들림 (스프링)
-    this.tiltV += (-40 * this.tilt - 5 * this.tiltV) * dt;
-    this.tilt = clamp(this.tilt + this.tiltV * dt, -0.45, 0.45);
-    this.popV += (-60 * this.pop - 8 * this.popV) * dt;
-    this.pop += this.popV * dt;
-    this.model.rotation.z = this.tilt;
-    this.model.position.y = Math.max(0, this.pop) * 0.05 + Math.abs(this.tilt) * 0.08;
-    this.model.rotation.y = Math.sin(this.t * 0.6) * 0.12 - 0.2;
-    // 날아가는 조각들
-    this.flying = this.flying.filter(f => {
-      f.t += dt; f.v.y -= 7 * dt;
-      f.m.position.addScaledVector(f.v, dt);
-      f.m.rotation.x += f.w.x * dt; f.m.rotation.y += f.w.y * dt; f.m.rotation.z += f.w.z * dt;
-      if (f.m.position.y < -0.02 && f.v.y < 0) { f.v.set(f.v.x * 0.3, 0, f.v.z * 0.3); f.w.multiplyScalar(0.2); f.m.position.y = -0.0; }
-      if (f.t > 2.4) { this.root.remove(f.m); return false; }
-      return true;
-    });
-    // 뚜껑과 물건
-    if (this.parts.box?.userData.hinge) {
-      this.lid += (this.lidT - this.lid) * Math.min(1, 6 * dt);
-      this.parts.box.userData.hinge.rotation.x = -this.lid * 2.85;
-    }
-    if (this.riseT && this.parts.item) {
-      this.rise += (this.riseT - this.rise) * Math.min(1, 4 * dt);
-      const it = this.parts.item;
-      it.userData.base ??= it.position.y;
-      it.position.y = it.userData.base + this.rise * (this.model.userData.h * 0.55 + 0.15) + Math.sin(this.t * 2.2) * 0.02 * this.rise;
-      it.rotation.y = this.rise * Math.sin(this.t * 0.8) * 0.5;
-    }
-    // 보낸 사람: 두근두근 쳐다봄
-    if (this.char) {
-      const c = this.char.userData;
-      c.body.position.y = Math.sin(this.t * 2.2) * 0.008;
-      c.head.rotation.x = 0.2; c.head.rotation.z = Math.sin(this.t * 1.1) * 0.05;
-      c.armR.rotation.z = 0.3 + (this.stage === 'done' ? Math.abs(Math.sin(this.t * 6)) * 0.9 : 0);
-      if (this.stage === 'done') c.smileUntil = performance.now() + 1000;
-      animateFace(c, now, dt);
-    }
-    if (this.camBase) {
-      const sh = Math.max(0, this.pop) * 0.02;
-      this.camera.position.set(this.camBase.x + (Math.random() - 0.5) * sh, this.camBase.y, this.camBase.z);
-      this.camera.lookAt(this.target);
-    }
-  }
-}
-
-return { UnboxView };
-})();
-
-// ---- js/share.js ----
-__m["js/share.js"] = (() => {
-// ==========================================================
-// 선물 링크 — 서버 없이 주소 끝(#gift=…)에 선물 정보를 담아 주고받음
-//  · 숫자는 반올림, 그림은 획 좌표만, 사진은 작게 줄여서
-//  · 브라우저가 지원하면 압축(deflate) → base64url
-// ==========================================================
-
-const { SHARE_BASE } = __m["js/config.js"];
-const r3 = (v) => Math.round(v * 1000) / 1000;
-const rv = (a) => (a ? a.map(r3) : a);
-
-function b64url(bytes) {
-  let s = ''; for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
-  return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-}
-function unb64url(str) {
-  const s = atob(str.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((str.length + 3) % 4));
-  const out = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) out[i] = s.charCodeAt(i);
-  return out;
-}
-async function pipe(bytes, Stream, fmt) {
-  const st = new Blob([bytes]).stream().pipeThrough(new Stream(fmt));
-  return new Uint8Array(await new Response(st).arrayBuffer());
-}
-async function pack(obj) {
-  const raw = new TextEncoder().encode(JSON.stringify(obj));
-  if (typeof CompressionStream !== 'undefined') {
-    try { return 'z' + b64url(await pipe(raw, CompressionStream, 'deflate-raw')); } catch (_) { /* 압축 실패 → 그대로 */ }
-  }
-  return 'j' + b64url(raw);
-}
-async function unpack(str) {
-  const kind = str[0], bytes = unb64url(str.slice(1));
-  const raw = kind === 'z' ? await pipe(bytes, DecompressionStream, 'deflate-raw') : bytes;
-  return JSON.parse(new TextDecoder().decode(raw));
-}
-
-/** 그림 획: 정수 좌표로 */
-const opsOut = (ops) => (ops || []).map(o => (o.t === 'pen'
-  ? { t: 'pen', c: o.color, s: o.size, p: o.pts.map(([x, y]) => [Math.round(x), Math.round(y)]) }
-  : { t: 'stamp', c: o.color, s: Math.round(o.size), ch: o.ch, x: Math.round(o.x), y: Math.round(o.y), r: r3(o.rot || 0) }));
-const opsIn = (ops) => (ops || []).map(o => (o.t === 'pen'
-  ? { t: 'pen', color: o.c, size: o.s, pts: o.p }
-  : { t: 'stamp', color: o.c, size: o.s, ch: o.ch, x: o.x, y: o.y, rot: o.r }));
-
-/** 작은 사진 (링크에 넣을 크기로) */
-function tinyImage(src, size = 72, q = 0.6) {
-  return new Promise((res) => {
-    if (!src) return res(null);
-    const img = new Image();
-    img.onload = () => { const c = document.createElement('canvas'); c.width = c.height = size; c.getContext('2d').drawImage(img, 0, 0, size, size); res(c.toDataURL('image/jpeg', q)); };
-    img.onerror = () => res(null);
-    img.src = src;
-  });
-}
-
-/** 선물 → 링크에 담을 꾸러미 */
-async function giftPayload({ sender, to, giftId, custom, wrap, paper }) {
-  const pk = wrap.pack;
-  return {
-    v: 1, s: sender.name, a: sender.avatar, to,
-    i: giftId, it: custom ? { n: custom.name, o: opsOut(custom.ops), z: rv(custom.size) } : undefined,
-    t: wrap.giftText || undefined,
-    b: wrap.box, k: pk && pk.done ? { x: r3(pk.x), y: r3(pk.y), a: r3(pk.a), l: r3(pk.lid || 0), bh: r3(pk.bh || 0), top: r3(pk.top || 0), st: pk.stick ? 1 : 0, br: pk.broken ? 1 : 0, sq: r3(pk.squash || 0), bz: pk.bruise ? 1 : 0, sp: r3(pk.spilled || 0), lv: pk.level != null ? r3(pk.level) : undefined, so: pk.spill ? 1 : 0 } : undefined,
-    p: wrap.paper ? { b: paper.base, o: opsOut(paper.ops), tl: paper.tiled ? 1 : 0, pt: paper.photoTiled ? 1 : 0, ph: paper.base === 'photo' ? await tinyImage(wrap.photo, 96, 0.6) : undefined, cr: r3(wrap.paper.fit?.crumple || 0) } : undefined,
-    y: wrap.style, f: wrap.flaps,
-    r: wrap.ribbon ? { id: wrap.ribbon.id, s: (wrap.ribbon.strokes || []).map(st => st.map(q => [...rv(q.p), ...rv(q.n)])), w: wrap.ribbon.bow ? [...rv(wrap.ribbon.bow.p), ...rv(wrap.ribbon.bow.n)] : undefined } : undefined,
-    d: (wrap.decos || []).map(d => [d.type, rv(d.p), rv(d.n), r3(d.rot || 0), r3(d.scale || 1), d.color ?? null]),
-    si: (wrap.decos || []).some(d => d.type === 'img') ? await tinyImage(wrap.stickerImg, 72, 0.6) : undefined,
-    c: wrap.card?.message || undefined,
-  };
-}
-/** 꾸러미 → 포장 상태(wrap)로 되돌림 */
-function wrapFromPayload(g) {
-  const k = g.k;
-  return {
-    giftText: g.t || '', box: g.b || 'none',
-    pack: k ? { done: true, x: k.x, y: k.y, a: k.a, lid: k.l, bh: k.bh || undefined, top: k.top, stick: !!k.st, broken: !!k.br, squash: k.sq, bruise: !!k.bz, spilled: k.sp, level: k.lv, spill: !!k.so } : null,
-    paper: g.p ? { id: 'custom', fit: { dx: 0, dz: 0, rot: 0, crumple: g.p.cr || 0 } } : null,
-    style: g.y || 'neat', flaps: g.f || {}, photo: g.p?.ph || null,
-    ribbon: g.r ? { id: g.r.id, strokes: (g.r.s || []).map(st => st.map(q => ({ p: q.slice(0, 3), n: q.slice(3, 6) }))), bow: g.r.w ? { p: g.r.w.slice(0, 3), n: g.r.w.slice(3, 6) } : null } : null,
-    decos: (g.d || []).map((d, i) => ({ id: 'd' + i, type: d[0], p: d[1], n: d[2], rot: d[3], scale: d[4], color: d[5] ?? undefined })),
-    stickerImg: g.si || null, tapes: [], card: { message: g.c || '' },
-  };
-}
-
-/** 친구에게 보낼 주소 */
-function shareURL(kind, code) {
-  const base = SHARE_BASE();
-  return `${base}#${kind}=${code}`;
-}
-
-return { pack, unpack, opsOut, opsIn, tinyImage, giftPayload, wrapFromPayload, shareURL };
-})();
-
 // ---- js/game/pack.js ----
 __m["js/game/pack.js"] = (() => {
 // ==========================================================
@@ -6626,6 +6572,497 @@ class PackView {
 return { MATERIAL, LIQUID, GRAB_HINT, PackView };
 })();
 
+// ---- js/game/unbox.js ----
+__m["js/game/unbox.js"] = (() => {
+// ==========================================================
+// 받은 선물 열어 보기 (링크로 받은 친구 쪽 화면)
+//  흔들기 → 끈 풀기 → 포장지 찢기 → 뚜껑 열기 → 짠
+//  선물은 보낸 사람이 만든 그대로(makeWrapped) 다시 만들어서, 부분(part)별로 떼어 냄
+// ==========================================================
+
+const { makeRoom, mesh, mat, roundedBox } = __m["js/intro3d/models.js"];
+const { addLabLights } = __m["js/intro3d/lighting.js"];
+const { makeCharacter, animateFace } = __m["js/avatar/character.js"];
+const { makeWrapped, disposeModel } = __m["js/game/wrap-model.js"];
+const { frameCamera } = __m["js/game/stage.js"];
+const { lumpy } = __m["js/intro3d/gifts.js"];
+const { sound } = __m["js/sound.js"];
+const { MATERIAL, LIQUID } = __m["js/game/pack.js"];
+const { getItem } = __m["js/data/items.js"];
+const THREE = window.THREE;
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+
+class UnboxView {
+  constructor() {
+    const s = this.scene = new THREE.Scene();
+    addLabLights(s, { keyPos: [-2, 4.5, 5] });
+    s.add(makeRoom());
+    // 선물을 올려 둔 하얀 탁자
+    const table = new THREE.Group();
+    table.add(mesh(roundedBox(3.2, 0.08, 1.8, 0.03, 2), mat(0xf4f3ef, { shininess: 30 }), 0, -0.04, 0));
+    table.add(mesh(roundedBox(3.0, 0.6, 1.6, 0.02, 1), mat(0xe6e4df), 0, -0.38, 0));
+    s.add(table);
+    this.camera = new THREE.PerspectiveCamera(30, 1, 0.1, 60);
+    this.root = new THREE.Group(); s.add(this.root);
+    this.flying = [];
+    this.t = 0;
+  }
+
+  setup(giftId, wrap, avatar) {
+    if (this.model) { this.root.remove(this.model); disposeModel(this.model); }
+    for (const f of this.flying) this.root.remove(f.m);
+    this.flying = [];
+    if (this.char) this.scene.remove(this.char);
+    this.wrap = wrap;
+    { const it = getItem(giftId), key = it.model || it.id;
+      this.rattleKind = wrap.pack?.broken ? 'broken' : (LIQUID[key] && (wrap.pack?.level ?? it.liquid ?? 0) > 0.05) ? 'liquid' : MATERIAL[key] || (it.shape === 'flat' ? 'paper' : 'box'); }
+    this.model = makeWrapped(giftId, wrap);
+    this.root.add(this.model);
+    this.parts = { paper: [], ribbon: [], card: [], item: null, box: null };
+    for (const c of this.model.children) {
+      const p = c.userData.part;
+      if (p === 'paper' || p === 'ribbon' || p === 'card') this.parts[p].push(c);
+      if (p === 'item') this.parts.item = c;
+      c.traverse(o => { if (o.userData?.part === 'box') this.parts.box = o; if (o.userData?.part === 'item' && o !== c) this.parts.item = o; });
+    }
+    // 보낸 사람 캐릭터 (뒤에서 지켜봄)
+    if (avatar) {
+      this.char = makeCharacter(avatar);
+      this.char.scale.setScalar(0.78);
+      this.char.position.set(-1.0, -0.02, -0.6);
+      this.char.rotation.y = 0.45;
+      this.scene.add(this.char);
+    }
+    this.stage = 'shake';
+    this.energy = 0; this.tilt = 0; this.tiltV = 0; this.pop = 0; this.popV = 0;
+    this.lid = this.wrap.pack?.lid || 0; this.lidT = this.lid; this.rise = 0;
+    this.revealT = 0;
+    this.layout(this.W || innerWidth, this.H || innerHeight);
+  }
+  hasRibbon() { return this.parts.ribbon.length > 0; }
+  hasPaper() { return this.parts.paper.length > 0; }
+  hasBox() { return !!this.parts.box; }
+
+  layout(W, H) {
+    this.W = W; this.H = H;
+    if (!this.model) return;
+    const { w, h } = this.model.userData;
+    this.target = new THREE.Vector3(-0.3, h * 0.45, 0);
+    frameCamera(this.camera, W, H, this.target, Math.max(1.9, Math.max(w, h) * 2.3), { portraitY: 0.44, landscapeX: 0.5, landscapeK: 1.25 });
+    this.camBase = this.camera.position.clone();
+  }
+  /** 선물 위치(화면) — 안내 화살표용 */
+  giftScreen() {
+    const p = new THREE.Vector3(0, this.model.userData.h * 0.6, 0).applyMatrix4(this.model.matrixWorld).project(this.camera);
+    return { x: (p.x + 1) / 2 * this.W, y: (1 - p.y) / 2 * this.H };
+  }
+
+  // ---------- 손동작 ----------
+  /** 흔들기: 좌우로 끈 만큼 기울고, 방향이 바뀔 때마다 소리 */
+  shake(dx) {
+    if (this.stage !== 'shake') return false;
+    this.tiltV += dx * 0.04;
+    const dir = Math.sign(dx);
+    if (dir && dir !== this.lastDir && Math.abs(dx) > 4) {
+      this.lastDir = dir;
+      if (this.rattleKind === 'broken') sound.shatter?.((Math.random() - 0.5));
+      else sound.rattle?.(this.rattleKind, dir * 0.4);
+    }
+    this.energy += Math.abs(dx);
+    return this.energy > 520;
+  }
+  /** 끈 풀기: 끈과 리본이 위로 튀어 날아감 */
+  untie() {
+    for (const m of this.parts.ribbon) this._fly(m, new THREE.Vector3((Math.random() - 0.5) * 1.5, 3 + Math.random(), 1.2), 6);
+    this.parts.ribbon = [];
+    sound.rustle('cloth', 1, 'untie'); this.popV += 3;
+  }
+  /** 포장지 찢기: 종이가 조각조각 흩어짐 */
+  tear(dirX = 1) {
+    const shell = this.parts.paper.find(p => p.userData.isShell);
+    const tex = shell?.material?.map || null;
+    const { w, h, d } = this.model.userData;
+    for (const m of this.parts.paper) { m.visible = false; }
+    for (const m of this.parts.card) this._fly(m, new THREE.Vector3(dirX * 1.2, 2.2, 1.5), 4);
+    this.parts.paper = []; this.parts.card = [];
+    const pm = new THREE.MeshPhongMaterial({ map: tex, color: tex ? 0xffffff : 0xdedad2, side: THREE.DoubleSide, shininess: 6 });
+    for (let i = 0; i < 16; i++) {
+      const g = lumpy(new THREE.PlaneGeometry(0.12 + Math.random() * 0.18, 0.1 + Math.random() * 0.16, 3, 3), 0.02, i, 7);
+      const piece = new THREE.Mesh(g, pm);
+      const side = Math.random();
+      piece.position.set((Math.random() - 0.5) * w, Math.random() * h, side < 0.6 ? d / 2 + 0.02 : (Math.random() - 0.5) * d);
+      if (side >= 0.6) piece.position.y = h + 0.02;
+      this.root.add(piece);
+      this._fly(piece, new THREE.Vector3(dirX * (0.6 + Math.random() * 1.8), 1.5 + Math.random() * 2, 0.6 + Math.random() * 1.6), 9, true);
+    }
+    sound.rustle('paper', 1, 'tear1'); setTimeout(() => sound.rustle('paper', 1, 'tear2'), 120);
+    this.popV += 4;
+  }
+  /** 뚜껑 열기 + 물건이 쏙 올라옴 */
+  openLid() { this.lidT = 1.05; this.riseT = 1; sound.knock('box', 0.8, 'lid'); setTimeout(() => sound.pick(), 260); }
+  /** 상자 없이 바로 물건 */
+  revealBare() { this.riseT = 0.6; sound.pick(); this.popV += 3; }
+
+  _fly(obj, v, spin = 5, temp = false) {
+    // 모형 안에 있던 걸 그대로 날려 보냄
+    const wp = new THREE.Vector3(); obj.getWorldPosition(wp);
+    const wq = new THREE.Quaternion(); obj.getWorldQuaternion(wq);
+    if (obj.parent !== this.root) { obj.parent?.remove(obj); this.root.add(obj); obj.position.copy(this.root.worldToLocal(wp)); obj.quaternion.copy(wq); }
+    obj.scale.multiplyScalar(this.model.scale.x);
+    this.flying.push({ m: obj, v: v.clone(), w: new THREE.Vector3((Math.random() - 0.5) * spin, (Math.random() - 0.5) * spin, (Math.random() - 0.5) * spin), t: 0, temp });
+  }
+
+  frame(now, dt) {
+    if (!this.model) return;
+    this.t += dt;
+    // 흔들림 (스프링)
+    this.tiltV += (-40 * this.tilt - 5 * this.tiltV) * dt;
+    this.tilt = clamp(this.tilt + this.tiltV * dt, -0.45, 0.45);
+    this.popV += (-60 * this.pop - 8 * this.popV) * dt;
+    this.pop += this.popV * dt;
+    this.model.rotation.z = this.tilt;
+    this.model.position.y = Math.max(0, this.pop) * 0.05 + Math.abs(this.tilt) * 0.08;
+    this.model.rotation.y = Math.sin(this.t * 0.6) * 0.12 - 0.2;
+    // 날아가는 조각들
+    this.flying = this.flying.filter(f => {
+      f.t += dt; f.v.y -= 7 * dt;
+      f.m.position.addScaledVector(f.v, dt);
+      f.m.rotation.x += f.w.x * dt; f.m.rotation.y += f.w.y * dt; f.m.rotation.z += f.w.z * dt;
+      if (f.m.position.y < -0.02 && f.v.y < 0) { f.v.set(f.v.x * 0.3, 0, f.v.z * 0.3); f.w.multiplyScalar(0.2); f.m.position.y = -0.0; }
+      if (f.t > 2.4) { this.root.remove(f.m); return false; }
+      return true;
+    });
+    // 뚜껑과 물건
+    if (this.parts.box?.userData.hinge) {
+      this.lid += (this.lidT - this.lid) * Math.min(1, 6 * dt);
+      this.parts.box.userData.hinge.rotation.x = -this.lid * 2.85;
+    }
+    if (this.riseT && this.parts.item) {
+      this.rise += (this.riseT - this.rise) * Math.min(1, 4 * dt);
+      const it = this.parts.item;
+      it.userData.base ??= it.position.y;
+      it.position.y = it.userData.base + this.rise * (this.model.userData.h * 0.55 + 0.15) + Math.sin(this.t * 2.2) * 0.02 * this.rise;
+      it.rotation.y = this.rise * Math.sin(this.t * 0.8) * 0.5;
+    }
+    // 보낸 사람: 두근두근 쳐다봄
+    if (this.char) {
+      const c = this.char.userData;
+      c.body.position.y = Math.sin(this.t * 2.2) * 0.008;
+      c.head.rotation.x = 0.2; c.head.rotation.z = Math.sin(this.t * 1.1) * 0.05;
+      c.armR.rotation.z = 0.3 + (this.stage === 'done' ? Math.abs(Math.sin(this.t * 6)) * 0.9 : 0);
+      if (this.stage === 'done') c.smileUntil = performance.now() + 1000;
+      animateFace(c, now, dt);
+    }
+    if (this.camBase) {
+      const sh = Math.max(0, this.pop) * 0.02;
+      this.camera.position.set(this.camBase.x + (Math.random() - 0.5) * sh, this.camBase.y, this.camBase.z);
+      this.camera.lookAt(this.target);
+    }
+  }
+}
+
+return { UnboxView };
+})();
+
+// ---- js/share.js ----
+__m["js/share.js"] = (() => {
+// ==========================================================
+// 선물 링크 — 서버 없이 주소 끝(#gift=…)에 선물 정보를 담아 주고받음
+//  · 숫자는 반올림, 그림은 획 좌표만, 사진은 작게 줄여서
+//  · 브라우저가 지원하면 압축(deflate) → base64url
+// ==========================================================
+
+const { SHARE_BASE } = __m["js/config.js"];
+const r3 = (v) => Math.round(v * 1000) / 1000;
+const rv = (a) => (a ? a.map(r3) : a);
+
+function b64url(bytes) {
+  let s = ''; for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+  return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+function unb64url(str) {
+  const s = atob(str.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((str.length + 3) % 4));
+  const out = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) out[i] = s.charCodeAt(i);
+  return out;
+}
+async function pipe(bytes, Stream, fmt) {
+  const st = new Blob([bytes]).stream().pipeThrough(new Stream(fmt));
+  return new Uint8Array(await new Response(st).arrayBuffer());
+}
+async function pack(obj) {
+  const raw = new TextEncoder().encode(JSON.stringify(obj));
+  if (typeof CompressionStream !== 'undefined') {
+    try { return 'z' + b64url(await pipe(raw, CompressionStream, 'deflate-raw')); } catch (_) { /* 압축 실패 → 그대로 */ }
+  }
+  return 'j' + b64url(raw);
+}
+async function unpack(str) {
+  const kind = str[0], bytes = unb64url(str.slice(1));
+  const raw = kind === 'z' ? await pipe(bytes, DecompressionStream, 'deflate-raw') : bytes;
+  return JSON.parse(new TextDecoder().decode(raw));
+}
+
+/** 그림 획: 정수 좌표로 */
+const opsOut = (ops) => (ops || []).map(o => (o.t === 'pen'
+  ? { t: 'pen', c: o.color, s: o.size, p: o.pts.map(([x, y]) => [Math.round(x), Math.round(y)]) }
+  : { t: 'stamp', c: o.color, s: Math.round(o.size), ch: o.ch, x: Math.round(o.x), y: Math.round(o.y), r: r3(o.rot || 0) }));
+const opsIn = (ops) => (ops || []).map(o => (o.t === 'pen'
+  ? { t: 'pen', color: o.c, size: o.s, pts: o.p }
+  : { t: 'stamp', color: o.c, size: o.s, ch: o.ch, x: o.x, y: o.y, rot: o.r }));
+
+/** 작은 사진 (링크에 넣을 크기로) */
+function tinyImage(src, size = 72, q = 0.6) {
+  return new Promise((res) => {
+    if (!src) return res(null);
+    const img = new Image();
+    img.onload = () => { const c = document.createElement('canvas'); c.width = c.height = size; c.getContext('2d').drawImage(img, 0, 0, size, size); res(c.toDataURL('image/jpeg', q)); };
+    img.onerror = () => res(null);
+    img.src = src;
+  });
+}
+
+/** 선물 → 링크에 담을 꾸러미 */
+async function giftPayload({ sender, to, giftId, custom, wrap, paper, judge }) {
+  const pk = wrap.pack;
+  return {
+    v: 1, s: sender.name, a: sender.avatar, to,
+    i: giftId, it: custom ? { n: custom.name, o: opsOut(custom.ops), z: rv(custom.size) } : undefined,
+    t: wrap.giftText || undefined,
+    b: wrap.box, k: pk && pk.done ? { x: r3(pk.x), y: r3(pk.y), a: r3(pk.a), l: r3(pk.lid || 0), bh: r3(pk.bh || 0), top: r3(pk.top || 0), st: pk.stick ? 1 : 0, br: pk.broken ? 1 : 0, sq: r3(pk.squash || 0), bz: pk.bruise ? 1 : 0, sp: r3(pk.spilled || 0), lv: pk.level != null ? r3(pk.level) : undefined, so: pk.spill ? 1 : 0 } : undefined,
+    p: wrap.paper ? { b: paper.base, o: opsOut(paper.ops), tl: paper.tiled ? 1 : 0, pt: paper.photoTiled ? 1 : 0, ph: paper.base === 'photo' ? await tinyImage(wrap.photo, 96, 0.6) : undefined, cr: r3(wrap.paper.fit?.crumple || 0) } : undefined,
+    y: wrap.style, f: wrap.flaps,
+    r: wrap.ribbon ? { id: wrap.ribbon.id, s: (wrap.ribbon.strokes || []).map(st => st.map(q => [...rv(q.p), ...rv(q.n)])), w: wrap.ribbon.bow ? [...rv(wrap.ribbon.bow.p), ...rv(wrap.ribbon.bow.n)] : undefined } : undefined,
+    d: (wrap.decos || []).map(d => [d.type, rv(d.p), rv(d.n), r3(d.rot || 0), r3(d.scale || 1), d.color ?? null]),
+    si: (wrap.decos || []).some(d => d.type === 'img') ? await tinyImage(wrap.stickerImg, 72, 0.6) : undefined,
+    c: wrap.card?.message || undefined,
+    j: judge ? { l: judge.l, g: judge.g, t: judge.t, s: judge.s } : undefined,
+  };
+}
+/** 꾸러미 → 포장 상태(wrap)로 되돌림 */
+function wrapFromPayload(g) {
+  const k = g.k;
+  return {
+    giftText: g.t || '', box: g.b || 'none',
+    pack: k ? { done: true, x: k.x, y: k.y, a: k.a, lid: k.l, bh: k.bh || undefined, top: k.top, stick: !!k.st, broken: !!k.br, squash: k.sq, bruise: !!k.bz, spilled: k.sp, level: k.lv, spill: !!k.so } : null,
+    paper: g.p ? { id: 'custom', fit: { dx: 0, dz: 0, rot: 0, crumple: g.p.cr || 0 } } : null,
+    style: g.y || 'neat', flaps: g.f || {}, photo: g.p?.ph || null,
+    ribbon: g.r ? { id: g.r.id, strokes: (g.r.s || []).map(st => st.map(q => ({ p: q.slice(0, 3), n: q.slice(3, 6) }))), bow: g.r.w ? { p: g.r.w.slice(0, 3), n: g.r.w.slice(3, 6) } : null } : null,
+    decos: (g.d || []).map((d, i) => ({ id: 'd' + i, type: d[0], p: d[1], n: d[2], rot: d[3], scale: d[4], color: d[5] ?? undefined })),
+    stickerImg: g.si || null, tapes: [], card: { message: g.c || '' },
+  };
+}
+
+/** 친구에게 보낼 주소 */
+function shareURL(kind, code) {
+  const base = SHARE_BASE();
+  return `${base}#${kind}=${code}`;
+}
+
+return { pack, unpack, opsOut, opsIn, tinyImage, giftPayload, wrapFromPayload, shareURL };
+})();
+
+// ---- js/game/judge.js ----
+__m["js/game/judge.js"] = (() => {
+// ==========================================================
+// 선배 산타 심사 — 포장 완성품을 채점하고 칭호를 붙임
+//  judgeWrap(): 점수 계산 (순수 함수)
+//  JudgeView: 탁자 위에서 선물이 돌고, 선배가 표정으로 반응하는 3D 장면
+// ==========================================================
+
+const { makeRoom, mesh, mat, roundedBox } = __m["js/intro3d/models.js"];
+const { addLabLights } = __m["js/intro3d/lighting.js"];
+const { makeCharacter, animateFace } = __m["js/avatar/character.js"];
+const { SENIOR_AVATAR } = __m["js/data/avatar-parts.js"];
+const { makeWrapped, disposeModel } = __m["js/game/wrap-model.js"];
+const { frameCamera } = __m["js/game/stage.js"];
+const THREE = window.THREE;
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const avg = (a) => (a.length ? a.reduce((s, v) => s + v, 0) / a.length : 0);
+
+// ---------- 채점 ----------
+/** 끈 한 줄이 얼마나 곧은가 (0~1): 시작·끝을 잇는 선에서 벗어난 정도 */
+function straightness(pts) {
+  if (!pts || pts.length < 3) return 0.6;
+  const a = pts[0].p, b = pts[pts.length - 1].p;
+  const ab = [b[0] - a[0], b[1] - a[1], b[2] - a[2]];
+  const L = Math.hypot(...ab) || 1e-6;
+  let len = 0, dev = 0;
+  for (let i = 1; i < pts.length; i++) { const p = pts[i].p, q = pts[i - 1].p; len += Math.hypot(p[0] - q[0], p[1] - q[1], p[2] - q[2]); }
+  // 표면을 따라 꺾이는 건 괜찮으니, '길이 대비 휘어진 정도'를 수평면(x·z)에서만 봄
+  const ux = ab[0] / L, uz = ab[2] / L, n = Math.hypot(ux, uz) || 1;
+  for (const { p } of pts) { const dx = p[0] - a[0], dz = p[2] - a[2]; dev = Math.max(dev, Math.abs(dx * (uz / n) - dz * (ux / n))); }
+  return clamp(1 - dev / Math.max(0.12, len * 0.35));
+}
+
+/**
+ * @param wrap  포장 상태 (state.wrap)
+ * @param dims  { w, h, d } 완성품 크기
+ * @param extra { events } 돌발 상황 대처 기록 (3단계에서 씀)
+ */
+function judgeWrap(wrap, dims = { w: 1, h: 0.6, d: 1 }, extra = {}) {
+  const pk = wrap.pack || {};
+  const notes = {};
+
+  // 1) 안전 배송
+  let safe = wrap.box === 'none' ? 82 : 100;
+  if (pk.broken) safe -= 55;
+  safe -= clamp(pk.spilled || 0) * 110;
+  safe -= clamp(pk.squash || 0) * 60;
+  if (pk.bruise) safe -= 22;
+  if (pk.spill) safe -= 18;
+  if (pk.stick) safe -= 10;
+  if (pk.rushed) safe -= 8;
+  safe -= Math.min(15, (pk.drops || 0) * 5);
+  safe = Math.round(clamp(safe, 5, 100));
+
+  // 2) 각 잡힘 (접기)
+  const flaps = Object.values(wrap.flaps || {}).filter(v => v != null);
+  let fold = !wrap.paper ? 20 : flaps.length ? avg(flaps) * 100 : 40;
+  if (wrap.rushedFold) fold = Math.min(fold, 45);
+  if (wrap.style === 'crumple') fold -= 8; // 구김 살리기는 '각'과는 거리가 멂
+  fold = Math.round(clamp(fold, 5, 100));
+
+  // 3) 리본
+  const R = wrap.ribbon, strokes = R?.strokes || [];
+  let rib;
+  if (!R || (!strokes.length && !R.bow)) rib = 22;
+  else {
+    const half = Math.max(dims.w, dims.d) / 2 || 0.5;
+    const straight = strokes.length ? avg(strokes.map(straightness)) : 0.5;
+    // 가운데를 지나가는가: 각 줄의 가장 가운데 가까운 점
+    const center = strokes.length ? avg(strokes.map(s => clamp(1 - Math.min(...s.map(q => Math.hypot(q.p[0], q.p[2]))) / half))) : 0.5;
+    const bowC = R.bow ? clamp(1 - Math.hypot(R.bow.p[0], R.bow.p[2]) / half) : 0;
+    const n = strokes.length;
+    const count = n >= 2 && n <= 4 ? 1 : n === 1 ? 0.6 : n === 0 ? 0.3 : 0.5;
+    rib = 38 * straight + 25 * center + 15 * (R.bow ? 0.4 + 0.6 * bowC : 0) + 22 * count;
+    notes.ribbonStraight = straight;
+  }
+  rib = Math.round(clamp(rib, 5, 100));
+
+  // 4) 정성 (꾸미기·편지)
+  const art = wrap.art || {};
+  const drawn = (art.strokes || 0) + (art.stamps || 0);
+  const decos = (wrap.decos || []).length;
+  const msg = (wrap.card?.message || '').trim().length;
+  let care = 15 + 30 * clamp(drawn / 6) + (decos === 0 ? 0 : decos <= 6 ? 20 : decos <= 10 ? 16 : 10) + 35 * clamp(msg / 25);
+  if (wrap.paper?.id === 'custom' && art.base === 'photo') care += 5;
+  care = Math.round(clamp(care, 5, 100));
+
+  const scores = [
+    { id: 'safe', label: '안전 배송', v: safe },
+    { id: 'fold', label: '각 잡힘', v: fold },
+    { id: 'ribbon', label: '리본', v: rib },
+    { id: 'care', label: '정성', v: care },
+  ];
+  // 돌발 상황 대처 보너스
+  const ev = extra.events || [];
+  const handled = ev.filter(e => e.handled).length;
+  const bonus = Math.min(10, handled * 5);
+  const total = Math.round(clamp(safe * 0.3 + fold * 0.25 + rib * 0.25 + care * 0.2 + bonus, 0, 100));
+
+  const grade = total >= 86 ? { id: 's', label: '수석 합격', short: '수석' }
+    : total >= 66 ? { id: 'a', label: '합격', short: '합격' }
+      : total >= 45 ? { id: 'b', label: '조건부 합격', short: '조건부' }
+        : { id: 'c', label: '재시험', short: '재시험' };
+
+  const pass = grade.id !== 'c';
+  const T = [];
+  if (pk.broken) T.push(pass ? '깨뜨리고도 합격한 인턴' : '쨍그랑 배송 전문');
+  if ((pk.spilled || 0) > 0.12) T.push(pass ? '쏟고도 당당한 인턴' : '국물 배송 전문');
+  if (handled >= 2) T.push('위기 대응 1등');
+  if (decos >= 9) T.push('스티커 폭격기');
+  if (strokes.length >= 5) T.push('리본 대잔치');
+  if (!R || (!strokes.length && !R.bow)) T.push('끈은 마음으로');
+  if (msg >= 40) T.push('편지가 본체');
+  if (drawn >= 12) T.push('포장지 화가');
+  if (flaps.length && avg(flaps) > 0.9 && !wrap.rushedFold) T.push('각 잡는 장인');
+  if (wrap.rushedFold) T.push('대충 접기 달인');
+  if (wrap.box === 'none') T.push('상자는 사치');
+  if (total >= 90) T.unshift('에이스 산타');
+  if (!T.length) T.push(pass ? '성실한 인턴' : '내년을 노리는 인턴');
+  const title = T[0];
+
+  // 선배 한마디 (항목별)
+  const line = (id, v) => {
+    if (id === 'safe') return pk.broken ? '깨진 소리 났어요. 저도 들었어요.' : (pk.spilled || 0) > 0.12 ? '상자가… 축축하네요.' : v >= 85 ? '흠집 하나 없네요.' : v >= 60 ? '살짝 흔들렸지만 무사해요.' : '안에서 소리가 나는데요?';
+    if (id === 'fold') return v >= 85 ? '모서리 각이 살아 있네요.' : v >= 60 ? '접긴 접었네요.' : '이건 접은 게 아니라 덮은 거예요.';
+    if (id === 'ribbon') return v <= 25 ? '끈은… 마음으로 묶은 거죠?' : v >= 80 ? '리본 반듯해요. 합격각.' : v >= 55 ? '끈은 잘 감겼어요.' : '리본이 좀 자유로운 영혼이네요.';
+    return v >= 85 ? '편지까지. 받는 사람 울겠네요.' : v >= 55 ? '적당히 꾸몄네요.' : '선물만 덜렁 보내는 타입이군요.';
+  };
+  for (const s of scores) s.line = line(s.id, s.v);
+  const verdict = { s: '이 정도면 정직원 바로 추천합니다.', a: '합격. 첫 배송 맡겨 볼게요.', b: '아슬아슬… 일단 이번 배송은 맡길게요.', c: '음… 그래도 받는 사람은 좋아할 거예요. 보내 보세요.' }[grade.id];
+
+  return { scores, total, bonus, grade, title, titles: T, verdict };
+}
+
+// ---------- 3D 장면 ----------
+class JudgeView {
+  constructor() {
+    const s = this.scene = new THREE.Scene();
+    addLabLights(s, { keyPos: [-2, 4.5, 5] });
+    s.add(makeRoom());
+    const table = new THREE.Group();
+    table.add(mesh(roundedBox(3.2, 0.08, 1.8, 0.03, 2), mat(0xf4f3ef, { shininess: 30 }), 0, -0.04, 0));
+    table.add(mesh(roundedBox(3.0, 0.6, 1.6, 0.02, 1), mat(0xe6e4df), 0, -0.38, 0));
+    // 돌림판
+    this.turn = new THREE.Group();
+    this.turn.add(mesh(new THREE.CylinderGeometry(0.75, 0.8, 0.05, 48), mat(0xdcd8d0, { shininess: 50 }), 0, 0.025, 0));
+    table.add(this.turn);
+    s.add(table);
+    this.camera = new THREE.PerspectiveCamera(30, 1, 0.1, 60);
+    this.char = makeCharacter(SENIOR_AVATAR);
+    this.char.scale.setScalar(0.85);
+    this.char.position.set(0.95, -0.02, -0.75);
+    this.char.rotation.y = -0.4;
+    s.add(this.char);
+    this.t = 0; this.spin = 0.6; this.lift = 0; this.liftT = 0;
+  }
+  setup(giftId, wrap) {
+    if (this.model) { this.turn.remove(this.model); disposeModel(this.model); }
+    this.model = makeWrapped(giftId, wrap);
+    this.model.position.y = 0.05;
+    this.turn.add(this.model);
+    this.turn.rotation.y = -0.4;
+    this.layout(this.W || innerWidth, this.H || innerHeight);
+  }
+  dims() { return this.model?.userData || { w: 1, h: 0.6, d: 1 }; }
+  layout(W, H) {
+    this.W = W; this.H = H;
+    if (!this.model) return;
+    const { w, h } = this.model.userData;
+    const target = new THREE.Vector3(0.25, h * 0.55 + 0.25, 0);
+    frameCamera(this.camera, W, H, target, Math.max(2.3, Math.max(w, h) * 2.4), { portraitY: 0.34, landscapeX: 0.5, landscapeK: 1.3 });
+  }
+  /** 선배 반응: good / ok / bad / final */
+  react(kind) {
+    const c = this.char.userData;
+    if (kind === 'good') { c.smileUntil = performance.now() + 1400; c.browUp = 1; c.nod = 0.7; }
+    if (kind === 'ok') { c.browUp = 0.6; }
+    if (kind === 'bad') { c.frown = 1.2; c.tilt = 1; }
+    if (kind === 'lift') { this.liftT = 1; }
+    if (kind === 'stamp') { c.nod = 1; c.smileUntil = performance.now() + 2000; this.liftT = 0; }
+  }
+  frame(now, dt) {
+    this.t += dt;
+    this.turn.rotation.y += dt * this.spin;
+    this.lift += (this.liftT - this.lift) * Math.min(1, dt * 4);
+    if (this.model) { this.model.position.y = 0.05 + this.lift * 0.35; this.model.rotation.x = Math.sin(this.t * 1.3) * 0.12 * this.lift; }
+    const c = this.char.userData;
+    animateFace(c, now, dt);
+    let nod = 0;
+    if (c.nod > 0) { c.nod = Math.max(0, c.nod - dt * 1.6); nod = Math.sin((1 - c.nod) * Math.PI * 2) * 0.2 * c.nod; }
+    c.tilt = Math.max(0, (c.tilt || 0) - dt * 0.7);
+    c.head.rotation.x = 0.18 + nod;          // 선물을 내려다봄
+    c.head.rotation.z = Math.sin(c.tilt * Math.PI) * 0.18;
+    c.head.rotation.y = -0.25 + Math.sin(this.t * 0.7) * 0.08;
+    c.armR.rotation.x = -0.5 - this.lift * 0.6;  // 선물 쪽으로 손
+    c.armL.rotation.x = -0.3 - this.lift * 0.6;
+  }
+}
+
+return { judgeWrap, JudgeView };
+})();
+
 // ---- js/screens/game.js ----
 __m["js/screens/game.js"] = (() => {
 // ==========================================================
@@ -6647,6 +7084,8 @@ const { BOXES } = __m["js/data/boxes.js"];
 const { setCustomPaper, markCustomPaper, flapTips, decoColor } = __m["js/game/wrap-model.js"];
 const { PaperEditor, PEN_COLORS, STAMPS, PAPER_BASES } = __m["js/screens/paper-editor.js"];
 const { sound } = __m["js/sound.js"];
+const { judgeWrap, JudgeView } = __m["js/game/judge.js"];
+const { addDelivery, career, rankOf, nextRank, unlocked, lockRank, XMAS_STAMPS } = __m["js/data/career.js"];
 const $ = (id) => document.getElementById(id);
 const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
 const hex = (n) => '#' + n.toString(16).padStart(6, '0');
@@ -6654,7 +7093,7 @@ const hex = (n) => '#' + n.toString(16).padStart(6, '0');
 const LIMIT = Number(new URLSearchParams(location.search).get('t')) || WRAP_TIME;
 const newWrap = () => ({ giftText: (getItem(state.giftId)?.custom && state.giftTextFor === state.giftId && state.giftText) || '', box: null, pack: null, paper: null, style: 'neat', photo: null, flaps: {}, tapes: [], ribbon: null, decos: [], card: { message: '' }, timeUsed: 0, timedOut: false });
 
-let stage = null, wrapView = null, reactionView = null, packView = null, unboxView = null;
+let stage = null, wrapView = null, reactionView = null, packView = null, unboxView = null, judgeView = null;
 const toName = () => (state.recipient || '').trim() || '친구';
 const req = () => getRequest(state.requestId || REQUESTS[0].id);
 
@@ -6792,6 +7231,7 @@ function setStep(id) {
     if (iTo > iFold && wrap().paper && !foldDone()) { wrapView.rebuild(wrap()); autoFold(); hint('종이 끝은 대충 접어 뒀어요'); }
   });
   W.step = id;
+  safe(() => scheduleCrisis(id));
   safe(showScene);
   const i = STEPS.findIndex(s => s.id === id), st = STEPS[i];
   $('mission-no').textContent = `STEP ${i + 1}/${STEPS.length}`;
@@ -6876,6 +7316,7 @@ function hurry(left) {
   for (const [sec, line] of NAGS) if (left <= sec && !W.nagged[sec]) { W.nagged[sec] = true; hint(line, true); sound.hm?.(); }
 }
 
+const lockedChip = (key, label) => `<button class="tool-chip is-locked" type="button" data-locked="${key}">🔒 ${label}</button>`;
 function chip(attrs, inner, selected) { return `<button class="tool-chip" type="button" ${attrs} aria-selected="${!!selected}">${inner}</button>`; }
 const nextBtn = () => {
   const i = STEPS.findIndex(s => s.id === W.step), n = STEPS[i + 1];
@@ -6904,7 +7345,7 @@ function renderTools() {
           <div class="pe-swatches">${PEN_COLORS.map(c => `<button type="button" class="pe-sw" data-color="${c}" aria-selected="${t.color === c}" style="background:${c}"></button>`).join('')}</div>
           ${t.kind === 'pen'
             ? `<div class="tool-row tool-row--tight">${[[5, '가늘게'], [12, '보통'], [26, '굵게']].map(([v, n]) => chip(`data-size="${v}"`, n, t.size === v)).join('')}</div>`
-            : `<div class="tool-row tool-row--tight">${[...STAMPS, 'initial'].map(st => chip(`data-stamp="${st}"`, st === 'initial' ? (editor.initial || '이니셜') : st, t.stamp === st)).join('')}</div>`}
+            : `<div class="tool-row tool-row--tight">${[...STAMPS, ...(unlocked('xmas') ? XMAS_STAMPS : []), 'initial'].map(st => chip(`data-stamp="${st}"`, st === 'initial' ? (editor.initial || '이니셜') : st, t.stamp === st)).join('')}${unlocked('xmas') ? '' : lockedChip('xmas', XMAS_STAMPS.join(''))}</div>`}
           <div class="tool-row tool-row--tight">
             <button class="tool-btn" type="button" data-act="tile">${editor.tiled ? '무늬 풀기' : '무늬로 반복'}</button>
             <button class="tool-btn" type="button" data-act="undo">되돌리기</button>
@@ -6939,7 +7380,7 @@ function renderTools() {
       ${nextBtn()}`;
   } else if (W.step === 'ribbon') {
     const R = w.ribbon || {}, n = (R.strokes || []).length;
-    box.innerHTML = `<p class="tool-label">끈 종류</p><div class="tool-row">${RIBBONS.filter(r => r.kind).map(r => chip(`data-ribbon="${r.id}"`, r.name, W.ribbon === r.id)).join('')}</div>
+    box.innerHTML = `<p class="tool-label">끈 종류</p><div class="tool-row">${RIBBONS.filter(r => r.kind).map(r => unlocked(r.id) ? chip(`data-ribbon="${r.id}"`, r.name, W.ribbon === r.id) : lockedChip(r.id, r.name)).join('')}</div>
       <div class="tool-row tool-row--tight" style="margin-top:10px">${chip('data-ribtool="draw"', '✎ 끈 긋기', W.ribTool === 'draw')}${chip('data-ribtool="bow"', '🎀 매듭 달기', W.ribTool === 'bow')}
         <button class="tool-btn" type="button" data-act="ribundo" ${n ? '' : 'disabled'}>마지막 끈 지우기</button>
         <button class="tool-btn" type="button" data-act="ribclear" ${n || R.bow ? '' : 'disabled'}>전부 풀기</button></div>
@@ -6988,6 +7429,75 @@ function thinStroke(pts) {
   return out.map(q => ({ p: q.p.map(v => Math.round(v * 1000) / 1000), n: q.n.map(v => Math.round(v * 1000) / 1000) }));
 }
 
+// ---------- 돌발 상황: 막히지 않음, 대처하면 심사 보너스 ----------
+const CRISES = {
+  snow: { step: 'paper', title: '돌발 상황! 눈이 들어와요', text: '창문이 열려서 눈이 쏟아져요! 창문을 닫아요', kind: 'button', btn: '창문 닫기', time: 4200,
+    ok: '창문 닫았어요! 포장지 무사', miss: '포장지가 살짝 젖어서 쭈글쭈글해졌어요…' },
+  tape: { step: 'fold', title: '돌발 상황! 테이프가 엉켰어요', text: '테이프가 손가락에 칭칭 감겼어요! 문질러서 떼요', kind: 'rub', time: 5200,
+    ok: '테이프 떼어 냈어요! 손 자유', miss: '테이프를 손에 붙인 채로 계속합니다…' },
+  deer: { step: 'ribbon', title: '돌발 상황! 루돌프 습격', text: '루돌프가 리본을 물고 도망가요! 루돌프를 눌러요', kind: 'deer', time: 4200,
+    ok: '잡았다! 리본 되찾았어요', miss: '루돌프가 리본 한 조각 들고 사라졌어요…' },
+};
+const C = { timer: 0, active: null, t0: 0, raf: 0 };
+const crisisOff = () => /nocrisis/.test(location.search) || window.__noCrisis;
+function scheduleCrisis(step) {
+  clearTimeout(C.timer);
+  if (C.active) endCrisis(false, true);
+  if (crisisOff()) return;
+  const id = Object.keys(CRISES).find(k => CRISES[k].step === step);
+  const seen = (wrap().events || []).map(e => e.id);
+  if (!id || seen.includes(id) || W.crisisPlan?.indexOf(id) < 0) return;
+  C.timer = setTimeout(() => safe(() => { if (W.step === step && W.running) startCrisis(id); }), 2200 + Math.random() * 2200);
+}
+function startCrisis(id) {
+  if (C.active || (wrap().events || []).some(e => e.id === id)) return;
+  const c = CRISES[id], el = $('crisis');
+  C.active = id; C.t0 = performance.now(); C.rub = 0;
+  el.hidden = false; el.classList.remove('is-done');
+  $('crisis-title').textContent = c.title; $('crisis-text').textContent = c.text;
+  $('crisis-rub').hidden = c.kind !== 'rub'; $('crisis-rub-fill').style.width = '0';
+  $('crisis-btn').hidden = c.kind !== 'button'; $('crisis-btn').textContent = c.btn || '';
+  $('crisis-deer').hidden = c.kind !== 'deer';
+  if (c.kind === 'deer') { const d = $('crisis-deer'); d.style.animation = 'none'; void d.offsetWidth; d.style.animation = ''; d.style.animationDuration = c.time + 'ms'; }
+  const snow = $('crisis-snow'); snow.hidden = id !== 'snow'; snow.innerHTML = '';
+  if (id === 'snow') for (let i = 0; i < 36; i++) { const f = document.createElement('i'); f.textContent = '❄'; f.style.left = Math.random() * 100 + '%'; f.style.fontSize = 10 + Math.random() * 16 + 'px'; f.style.setProperty('--dx', (Math.random() * 120 - 60) + 'px'); f.style.animationDuration = 2 + Math.random() * 2.5 + 's'; f.style.animationDelay = Math.random() * 2 + 's'; snow.append(f); }
+  sound.bell?.(); sound.hm?.();
+  const tick = () => {
+    if (C.active !== id) return;
+    const k = 1 - (performance.now() - C.t0) / c.time;
+    $('crisis-time').style.transform = `scaleX(${Math.max(0, k)})`;
+    if (k <= 0) { endCrisis(false); return; }
+    C.raf = requestAnimationFrame(tick);
+  };
+  tick();
+}
+function endCrisis(handled, silent = false) {
+  const id = C.active; if (!id) return;
+  C.active = null; cancelAnimationFrame(C.raf);
+  const c = CRISES[id];
+  saveWrap({ events: [...(wrap().events || []), { id, handled }] });
+  if (!handled && id === 'snow' && wrap().paper) saveWrap({ paper: { ...wrap().paper, fit: { ...wrap().paper.fit, crumple: Math.max(wrap().paper.fit?.crumple || 0, 0.45) } } });
+  if (!silent) { hint(handled ? `${c.ok} · 위기 대응 +5` : c.miss, !handled); handled ? (sound.stamp?.(), wrapView.pop?.(0.4)) : sound.hm?.(); }
+  const el = $('crisis'); el.classList.add('is-done');
+  $('crisis-deer').hidden = true;
+  setTimeout(() => { if (!C.active) { el.hidden = true; $('crisis-snow').innerHTML = ''; } }, silent ? 0 : 450);
+}
+function bindCrisis() {
+  $('crisis-btn').addEventListener('click', () => endCrisis(true));
+  $('crisis-deer').addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); endCrisis(true); });
+  const rub = $('crisis-rub'); let last = null;
+  rub.addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); last = [e.clientX, e.clientY]; rub.setPointerCapture?.(e.pointerId); });
+  rub.addEventListener('pointermove', (e) => {
+    if (!last || C.active !== 'tape') return;
+    C.rub += Math.hypot(e.clientX - last[0], e.clientY - last[1]); last = [e.clientX, e.clientY];
+    $('crisis-rub-fill').style.width = Math.min(100, C.rub / 9) + '%';
+    sound.rustle('cello', 0.6, 'rub');
+    if (C.rub > 900) endCrisis(true);
+  });
+  const up = () => { last = null; };
+  rub.addEventListener('pointerup', up); rub.addEventListener('pointercancel', up);
+}
+
 // ---------- 포장 화면 루프 (시간제한 없음) ----------
 function startLoop() {
   W.running = true;
@@ -6998,7 +7508,7 @@ function startLoop() {
   };
   tick();
 }
-function stopTimer() { W.running = false; cancelAnimationFrame(W.raf); }
+function stopTimer() { W.running = false; cancelAnimationFrame(W.raf); clearTimeout(C.timer); if (C.active) endCrisis(false, true); }
 
 /** 포장 완료 → 안 끝낸 단계는 대충 마무리하고 보내기 화면으로 */
 function finishWrap() {
@@ -7009,7 +7519,7 @@ function finishWrap() {
   safe(() => { wrapView.rebuild(wrap()); if (!foldDone()) autoFold(); });
   stopTimer();
   if ($('fold-handles')) $('fold-handles').hidden = true;
-  go('send');
+  go('judge');
 }
 
 function enterWrap() {
@@ -7017,6 +7527,7 @@ function enterWrap() {
   editor.reset();
   editor.setInitial(state.researcher.name);
   update({ wrap: { ...newWrap(), box: 'kraft' } });
+  W.crisisPlan = Object.keys(CRISES).sort(() => Math.random() - 0.5).slice(0, 2);
   Object.assign(W, { packFresh: true, step: 'pack', style: 'neat', ribbon: 'stripe', ribTool: 'draw', deco: 'star', sel: null, resetArmed: false });
   live.ribbonStroke = null;
   $('wrap-to').textContent = `To. ${toName()}`;
@@ -7033,7 +7544,7 @@ function enterWrap() {
 // ---------- 담기: 잡아서 옮기고 놓기 ----------
 function bindWrapInput() {
   let g = null;
-  const blocked = (e) => !W.running || e.target.closest('.wrap-panel, .wrap-head, .mission, .modal, .audio-toggles, .dev-panel, .dev-toggle, .fold-handle');
+  const blocked = (e) => !W.running || e.target.closest('.wrap-panel, .wrap-head, .mission, .modal, .crisis__card, .crisis__deer, .audio-toggles, .dev-panel, .dev-toggle, .fold-handle');
   const onCanvas = () => document.querySelector('[data-screen="wrap"]')?.hidden === false;
   window.addEventListener('pointercancel', () => { if (g?.kind === 'pack') safe(() => packView.release()); g = null; });
   window.addEventListener('pointerdown', (e) => safe(() => {
@@ -7195,6 +7706,7 @@ function bindWrapPanel() {
     const b = e.target.closest('button'); if (!b) return;
     sound.tick();
     const d = b.dataset, w = wrap();
+    if (d.locked) { const r = lockRank(d.locked); hint(`${r.name}이 되면 열려요 · 배송 ${r.min}건부터 (지금 ${career().count}건)`); return; }
     if (d.next) { setStep(d.next); return; }
     if (d.box) { chooseBox(d.box); return; }
     if (d.act === 'rot90') { if (stage.view === packView) packView.rotate(); return; }
@@ -7262,6 +7774,110 @@ function bindWrapPanel() {
 function loadPhoto(src, cb) { const i = new Image(); i.onload = () => cb(i); i.src = src; }
 
 // ---------- ⑥ 보내기 ----------
+// ---------- ⑤-1 선배 산타 심사 ----------
+const J = { timers: [], result: null };
+function stopJudge() { J.timers.forEach(clearTimeout); J.timers = []; }
+const later = (ms, fn) => J.timers.push(setTimeout(() => safe(fn), ms));
+function say(t) { const el = $('judge-speech'); el.textContent = t; el.classList.remove('is-pop'); void el.offsetWidth; el.classList.add('is-pop'); }
+function enterJudge() {
+  if (!state.giftId || !state.wrap) { go('select'); return; }
+  stopJudge();
+  judgeView.setup(state.giftId, state.wrap);
+  stage.show(judgeView);
+  const r = J.result = judgeWrap(state.wrap, judgeView.dims(), { events: state.wrap.events || [] });
+  update({ judge: { l: r.grade.label, g: r.grade.id, t: r.title, s: r.total } });
+  $('judge-rows').innerHTML = r.scores.map(sc => `<li class="judge-row" data-id="${sc.id}"><span>${sc.label}</span><span class="judge-bar"><i></i></span><b>–</b></li>`).join('')
+    + (r.bonus ? `<li class="judge-row" data-id="bonus"><span>위기 대응</span><span class="judge-bar"><i></i></span><b>–</b></li>` : '');
+  $('judge-result').hidden = true; $('judge-actions').hidden = true; $('judge-skip').hidden = false;
+  say('어디 한번 볼까요…');
+  judgeView.react('lift');
+  sound.rustle('paper', 0.7, 'jlift');
+  let t = 1100;
+  r.scores.forEach((sc, i) => { later(t + i * 1300, () => showRow(sc)); });
+  t += r.scores.length * 1300;
+  if (r.bonus) { later(t, () => showRow({ id: 'bonus', v: r.bonus * 10, shown: `+${r.bonus}`, line: '돌발 상황도 잘 넘겼네요.' })); t += 1300; }
+  later(t + 200, showVerdict);
+}
+function showRow(sc) {
+  const row = document.querySelector(`.judge-row[data-id="${sc.id}"]`); if (!row) return;
+  row.classList.add('is-on');
+  const bar = row.querySelector('i');
+  bar.className = sc.v >= 75 ? '' : sc.v >= 50 ? 'is-mid' : 'is-low';
+  bar.style.width = Math.max(4, sc.v) + '%';
+  row.querySelector('b').textContent = sc.shown || sc.v;
+  say(sc.line);
+  judgeView.react(sc.v >= 75 ? 'good' : sc.v >= 50 ? 'ok' : 'bad');
+  sound.tick();
+}
+function showVerdict() {
+  stopJudge();
+  const r = J.result; if (!r) return;
+  for (const sc of r.scores) { const row = document.querySelector(`.judge-row[data-id="${sc.id}"]`); if (row && !row.classList.contains('is-on')) showRow(sc); }
+  if (r.bonus) { const row = document.querySelector('.judge-row[data-id="bonus"]'); if (row && !row.classList.contains('is-on')) showRow({ id: 'bonus', v: r.bonus * 10, shown: `+${r.bonus}`, line: '' }); }
+  const st = $('judge-stamp');
+  st.dataset.g = r.grade.id;
+  st.innerHTML = r.grade.label.replace(' ', '<br />');
+  $('judge-total').innerHTML = `${r.total}<small>점</small>`;
+  $('judge-title').textContent = r.title;
+  $('judge-result').hidden = false; $('judge-actions').hidden = false; $('judge-skip').hidden = true;
+  $('judge-retry').textContent = r.grade.id === 'c' ? '재시험 보기' : '다시 포장하기';
+  say(r.verdict);
+  judgeView.react('stamp');
+  sound.stamp?.(); setTimeout(() => sound.bell?.(), 400);
+}
+/** 인스타 스토리용 결과 카드 (1080×1920) */
+async function judgeCard() {
+  const r = J.result; if (!r) return null;
+  const W = 1080, H = 1920, c = document.createElement('canvas'); c.width = W; c.height = H;
+  const g = c.getContext('2d');
+  const F = (w, px) => `${w} ${px}px "Pretendard", "Noto Sans KR", sans-serif`;
+  g.fillStyle = '#f4f1ea'; g.fillRect(0, 0, W, H);
+  g.fillStyle = '#c8372d'; g.fillRect(0, 0, W, 24);
+  g.fillStyle = '#1f5a3d'; g.fillRect(0, 24, W, 10);
+  g.textAlign = 'center'; g.fillStyle = '#c8372d'; g.font = F(700, 34); g.fillText('선물학 연구소 · 2026 WINTER', W / 2, 140);
+  g.fillStyle = '#26241f'; g.font = F(700, 76); g.fillText('산타 인턴 채용 시험', W / 2, 240);
+  g.font = F(500, 40); g.fillStyle = '#6f6b65'; g.fillText(`응시자 ${state.researcher.name || '익명'} · 실기 결과`, W / 2, 310);
+  const snap = safe(() => stage.snapshot(state.giftId, state.wrap, { bg: 0xffffff, w: 760, h: 760 }));
+  if (snap) { const im = await new Promise(res => { const i = new Image(); i.onload = () => res(i); i.onerror = () => res(null); i.src = snap; }); if (im) { g.save(); g.beginPath(); g.roundRect?.(160, 370, 760, 760, 36); g.clip(); g.drawImage(im, 160, 370, 760, 760); g.restore(); } }
+  // 도장
+  g.save(); g.translate(860, 1080); g.rotate(-0.2);
+  const col = r.grade.id === 's' ? '#b8862a' : r.grade.id === 'c' ? '#6f6b65' : '#c8372d';
+  g.strokeStyle = col; g.lineWidth = 10; g.beginPath(); g.arc(0, 0, 130, 0, Math.PI * 2); g.stroke();
+  g.lineWidth = 4; g.beginPath(); g.arc(0, 0, 112, 0, Math.PI * 2); g.stroke();
+  g.fillStyle = col; g.font = F(800, r.grade.label.length > 3 ? 50 : 64);
+  const parts = r.grade.label.split(' ');
+  parts.forEach((t, i) => g.fillText(t, 0, 22 + (i - (parts.length - 1) / 2) * 60));
+  g.restore();
+  // 점수·칭호
+  g.fillStyle = '#26241f'; g.font = F(800, 120); g.fillText(`${r.total}점`, W / 2, 1290);
+  g.font = F(600, 46); const tw = g.measureText(r.title).width + 80;
+  g.fillStyle = '#1f5a3d'; g.beginPath(); g.roundRect?.(W / 2 - tw / 2, 1330, tw, 84, 42); g.fill();
+  g.fillStyle = '#fff'; g.fillText(r.title, W / 2, 1388);
+  r.scores.forEach((sc, i) => {
+    const y = 1490 + i * 78;
+    g.textAlign = 'left'; g.fillStyle = '#5d5a54'; g.font = F(500, 38); g.fillText(sc.label, 170, y + 14);
+    g.fillStyle = '#e6e2d9'; g.fillRect(390, y - 12, 420, 26);
+    g.fillStyle = sc.v >= 75 ? '#2e7d4f' : sc.v >= 50 ? '#dfa53a' : '#c8372d'; g.fillRect(390, y - 12, 420 * sc.v / 100, 26);
+    g.textAlign = 'right'; g.fillStyle = '#26241f'; g.font = F(700, 38); g.fillText(sc.v, 910, y + 14);
+  });
+  g.textAlign = 'center'; g.fillStyle = '#8f8b84'; g.font = F(500, 32); g.fillText(`“${r.verdict}” — 선배 산타`, W / 2, 1850);
+  return new Promise(res => c.toBlob(res, 'image/png'));
+}
+function bindJudge() {
+  window.__judgeCard = judgeCard;
+  window.__forceCrisis = (id) => startCrisis(id);
+  $('judge-skip').addEventListener('click', showVerdict);
+  $('judge-send').addEventListener('click', () => go('send'));
+  $('judge-retry').addEventListener('click', () => { stopJudge(); go('wrap'); });
+  $('judge-card').addEventListener('click', async () => {
+    const blob = await judgeCard(); if (!blob) return;
+    const file = new File([blob], '산타인턴_결과.png', { type: 'image/png' });
+    try { if (navigator.canShare?.({ files: [file] })) { await navigator.share({ files: [file], title: '산타 인턴 채용 시험 결과' }); return; } } catch (e) { if (e?.name === 'AbortError') return; }
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = file.name; document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  });
+}
+
 let sendURL = '';
 function customItemData() {
   const it = getItem('draw');
@@ -7270,15 +7886,21 @@ function customItemData() {
 async function enterSend() {
   if (!state.giftId || !state.wrap) { go('select'); return; }
   const it = getItem(state.giftId), to = toName();
-  $('send-lead').innerHTML = `배송 준비 완료!<br /><small>링크를 보내면 <b></b>에게 첫 배송 끝</small>`;
+  $('send-lead').innerHTML = `배송 준비 완료!<br /><small>링크를 보내면 <b></b>에게 배송 완료</small>`;
   $('send-lead').querySelector('b').textContent = to;
   $('send-gift').textContent = `안에 든 것: ??? (열어 봐야 알아요)`;
   $('send-img').src = safe(() => stage.snapshot(state.giftId, state.wrap, { bg: 0xe9e7e2 })) || '';
   $('send-url').value = '링크 만드는 중…';
+  if (!state.wrap.counted) {
+    const res = addDelivery({ to, item: it.name, score: state.judge?.s || 0 });
+    update({ wrap: { ...state.wrap, counted: true } });
+    showCareer(res);
+  } else { const c = career(); showCareer({ count: c.count, rank: rankOf(c.count), next: nextRank(c.count) }); }
   const payload = await giftPayload({
     sender: { name: state.researcher.name || '익명', avatar: state.researcher.avatar || null }, to,
     giftId: state.giftId, custom: customItemData(), wrap: state.wrap,
     paper: { base: editor.base, ops: editor.ops, tiled: editor.tiled, photoTiled: editor.photoTiled },
+    judge: state.judge,
   });
   const code = await packCode(payload);
   sendURL = shareURL('gift', code);
@@ -7287,6 +7909,15 @@ async function enterSend() {
     ? `링크를 복사해서 ${to}에게 보내 주세요. 받은 사람은 링크를 열고 ‘받은 선물 열기’에 받은 메시지를 붙여 넣으면 돼요.`
     : `링크를 복사해서 ${to}에게 카톡이나 DM으로 보내 주세요. 열면 포장을 직접 뜯어 봐요.`;
   void it;
+}
+function showCareer(res) {
+  const el = $('career'); if (!el) return;
+  const nx = res.next;
+  el.innerHTML = `${res.promoted ? `<p class="career__promo">🎉 <b></b>로 승진! <small></small></p>` : ''}
+    <p class="career__row"><span>근무 일지</span><b>배송 ${res.count}건 · ${res.rank.short}</b></p>
+    <span class="career__bar"><i style="width:${nx ? Math.round((res.count - res.rank.min) / (nx.min - res.rank.min) * 100) : 100}%"></i></span>
+    <p class="career__next">${nx ? `${nx.min - res.count}건 더 배송하면 ${nx.name} 승진 · ${nx.unlock} 열림` : '최고 직급! 수석 산타입니다'}</p>`;
+  if (res.promoted) { el.querySelector('.career__promo b').textContent = res.promoted.name; el.querySelector('.career__promo small').textContent = `${res.promoted.unlock} 열림`; setTimeout(() => { sound.stamp?.(); sound.bell?.(); }, 500); }
 }
 /** claude.ai 공유 화면 안에서는 주소 끝(#…)이 페이지로 전달되지 않아서, 받는 사람이 붙여 넣어야 함 */
 const viaArtifact = () => sendURL.startsWith('https://claude.ai/');
@@ -7311,7 +7942,7 @@ async function enterOpen() {
   if (!inc || inc.kind !== 'gift') { go('intro'); return; }
   let g;
   try { g = await unpack(inc.code); } catch (_) { $('open-from').textContent = '선물 링크가 깨져서 열 수 없어요'; return; }
-  recv.payload = g; recv.stamp = null;
+  recv.payload = g; recv.stamp = null; recv.guess = null; $('open-quiz').hidden = true;
   if (g.it) setCustomItem({ name: g.it.n, ops: opsIn(g.it.o), size: g.it.z });
   const w = wrapFromPayload(g);
   // 포장지 그림 다시 그리기
@@ -7331,7 +7962,7 @@ async function enterOpen() {
   $('open-skip').hidden = false;
   recv.step = 'shake';
   // 단계 순서는 처음에 한 번 정함 (끈·종이를 떼고 나면 다시 계산하면 안 되니까)
-  recv.order = ['shake', unboxView.hasRibbon() ? 'ribbon' : null, unboxView.hasPaper() ? 'tear' : null, unboxView.hasBox() ? 'lid' : null, 'reveal'].filter(Boolean);
+  recv.order = ['shake', 'guess', unboxView.hasRibbon() ? 'ribbon' : null, unboxView.hasPaper() ? 'tear' : null, unboxView.hasBox() ? 'lid' : null, 'reveal'].filter(Boolean);
   openStep();
   sound.bell?.();
 }
@@ -7339,6 +7970,7 @@ function openStep() {
   const v = unboxView, el = $('open-step'), guide = $('open-guide');
   const map = {
     shake: ['좌우로 흔들어 보세요', '↔'],
+    guess: ['흔들어 보고 맞혀 봐요', '↔'],
     ribbon: ['끈을 위로 잡아당겨 풀어요', '↑'],
     tear: ['포장지를 옆으로 쫙 찢어요', '⇢'],
     lid: ['뚜껑을 톡 눌러 열어요', '●'],
@@ -7347,7 +7979,8 @@ function openStep() {
   el.textContent = m ? m[0] : '';
   guide.textContent = m ? m[1] : '';
   guide.hidden = !m;
-  if (m) { const p = v.giftScreen(); guide.style.left = p.x + 'px'; guide.style.top = p.y + 'px'; guide.dataset.kind = recv.step; }
+  if (recv.step === 'guess') showQuiz();
+  if (m) { const p = v.giftScreen(); guide.style.left = p.x + 'px'; guide.style.top = p.y + 'px'; guide.dataset.kind = recv.step === 'guess' ? 'shake' : recv.step; }
 }
 function nextOpenStep() {
   const order = recv.order;
@@ -7366,12 +7999,14 @@ function reveal() {
   $('open-item').innerHTML = '';
   const b = document.createElement('b'); b.textContent = it.name;
   $('open-item').append('선물: ', b, notes.length ? ` (${notes.join(' · ')})` : '');
+  if (recv.guess) { const q = document.createElement('small'); q.className = 'open-guessed'; q.textContent = recv.guess.ok ? '🎯 소리만 듣고 맞혔어요!' : `‘${recv.guess.pick}’인 줄 알았는데…`; $('open-item').append(document.createElement('br'), q); }
   const L = $('open-letter'); L.innerHTML = '';
   const lines = [];
   if (g.t && (g.i === 'letter' || g.i === 'coupon')) lines.push(g.i === 'coupon' ? `🎟 ${g.t} 쿠폰` : `✉ ${g.t}`);
   if (g.c) lines.push(`“${g.c}”`);
   lines.push(`— ${g.s || '보낸 사람'}`);
   for (const t of lines) { const p = document.createElement('p'); p.textContent = t; L.append(p); }
+  if (g.j) { const p = document.createElement('p'); p.className = 'open-judge'; p.textContent = `선배 산타 심사: ${g.j.l} · ‘${g.j.t}’ (${g.j.s}점)`; L.append(p); }
   $('open-stamps').innerHTML = STAMPS_R.map(([e, t]) => `<button type="button" class="stamp-btn" data-stamp="${e}"><span>${e}</span><small>${t}</small></button>`).join('');
   setTimeout(() => { $('open-panel').hidden = false; }, 900);
   sound.pick(); setTimeout(() => sound.bell?.(), 300);
@@ -7380,7 +8015,7 @@ function bindOpen() {
   let d = null;
   const scr = () => document.querySelector('[data-screen="open"]');
   window.addEventListener('pointerdown', (e) => {
-    if (scr()?.hidden !== false || e.target.closest('.open-panel, button, input, .audio-toggles')) return;
+    if (scr()?.hidden !== false || e.target.closest('.open-panel, .open-quiz, button, input, .audio-toggles')) return;
     e.preventDefault(); // 글자 선택·끌기로 손동작이 끊기지 않게
     d = { x: e.clientX, y: e.clientY, lx: e.clientX, t: performance.now() };
   }, { passive: false });
@@ -7388,7 +8023,10 @@ function bindOpen() {
   window.addEventListener('pointermove', (e) => {
     if (!d) return;
     const dx = e.clientX - d.lx; d.lx = e.clientX;
-    safe(() => { if (recv.step === 'shake' && unboxView.shake(dx)) { d.used = true; nextOpenStep(); } });
+    safe(() => {
+      if (recv.step === 'guess') { unboxView.stage = 'shake'; unboxView.shake(dx); return; }
+      if (recv.step === 'shake' && unboxView.shake(dx)) { d.used = true; nextOpenStep(); }
+    });
   });
   window.addEventListener('pointerup', (e) => {
     if (!d) return;
@@ -7398,15 +8036,17 @@ function bindOpen() {
       if (recv.step === 'ribbon' && (-my > 70 || dist > 110)) { unboxView.untie(); nextOpenStep(); }
       else if (recv.step === 'tear' && Math.abs(mx) > 90) { unboxView.tear(Math.sign(mx)); setTimeout(nextOpenStep, 350); }
       else if (recv.step === 'lid' && dist < 25) { unboxView.openLid(); setTimeout(() => { recv.step = 'reveal'; reveal(); }, 500); }
-      else if (recv.step === 'shake' && dist < 10) unboxView.shake(30);
+      else if ((recv.step === 'shake' || recv.step === 'guess') && dist < 10) unboxView.shake(30);
     });
   });
   $('open-skip').addEventListener('click', () => safe(() => {
+    $('open-quiz').hidden = true;
     if (unboxView.hasRibbon()) unboxView.untie();
     if (unboxView.hasPaper()) unboxView.tear(1);
     if (unboxView.hasBox()) unboxView.openLid();
     recv.step = 'reveal'; setTimeout(reveal, 400);
   }));
+  $('open-quiz-opts').addEventListener('click', (e) => { const b = e.target.closest('[data-opt]'); if (b) safe(() => answerQuiz(b.dataset.opt)); });
   $('open-stamps').addEventListener('click', (e) => {
     const b = e.target.closest('[data-stamp]'); if (!b) return;
     recv.stamp = b.dataset.stamp;
@@ -7415,7 +8055,7 @@ function bindOpen() {
   });
   $('open-send').addEventListener('click', async () => {
     const g = recv.payload;
-    const code = await packCode({ v: 1, k: 'r', from: g.to || '받은 사람', to: g.s, e: recv.stamp, m: $('open-reply').value.trim() || undefined, item: getItem(g.i).name });
+    const code = await packCode({ v: 1, k: 'r', from: g.to || '받은 사람', to: g.s, e: recv.stamp, m: $('open-reply').value.trim() || undefined, item: getItem(g.i).name, q: recv.guess ? (recv.guess.ok ? 1 : 0) : undefined, qp: recv.guess && !recv.guess.ok ? recv.guess.pick : undefined });
     const url = shareURL('reply', code);
     const txt = url.startsWith('https://claude.ai/') ? `${g.s}님, 선물 잘 받았어요 ${recv.stamp}\n(링크 열고 ‘받은 선물 열기’에 이 메시지 붙여넣기)\n` : `${g.s}님, 선물 잘 받았어요 ${recv.stamp}\n`;
     const r = await shareLink(url, txt, $('open-reply'));
@@ -7425,6 +8065,34 @@ function bindOpen() {
   $('open-mine').addEventListener('click', () => { try { history.replaceState(null, '', '#intro'); } catch (_) {} update({ giftId: null }); go(state.researcher.name ? 'select' : 'intro'); });
 }
 function hintOpen(t) { $('open-step').textContent = t; }
+
+// ---------- 안에 뭐 들었게? (흔들어 보고 3개 중 맞히기) ----------
+function quizOptions(g) {
+  const it = getItem(g.i), answer = it.name;
+  const pool = ITEMS.filter(x => x.id !== g.i && !x.custom && !x.draw);
+  const shuffle = (a) => a.map(v => [Math.random(), v]).sort((p, q) => p[0] - q[0]).map(p => p[1]);
+  const same = shuffle(pool.filter(x => x.cat === it.cat))[0];
+  const others = shuffle(pool.filter(x => x !== same && x.cat !== it.cat && x.name !== answer));
+  const picks = [same, ...others].filter(Boolean).slice(0, 2).map(x => x.name);
+  return { answer, opts: shuffle([answer, ...picks]) };
+}
+function showQuiz() {
+  const q = recv.quiz = quizOptions(recv.payload);
+  $('open-quiz-opts').innerHTML = q.opts.map(o => `<button type="button" class="quiz-opt" data-opt="">${''}</button>`).join('');
+  [...$('open-quiz-opts').children].forEach((b, i) => { b.textContent = q.opts[i]; b.dataset.opt = q.opts[i]; });
+  $('open-quiz').hidden = false;
+  $('open-skip').hidden = true;
+}
+function answerQuiz(pick) {
+  if (recv.guess || recv.step !== 'guess') return;
+  const ok = pick === recv.quiz.answer;
+  recv.guess = { ok, pick };
+  for (const b of $('open-quiz-opts').children) b.classList.toggle(b.dataset.opt === pick ? (ok ? 'is-ok' : 'is-no') : 'is-off', true);
+  hintOpen(ok ? '정답 같아요! 열어서 확인해 봐요' : '흠… 열어 보면 알겠죠?');
+  ok ? sound.bell?.() : sound.hm?.();
+  unboxView.stage = 'opened';
+  setTimeout(() => safe(() => { $('open-quiz').hidden = true; $('open-skip').hidden = recv.step === 'reveal'; nextOpenStep(); }), 1000);
+}
 
 // ---------- ⑧ 답장 ----------
 async function enterReply() {
@@ -7436,6 +8104,7 @@ async function enterReply() {
   $('reply-who').textContent = `${r.from || '친구'}님이 ‘${nm}’${obj} 받고 남긴 반응`;
   $('reply-msg').textContent = r.m ? `“${r.m}”` : (STAMPS_R.find(s => s[0] === r.e)?.[1] || '');
   $('reply-gift').textContent = `To. ${r.to || '나'}`;
+  $('reply-guess').textContent = r.q === 1 ? `🎯 ${r.from || '친구'}님은 흔들어 보고 바로 맞혔어요` : r.q === 0 ? `🤔 ${r.from || '친구'}님은 ‘${r.qp || '다른 것'}’인 줄 알았대요` : '';
   sound.bell?.();
 }
 
@@ -7473,6 +8142,9 @@ function initGame() {
   wrapView = new WrapView();
   packView = new PackView();
   unboxView = new UnboxView();
+  judgeView = new JudgeView();
+  bindJudge();
+  bindCrisis();
   packView.onEvent = onPackEvent;
   bindWrapInput();
   bindWrapPanel();
@@ -7537,10 +8209,12 @@ function initGame() {
 
   onScreen((name, prev) => {
     if (prev === 'wrap') { stopTimer(); $('gizmo').hidden = true; if ($('fold-handles')) $('fold-handles').hidden = true; }
-    if (!['wrap', 'open'].includes(name)) stage.show(null);
+    if (prev === 'judge') stopJudge();
+    if (!['wrap', 'open', 'judge'].includes(name)) stage.show(null);
     closeModal();
     if (name === 'select') enterSelect();
     if (name === 'wrap') enterWrap();
+    if (name === 'judge') safe(enterJudge);
     if (name === 'send') safe(enterSend);
     if (name === 'open') safe(enterOpen);
     if (name === 'reply') safe(enterReply);
