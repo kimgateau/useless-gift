@@ -870,6 +870,45 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
 .career__bar i { display: block; height: 100%; background: #c8372d; border-radius: 5px; }
 .career__next { margin: 0; font-size: 12px; color: #8f8b84; }
 
+/* ---------- 쿠킹마마식 포장 미니게임 ---------- */
+.mama { position: absolute; inset: 0; z-index: 20; background: #e9d9bf; overflow: hidden; user-select: none; -webkit-user-select: none; }
+.mama-cv { position: absolute; inset: 0; display: block; touch-action: none; }
+.mama-head { position: absolute; left: 0; right: 0; top: 0; padding: calc(env(safe-area-inset-top) + 12px) 16px 10px; text-align: center; pointer-events: none;
+  background: linear-gradient(#c8372d, #b52f26); color: #fff; box-shadow: 0 4px 0 #1f5a3d; }
+.mama-dots { display: flex; justify-content: center; gap: 5px; margin-bottom: 6px; }
+.mama-dots i { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.35); }
+.mama-dots i.is-done { background: #f2c230; } .mama-dots i.is-on { background: #fff; transform: scale(1.3); }
+.mama-no { margin: 0; font: 700 11px var(--font); letter-spacing: .12em; opacity: .85; }
+.mama-title { margin: 2px 0 0; font: 800 22px var(--font); text-shadow: 0 2px 0 rgba(0,0,0,.15); }
+.mama-how { margin: 4px 0 8px; font: 500 13.5px var(--font); opacity: .95; }
+.mama-time { display: block; height: 8px; border-radius: 5px; background: rgba(255,255,255,.3); overflow: hidden; max-width: 320px; margin: 0 auto; }
+.mama-time i { display: block; height: 100%; background: #fff; transform-origin: left; }
+.mama-time.is-low i { background: #f2c230; animation: low-blink .4s infinite alternate; }
+@keyframes low-blink { to { opacity: .4; } }
+.mama-say { position: absolute; left: 14px; bottom: calc(env(safe-area-inset-bottom) + 16px); margin: 0; max-width: 62%; padding: 8px 12px 8px 40px;
+  background: #fff; border-radius: 14px; font: 500 13px var(--font); color: var(--text-strong); box-shadow: 0 4px 12px rgba(0,0,0,.1); pointer-events: none; }
+.mama-say::before { content: '🎅'; position: absolute; left: 9px; top: 50%; transform: translateY(-50%); font-size: 22px; }
+.mama-say.is-in { animation: speech-pop .3s ease; }
+.mama-skip { position: absolute; right: 14px; bottom: calc(env(safe-area-inset-bottom) + 20px); font-size: 12px; }
+.mama-pop { position: absolute; left: 50%; top: 46%; transform: translate(-50%, -50%); pointer-events: none; text-align: center; white-space: nowrap; }
+.mama-pop b { display: block; font: 900 44px var(--font); color: #fff; -webkit-text-stroke: 2px #2a2623; paint-order: stroke fill; text-shadow: 0 5px 0 rgba(0,0,0,.2); }
+.mama-pop__stars { display: block; font-size: 38px; color: #f2c230; -webkit-text-stroke: 1.5px #7a5a10; letter-spacing: 4px; }
+.mama-pop[data-k="perfect"] b { color: #f2c230; } .mama-pop[data-k="good"] b { color: #7fd39b; } .mama-pop[data-k="ok"] b { color: #fff; }
+.mama-pop[data-k="oops"] b { color: #ff9a8e; font-size: 28px; } .mama-pop[data-k="ready"] b { color: #fff; font-size: 36px; }
+.mama-pop.is-in { animation: pop-in .45s cubic-bezier(.2,1.6,.4,1); }
+@keyframes pop-in { from { transform: translate(-50%, -50%) scale(.3) rotate(-10deg); opacity: 0; } }
+.mama-final { position: absolute; inset: 0; background: rgba(30,20,10,.55); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 20px; animation: screen-in .3s ease; }
+.mama-final__kicker { margin: 0; color: #fff; font: 700 13px var(--font); letter-spacing: .14em; }
+.mama-medal { width: 128px; height: 128px; border-radius: 50%; display: grid; place-items: center; font: 900 24px var(--font); color: #5a3d06;
+  background: radial-gradient(circle at 35% 30%, #fff6c8, #f2c230 45%, #b8862a); box-shadow: 0 0 0 8px rgba(255,255,255,.25), 0 10px 24px rgba(0,0,0,.3); animation: stamp-in .6s cubic-bezier(.2,1.6,.4,1); }
+.mama-medal[data-m="silver"] { background: radial-gradient(circle at 35% 30%, #fff, #c9ced6 45%, #8c939e); color: #3a3f48; }
+.mama-medal[data-m="bronze"] { background: radial-gradient(circle at 35% 30%, #ffe2c4, #d0864a 45%, #8f5326); color: #4a2a10; }
+.mama-medal[data-m="none"] { background: radial-gradient(circle at 35% 30%, #fff, #e6e2d9 45%, #b8b2a6); color: #555; font-size: 20px; }
+.mama-final__sub { margin: 0; color: #fff; font: 700 17px var(--font); }
+.mama-final__list { list-style: none; margin: 6px 0 8px; padding: 12px 16px; background: #fff; border-radius: 14px; width: min(300px, 86vw); display: grid; gap: 5px; }
+.mama-final__list li { display: flex; justify-content: space-between; font-size: 13.5px; color: #5d5a54; }
+.mama-final__list b { color: #e0a51a; letter-spacing: 2px; }
+
 </style>
   <script>
     // 파일을 더블클릭해서 연 경우: 모듈 스크립트가 막히므로 한 파일 완성본으로 이동
@@ -1058,6 +1097,26 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
         <div class="reg-actions">
           <button class="text-btn" type="button" id="wrap-reset">처음부터</button>
           <button class="tape-btn" type="button" id="wrap-done">포장 완료</button>
+        </div>
+      </div>
+      <div class="mama" id="mama" hidden>
+        <canvas class="mama-cv"></canvas>
+        <div class="mama-head">
+          <div class="mama-dots"></div>
+          <p class="mama-no"></p>
+          <p class="mama-title"></p>
+          <p class="mama-how"></p>
+          <span class="mama-time"><i></i></span>
+        </div>
+        <p class="mama-say"></p>
+        <div class="mama-pop" hidden></div>
+        <button class="text-btn mama-skip" type="button">선배한테 맡기기</button>
+        <div class="mama-final" hidden>
+          <p class="mama-final__kicker">포장 실기 결과</p>
+          <div class="mama-medal"></div>
+          <p class="mama-final__sub"></p>
+          <ul class="mama-final__list"></ul>
+          <button class="tape-btn mama-final__next" type="button">스티커 붙이러 가기</button>
         </div>
       </div>
       <input type="file" id="photo-input" accept="image/*" hidden />
@@ -6925,7 +6984,8 @@ function judgeWrap(wrap, dims = { w: 1, h: 0.6, d: 1 }, extra = {}) {
   // 3) 리본
   const R = wrap.ribbon, strokes = R?.strokes || [];
   let rib;
-  if (!R || (!strokes.length && !R.bow)) rib = 22;
+  if (!R || (!strokes.length && !R.bow && R.vx == null && R.hy == null)) rib = 22;
+  else if (!strokes.length && !R.bow) rib = 60;
   else {
     const half = Math.max(dims.w, dims.d) / 2 || 0.5;
     const straight = strokes.length ? avg(strokes.map(straightness)) : 0.5;
@@ -6948,17 +7008,32 @@ function judgeWrap(wrap, dims = { w: 1, h: 0.6, d: 1 }, extra = {}) {
   if (wrap.paper?.id === 'custom' && art.base === 'photo') care += 5;
   care = Math.round(clamp(care, 5, 100));
 
-  const scores = [
+  let scores = [
     { id: 'safe', label: '안전 배송', v: safe },
     { id: 'fold', label: '각 잡힘', v: fold },
     { id: 'ribbon', label: '리본', v: rib },
     { id: 'care', label: '정성', v: care },
   ];
+  // 포장 실기(미니게임)를 했으면 그 점수로 채점
+  const M = wrap.mama?.stages?.length ? Object.fromEntries(wrap.mama.stages.map(x => [x.id, x.score])) : null;
+  if (M) {
+    const m = (...ids) => Math.round(avg(ids.map(i => M[i] ?? 30)));
+    fold = m('ends'); rib = m('ribbon', 'bow', 'trim');
+    scores = [
+      { id: 'safe', label: '안전 배송', v: safe },
+      { id: 'cut', label: '재단', v: m('measure', 'cut') },
+      { id: 'wrapS', label: '감싸기', v: m('place', 'wrap', 'tape') },
+      { id: 'fold', label: '끝 접기', v: fold },
+      { id: 'ribbon', label: '리본', v: rib },
+      { id: 'care', label: '정성', v: care },
+    ];
+  }
   // 돌발 상황 대처 보너스
   const ev = extra.events || [];
   const handled = ev.filter(e => e.handled).length;
   const bonus = Math.min(10, handled * 5);
-  const total = Math.round(clamp(safe * 0.3 + fold * 0.25 + rib * 0.25 + care * 0.2 + bonus, 0, 100));
+  const W8 = M ? { safe: 0.2, cut: 0.15, wrapS: 0.2, fold: 0.2, ribbon: 0.15, care: 0.1 } : { safe: 0.3, fold: 0.25, ribbon: 0.25, care: 0.2 };
+  const total = Math.round(clamp(scores.reduce((a, x) => a + x.v * (W8[x.id] || 0), 0) + bonus, 0, 100));
 
   const grade = total >= 86 ? { id: 's', label: '수석 합격', short: '수석' }
     : total >= 66 ? { id: 'a', label: '합격', short: '합격' }
@@ -6972,9 +7047,12 @@ function judgeWrap(wrap, dims = { w: 1, h: 0.6, d: 1 }, extra = {}) {
   if (handled >= 2) T.push('위기 대응 1등');
   if (decos >= 9) T.push('스티커 폭격기');
   if (strokes.length >= 5) T.push('리본 대잔치');
-  if (!R || (!strokes.length && !R.bow)) T.push('끈은 마음으로');
+  if (!R || (!strokes.length && !R.bow && R.vx == null && R.hy == null)) T.push('끈은 마음으로');
   if (msg >= 40) T.push('편지가 본체');
   if (drawn >= 12) T.push('포장지 화가');
+  if (M && wrap.mama.medal === 'gold') T.unshift('포장 금메달리스트');
+  if (M && (M.ends ?? 0) >= 90) T.push('삼각 접기 장인');
+  if (M && (M.bow ?? 0) >= 90) T.push('리본 묶기 달인');
   if (flaps.length && avg(flaps) > 0.9 && !wrap.rushedFold) T.push('각 잡는 장인');
   if (wrap.rushedFold) T.push('대충 접기 달인');
   if (wrap.box === 'none') T.push('상자는 사치');
@@ -6986,6 +7064,8 @@ function judgeWrap(wrap, dims = { w: 1, h: 0.6, d: 1 }, extra = {}) {
   const line = (id, v) => {
     if (id === 'safe') return pk.broken ? '깨진 소리 났어요. 저도 들었어요.' : (pk.spilled || 0) > 0.12 ? '상자가… 축축하네요.' : v >= 85 ? '흠집 하나 없네요.' : v >= 60 ? '살짝 흔들렸지만 무사해요.' : '안에서 소리가 나는데요?';
     if (id === 'fold') return v >= 85 ? '모서리 각이 살아 있네요.' : v >= 60 ? '접긴 접었네요.' : '이건 접은 게 아니라 덮은 거예요.';
+    if (id === 'cut') return v >= 85 ? '종이 길이 딱 맞게 잘랐네요.' : v >= 55 ? '길이는 대충 맞아요.' : '종이가… 좀 모자라거나 남네요.';
+    if (id === 'wrapS') return v >= 85 ? '팽팽하게 잘 감쌌어요.' : v >= 55 ? '감싸긴 감쌌네요.' : '종이가 헐렁헐렁해요.';
     if (id === 'ribbon') return v <= 25 ? '끈은… 마음으로 묶은 거죠?' : v >= 80 ? '리본 반듯해요. 합격각.' : v >= 55 ? '끈은 잘 감겼어요.' : '리본이 좀 자유로운 영혼이네요.';
     return v >= 85 ? '편지까지. 받는 사람 울겠네요.' : v >= 55 ? '적당히 꾸몄네요.' : '선물만 덜렁 보내는 타입이군요.';
   };
@@ -7063,6 +7143,748 @@ class JudgeView {
 return { judgeWrap, JudgeView };
 })();
 
+// ---- js/game/mama.js ----
+__m["js/game/mama.js"] = (() => {
+// ==========================================================
+// 쿠킹마마식 포장 미니게임 — 실제 '기본 상자 포장' 순서를 손동작으로
+//  ① 길이 재기(타이밍 탭) ② 자르기(점선 따라 긋기) ③ 상자 놓기(드래그)
+//  ④ 감싸기(밀어 올리기 + 당겨서 팽팽하게) ⑤ 테이프(리듬 탭)
+//  ⑥ 양 끝 접기(화살표 방향으로 순서대로 밀기 ×2) ⑦ 리본 두르기(따라 긋기)
+//  ⑧ 매듭 묶기(빙글빙글 돌리기) ⑨ 리본 끝 자르기(사선으로 베기)
+// 단계마다 완벽해요 / 좋아요 / 괜찮아요 / 앗! 판정. 시간이 다 돼도 선배가 마무리해 주고 넘어감
+// 2D 캔버스(위에서 내려다본 작업대)로 그림
+// ==========================================================
+
+const { sound } = __m["js/sound.js"];
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const lerp = (a, b, t) => a + (b - a) * t;
+const ease = (t) => 1 - Math.pow(1 - clamp(t), 3);
+const TAU = Math.PI * 2;
+
+const MAMA_STAGES = [
+  { id: 'measure', label: '길이 재기', title: '종이 길이 재기', how: '움직이는 가위가 초록 칸에 오면 톡!', time: 7 },
+  { id: 'cut', label: '자르기', title: '종이 자르기', how: '점선을 따라 위에서 아래로 쭉 그어요', time: 7 },
+  { id: 'place', label: '상자 놓기', title: '상자 가운데 놓기', how: '상자를 끌어서 점선 칸에 딱 맞춰 놓아요', time: 7 },
+  { id: 'wrap', label: '감싸기', title: '종이로 감싸기', how: '아래 종이를 위로 쓸어 올려 덮어요', time: 10 },
+  { id: 'tape', label: '테이프', title: '테이프 붙이기', how: '줄어드는 고리가 동그라미에 닿을 때 톡!', time: 8 },
+  { id: 'ends', label: '양 끝 접기', title: '양 끝 접기', how: '화살표 방향으로 순서대로 밀어서 접어요', time: 16 },
+  { id: 'ribbon', label: '리본 두르기', title: '리본 두르기', how: '가이드선을 따라 세로 → 가로로 그어요', time: 10 },
+  { id: 'bow', label: '매듭', title: '매듭 묶기', how: '동그라미를 따라 빙글빙글 세 바퀴!', time: 8 },
+  { id: 'trim', label: '끝 자르기', title: '리본 끝 자르기', how: '리본 끝을 점선 따라 비스듬히 싹둑!', time: 7 },
+];
+const RATINGS = [
+  { min: 0.85, id: 'perfect', text: '완벽해요!', stars: 3 },
+  { min: 0.6, id: 'good', text: '좋아요!', stars: 2 },
+  { min: 0.3, id: 'ok', text: '괜찮아요', stars: 1 },
+  { min: -1, id: 'oops', text: '앗…! 선배가 고쳐 줬어요', stars: 0 },
+];
+const rateOf = (s) => RATINGS.find(r => s >= r.min);
+
+const C = {
+  table: '#e9d9bf', tableLine: '#dcc7a6', kraft: '#c99a62', kraftDark: '#a87a45', kraftTop: '#d6a96f',
+  guide: '#2f55c4', ok: '#2e9a5c', bad: '#d8453a', ink: '#2a2623', tape: 'rgba(235,240,245,.78)', shadow: 'rgba(60,40,20,.18)',
+};
+
+class MamaGame {
+  /**
+   * @param root   #mama 요소 (안에 canvas·글자)
+   * @param opts   { paper: 포장지 캔버스, dims: {W,H,D}, ribbon: { color, width }, onDone(result) }
+   */
+  constructor(root) {
+    this.root = root;
+    this.cv = root.querySelector('canvas');
+    this.g = this.cv.getContext('2d');
+    this.$ = (s) => root.querySelector(s);
+    this._loop = this._loop.bind(this);
+    this._bind();
+    window.addEventListener('resize', () => this.running && this.layout());
+  }
+
+  start({ paper, dims, ribbon, onDone, startAt = 0 }) {
+    this.paperImg = paper; this.dims = dims; this.ribbonStyle = ribbon || { color: '#3a5cc8', light: '#7e97e6' };
+    this.onDone = onDone;
+    this.results = [];
+    this._out = {};
+    this.si = startAt;
+    this.running = true;
+    this.root.hidden = false;
+    this.$('.mama-final').hidden = true;
+    this.layout();
+    this._pattern = null;
+    this.enter(this.si);
+    this._last = performance.now();
+    requestAnimationFrame(this._loop);
+  }
+  stop() { this.running = false; this.root.hidden = true; clearTimeout(this._popT); }
+
+  // ---------- 배치 ----------
+  layout() {
+    const r = this.root.getBoundingClientRect();
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    this.W = r.width; this.H = r.height;
+    this.cv.width = Math.round(r.width * dpr); this.cv.height = Math.round(r.height * dpr);
+    this.cv.style.width = r.width + 'px'; this.cv.style.height = r.height + 'px';
+    this.g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const top = 150, bot = 70;
+    this.area = { x: 14, y: top, w: r.width - 28, h: r.height - top - bot };
+    this.cx = r.width / 2; this.cy = top + (r.height - top - bot) / 2;
+    // 상자 비율 (W 가로, D 세로, H 높이)
+    const { W, H, D } = this.dims;
+    this.sheet = { w: W + H * 1.6, h: 2 * (D + H) + 0.12 }; // 종이 (위에서 본)
+    this.u = Math.min(this.area.w / (this.sheet.w * 1.05), this.area.h / (this.sheet.h * 1.0));
+    this.u = Math.min(this.u, 260);
+  }
+  get pattern() {
+    if (!this._pattern && this.paperImg) {
+      try {
+        this._pattern = this.g.createPattern(this.paperImg, 'repeat');
+        const k = Math.max(0.25, (this.u * 1.2) / this.paperImg.width);
+        this._pattern.setTransform?.(new DOMMatrix().scale(k));
+      } catch (_) { this._pattern = '#efe6d2'; }
+    }
+    return this._pattern || '#efe6d2';
+  }
+
+  // ---------- 단계 진행 ----------
+  enter(i) {
+    const st = MAMA_STAGES[i];
+    this.st = st; this.s = { t: 0, done: false, score: null };
+    this.t0 = performance.now();
+    this.timeLeft = st.time;
+    this.ready = 0.9; // '준비… 시작!' 동안은 시간이 안 흐름
+    const { W, D } = this.dims;
+    this.zoom = ['tape', 'ribbon', 'bow', 'trim'].includes(st.id) ? Math.max(1, Math.min(this.area.w * 0.72 / (W * this.u), this.area.h * 0.5 / (D * this.u), 2.6)) : 1;
+    this.$('.mama-no').textContent = `${i + 1} / ${MAMA_STAGES.length}`;
+    this.$('.mama-title').textContent = st.title;
+    this.$('.mama-how').textContent = st.how;
+    this.$('.mama-dots').innerHTML = MAMA_STAGES.map((x, k) => `<i class="${k < i ? 'is-done' : k === i ? 'is-on' : ''}"></i>`).join('');
+    this.say(['좋아요, 시작해 볼까요?', '천천히, 정확하게!', '선배가 보고 있어요.'][i % 3]);
+    this[`_init_${st.id}`]?.();
+    this.popup('준비… 시작!', 'ready', 800);
+  }
+  finish(score, note = '') {
+    if (this.s.done) return;
+    this.s.done = true;
+    score = clamp(score);
+    const r = rateOf(score);
+    this.results.push({ id: this.st.id, label: this.st.label, score, rating: r.id, ...this.s.out });
+    this.popup(r.text, r.id, 1100, r.stars);
+    if (r.id === 'perfect') { sound.bell?.(); this.sparkle = 1; }
+    else if (r.id === 'oops') sound.hm?.();
+    else sound.stamp?.();
+    if (note) this.say(note);
+    setTimeout(() => { if (!this.running) return; if (this.si + 1 < MAMA_STAGES.length) this.enter(++this.si); else this.final(); }, 1300);
+  }
+  timeout() { this[`_auto_${this.st.id}`]?.(); this.finish(this.s.partial ?? 0.15, '시간 다 됐어요! 선배가 마무리할게요'); }
+
+  final() {
+    const res = this.results;
+    const total = res.reduce((s, r) => s + r.score, 0) / res.length;
+    const medal = total >= 0.85 ? { id: 'gold', text: '금메달', sub: '선배보다 잘하는데요?!' } : total >= 0.6 ? { id: 'silver', text: '은메달', sub: '이 정도면 실전 투입 가능!' } : total >= 0.35 ? { id: 'bronze', text: '동메달', sub: '조금만 더 연습하면 완벽해요' } : { id: 'none', text: '연습생', sub: '선배가 많이 도와줬어요…' };
+    this.medal = medal;
+    const el = this.$('.mama-final');
+    el.hidden = false;
+    el.querySelector('.mama-medal').dataset.m = medal.id;
+    el.querySelector('.mama-medal').textContent = medal.text;
+    el.querySelector('.mama-final__sub').textContent = medal.sub;
+    el.querySelector('.mama-final__list').innerHTML = res.map(r => `<li><span>${r.label}</span><b>${'★'.repeat(rateOf(r.score).stars)}${'☆'.repeat(3 - rateOf(r.score).stars)}</b></li>`).join('');
+    sound.bell?.(); setTimeout(() => sound.stamp?.(), 300);
+    this.result = { stages: res.map(r => ({ id: r.id, label: r.label, score: Math.round(r.score * 100) })), total: Math.round(total * 100), medal: medal.id, out: Object.assign({}, ...res.map(r => r.out || {})) };
+    for (const r of res) Object.assign(this.result.out, { [r.id]: r.score });
+  }
+
+  // ---------- 화면 글자 ----------
+  popup(text, kind, ms = 1000, stars = null) {
+    const p = this.$('.mama-pop');
+    p.dataset.k = kind;
+    p.innerHTML = `${stars != null ? `<span class="mama-pop__stars">${'★'.repeat(stars)}${'☆'.repeat(3 - stars)}</span>` : ''}<b></b>`;
+    p.querySelector('b').textContent = text;
+    p.hidden = false; p.classList.remove('is-in'); void p.offsetWidth; p.classList.add('is-in');
+    clearTimeout(this._popT); this._popT = setTimeout(() => { p.hidden = true; }, ms);
+  }
+  say(t) { const b = this.$('.mama-say'); b.textContent = t; b.classList.remove('is-in'); void b.offsetWidth; b.classList.add('is-in'); }
+
+  // ---------- 입력 ----------
+  _bind() {
+    const pos = (e) => { const r = this.cv.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top, t: performance.now() }; };
+    this.cv.addEventListener('pointerdown', (e) => { if (!this.running || this.s?.done || this.ready > 0) return; e.preventDefault(); this.cv.setPointerCapture?.(e.pointerId); this.ptr = { down: pos(e), path: [pos(e)] }; this._call('down', pos(e)); });
+    this.cv.addEventListener('pointermove', (e) => { const p = pos(e); this.hover = p; if (!this.ptr || this.s?.done) return; this.ptr.path.push(p); this._call('move', p); });
+    const up = (e) => { if (!this.ptr) return; const p = pos(e), path = this.ptr.path; this.ptr = null; if (!this.s?.done) this._call('up', p, path); };
+    this.cv.addEventListener('pointerup', up); this.cv.addEventListener('pointercancel', up);
+    this.$('.mama-final__next').addEventListener('click', () => { this.stop(); this.onDone?.(this.result); });
+    this.$('.mama-skip').addEventListener('click', () => { if (!this.s.done && this.ready <= 0) this.timeout(); });
+  }
+  _call(kind, p, path) { const f = this[`_${kind}_${this.st.id}`]; if (f) f.call(this, p, path); }
+
+  // ---------- 루프 ----------
+  _loop(now) {
+    if (!this.running) return;
+    const dt = Math.min(0.05, (now - this._last) / 1000); this._last = now;
+    requestAnimationFrame(this._loop);
+    if (this.ready > 0) this.ready -= dt;
+    else if (!this.s.done && !this.final_) {
+      this.timeLeft -= dt;
+      this.s.t += dt;
+      if (this.timeLeft <= 0 && !this.s.done && this.$('.mama-final').hidden) this.timeout();
+    }
+    this.$('.mama-time i').style.transform = `scaleX(${clamp(this.timeLeft / this.st.time)})`;
+    this.$('.mama-time').classList.toggle('is-low', this.timeLeft < 3 && !this.s.done);
+    try { this.draw(dt); } catch (err) { if (!this._warned) { this._warned = true; console.warn('[선물학] 미니게임 그리기 오류', err); } }
+  }
+
+  // ==================================================================
+  // 그리기 도구
+  // ==================================================================
+  get box() { // 위에서 본 상자 (화면 px) — 상자만 보는 단계는 크게 확대
+    const { W, D } = this.dims, u = this.u * (this.zoom || 1);
+    return { x: this.cx - (W * u) / 2, y: this.cy - (D * u) / 2, w: W * u, h: D * u };
+  }
+  get sheetRect() {
+    const u = this.u;
+    return { x: this.cx - (this.sheet.w * u) / 2, y: this.cy - (this.sheet.h * u) / 2, w: this.sheet.w * u, h: this.sheet.h * u };
+  }
+  table() {
+    const g = this.g;
+    g.fillStyle = C.table; g.fillRect(0, 0, this.W, this.H);
+    g.strokeStyle = C.tableLine; g.lineWidth = 2;
+    for (let y = 40; y < this.H; y += 56) { g.beginPath(); g.moveTo(0, y); g.bezierCurveTo(this.W * 0.3, y + 6, this.W * 0.6, y - 6, this.W, y + 3); g.stroke(); }
+  }
+  paperRect(x, y, w, h, { shade = 0, shadow = true } = {}) {
+    const g = this.g;
+    if (shadow) { g.fillStyle = C.shadow; g.fillRect(x + 4, y + 5, w, h); }
+    g.fillStyle = this.pattern; g.fillRect(x, y, w, h);
+    if (shade) { g.fillStyle = `rgba(0,0,0,${shade})`; g.fillRect(x, y, w, h); }
+    g.strokeStyle = 'rgba(0,0,0,.12)'; g.lineWidth = 1; g.strokeRect(x + 0.5, y + 0.5, w - 1, h - 1);
+  }
+  poly(pts, fill, { stroke = 'rgba(0,0,0,.14)', shadow = false } = {}) {
+    const g = this.g;
+    if (shadow) { g.save(); g.translate(3, 4); g.fillStyle = C.shadow; this._path(pts); g.fill(); g.restore(); }
+    this._path(pts); g.fillStyle = fill; g.fill();
+    if (stroke) { g.strokeStyle = stroke; g.lineWidth = 1; g.stroke(); }
+  }
+  _path(pts) { const g = this.g; g.beginPath(); pts.forEach((p, i) => (i ? g.lineTo(p[0], p[1]) : g.moveTo(p[0], p[1]))); g.closePath(); }
+  kraftBox(b, { lid = true, a = 0 } = {}) {
+    const g = this.g;
+    g.save(); g.translate(b.x + b.w / 2, b.y + b.h / 2); g.rotate(a);
+    g.fillStyle = C.shadow; g.fillRect(-b.w / 2 + 6, -b.h / 2 + 8, b.w, b.h);
+    g.fillStyle = C.kraft; g.fillRect(-b.w / 2, -b.h / 2, b.w, b.h);
+    if (lid) { g.fillStyle = C.kraftTop; g.fillRect(-b.w / 2 + 6, -b.h / 2 + 6, b.w - 12, b.h - 12); g.strokeStyle = C.kraftDark; g.lineWidth = 1.5; g.beginPath(); g.moveTo(-b.w / 2 + 6, 0); g.lineTo(b.w / 2 - 6, 0); g.stroke(); }
+    g.restore();
+  }
+  dashed(x1, y1, x2, y2, color = C.guide, w = 2.5) {
+    const g = this.g; g.save(); g.setLineDash([9, 8]); g.lineDashOffset = -performance.now() / 40; g.strokeStyle = color; g.lineWidth = w;
+    g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2, y2); g.stroke(); g.restore();
+  }
+  hand(x, y, { press = false, alpha = 1 } = {}) { // 안내 손가락
+    const g = this.g; g.save(); g.globalAlpha = alpha; g.translate(x, y); g.scale(press ? 0.9 : 1, press ? 0.9 : 1);
+    g.fillStyle = '#fff'; g.strokeStyle = '#2a2623'; g.lineWidth = 2;
+    g.beginPath(); g.ellipse(0, 18, 13, 16, 0, 0, TAU); g.fill(); g.stroke();
+    g.beginPath(); g.roundRect?.(-5, -10, 10, 28, 5); g.fill(); g.stroke();
+    if (press) { g.strokeStyle = C.guide; g.globalAlpha = alpha * 0.6; g.beginPath(); g.arc(0, -10, 16, 0, TAU); g.stroke(); }
+    g.restore();
+  }
+  scissors(x, y, open = 0, rot = 0) {
+    const g = this.g; g.save(); g.translate(x, y); g.rotate(rot);
+    g.strokeStyle = '#555'; g.lineWidth = 3; g.fillStyle = '#d8dde3';
+    for (const s of [-1, 1]) { g.save(); g.rotate(s * (0.18 + open * 0.25)); g.beginPath(); g.moveTo(0, 0); g.lineTo(26, s * 2); g.lineTo(0, s * 5); g.closePath(); g.fill(); g.stroke(); g.restore(); }
+    g.fillStyle = C.bad; for (const s of [-1, 1]) { g.beginPath(); g.ellipse(-12, s * 8, 8, 6, 0, 0, TAU); g.fill(); }
+    g.restore();
+  }
+  ribbonLine(pts, w = 10) {
+    const g = this.g; if (pts.length < 2) return;
+    g.save(); g.lineCap = 'round'; g.lineJoin = 'round';
+    g.strokeStyle = 'rgba(0,0,0,.18)'; g.lineWidth = w + 3; g.beginPath(); pts.forEach((p, i) => i ? g.lineTo(p.x + 2, p.y + 3) : g.moveTo(p.x + 2, p.y + 3)); g.stroke();
+    g.strokeStyle = this.ribbonStyle.color; g.lineWidth = w; g.beginPath(); pts.forEach((p, i) => i ? g.lineTo(p.x, p.y) : g.moveTo(p.x, p.y)); g.stroke();
+    g.strokeStyle = this.ribbonStyle.light; g.lineWidth = w * 0.25; g.beginPath(); pts.forEach((p, i) => i ? g.lineTo(p.x, p.y) : g.moveTo(p.x, p.y)); g.stroke();
+    g.restore();
+  }
+  /** 경첩선(a→b) 기준으로 접기: 0이면 펼침, 1이면 완전히 넘어감, k는 넘어간 쪽 길이 비율 */
+  foldPoly(pts, a, b, p, k = 1) {
+    const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy) || 1, nx = -dy / L, ny = dx / L;
+    const f = p < 0.5 ? 1 - 2 * p : -(2 * p - 1) * k;
+    return pts.map(([x, y]) => { const d = (x - a[0]) * nx + (y - a[1]) * ny; return [x - nx * d + nx * d * f, y - ny * d + ny * d * f]; });
+  }
+  wrapped(b) { // 다 싼 상자 (위에서)
+    const g = this.g;
+    g.fillStyle = C.shadow; g.fillRect(b.x + 6, b.y + 8, b.w, b.h);
+    g.fillStyle = this.pattern; g.fillRect(b.x, b.y, b.w, b.h);
+    const gr = g.createLinearGradient(b.x, b.y, b.x + b.w, b.y + b.h); gr.addColorStop(0, 'rgba(255,255,255,.18)'); gr.addColorStop(1, 'rgba(0,0,0,.1)');
+    g.fillStyle = gr; g.fillRect(b.x, b.y, b.w, b.h);
+    g.strokeStyle = 'rgba(0,0,0,.18)'; g.lineWidth = 1; g.strokeRect(b.x + 0.5, b.y + 0.5, b.w - 1, b.h - 1);
+    const sy = b.y + b.h * (0.62 + (this.out?.seamOff || 0));
+    g.strokeStyle = 'rgba(0,0,0,.18)'; g.beginPath(); g.moveTo(b.x, sy); g.lineTo(b.x + b.w, sy); g.stroke();
+    for (const t of this.out?.tapes || []) { g.fillStyle = C.tape; g.save(); g.translate(t.x, sy); g.rotate(t.a || 0); g.fillRect(-9, -16, 18, 32); g.restore(); }
+  }
+  get out() { return this._out || (this._out = {}); }
+
+  draw(dt) {
+    this.table();
+    this[`_draw_${this.st.id}`]?.(dt);
+    if (this.sparkle > 0) {
+      this.sparkle -= dt * 0.8;
+      const g = this.g; g.save(); g.globalAlpha = clamp(this.sparkle); g.fillStyle = '#f2c230';
+      for (let i = 0; i < 14; i++) { const a = i * 2.4 + performance.now() / 600, r = 80 + (1 - this.sparkle) * 120; const x = this.cx + Math.cos(a) * r, y = this.cy + Math.sin(a) * r * 0.7; g.font = '18px sans-serif'; g.fillText('✦', x, y); }
+      g.restore();
+    }
+  }
+
+  // ==================================================================
+  // ① 길이 재기 — 가위가 종이 위를 왔다 갔다, 초록 칸에서 톡
+  // ==================================================================
+  _init_measure() {
+    const S = this.sheetRect;
+    const L = Math.min(S.h * 1.25, this.H - this.area.y - 30);
+    this.s.m = { x0: S.x - 20, len: L, target: Math.min(S.h, L * 0.8), zone: Math.max(16, S.h * 0.05), pos: 0, dir: 1, speed: S.h * 0.75, stopped: false };
+  }
+  _down_measure() {
+    const m = this.s.m; if (m.stopped) return;
+    m.stopped = true;
+    const err = Math.abs(m.pos - m.target);
+    const sc = clamp(1 - err / (m.zone * 3.2));
+    this.s.out = { measureErr: err / m.target };
+    sound.tick(); sound.rustle('paper', 0.6, 'mm');
+    this.finish(sc, err < m.zone ? '딱 맞는 길이!' : m.pos < m.target ? '조금 짧아요… 꽉 끼겠는데요' : '좀 남네요. 괜찮아요');
+  }
+  _auto_measure() { this.s.m.stopped = true; this.s.m.pos = this.s.m.target * 1.1; this.s.out = { measureErr: 0.1 }; }
+  _draw_measure(dt) {
+    const g = this.g, m = this.s.m, S = this.sheetRect;
+    // 두루마리에서 풀린 종이 (세로로 길게)
+    const x = this.cx - S.w / 2, y0 = this.area.y - 10;
+    const L = m.len;
+    this.paperRect(x, y0, S.w, L);
+    g.fillStyle = '#b8aa90'; g.beginPath(); g.roundRect?.(x - 14, y0 - 22, S.w + 28, 28, 14); g.fill(); // 두루마리
+    g.fillStyle = this.pattern; g.fillRect(x - 10, y0 - 18, S.w + 20, 20);
+    // 상자 (종이 옆에 놓고 비교)
+    const b = this.box; this.kraftBox({ x: x + S.w + 12, y: y0 + 20, w: Math.min(70, b.w * 0.5), h: Math.min(70, b.h * 0.5) });
+    // 목표 칸
+    const ty = y0 + m.target;
+    g.fillStyle = 'rgba(46,154,92,.28)'; g.fillRect(x - 8, ty - m.zone, S.w + 16, m.zone * 2);
+    g.fillStyle = C.ok; g.fillRect(x - 8, ty - 1.5, S.w + 16, 3);
+    g.font = '600 12px sans-serif'; g.fillStyle = C.ok; g.textAlign = 'left'; g.fillText('여기!', x + S.w + 14, ty + 4);
+    // 가위 이동
+    if (!m.stopped && this.ready <= 0) {
+      m.pos += m.dir * m.speed * dt * (1 + this.s.t * 0.15);
+      if (m.pos > L - 10) { m.pos = L - 10; m.dir = -1; } if (m.pos < 20) { m.pos = 20; m.dir = 1; }
+    }
+    const py = y0 + m.pos;
+    g.strokeStyle = m.stopped ? C.bad : '#666'; g.setLineDash([6, 5]); g.lineWidth = 2; g.beginPath(); g.moveTo(x - 10, py); g.lineTo(x + S.w + 10, py); g.stroke(); g.setLineDash([]);
+    this.scissors(x - 22, py, Math.sin(performance.now() / 90) * 0.5 + 0.5, 0);
+    if (!m.stopped) this.hand(this.cx, this.H - 120, { press: Math.sin(performance.now() / 250) > 0.6, alpha: 0.7 });
+  }
+
+  // ==================================================================
+  // ② 자르기 — 표시한 자리의 점선을 따라 가위질
+  // ==================================================================
+  _init_cut() {
+    const S = this.sheetRect;
+    const y = S.y + S.h * 0.08;
+    this.s.c = { y, x1: S.x - 6, x2: S.x + S.w + 6, cut: [], prog: 0, dev: [] };
+  }
+  _move_cut(p) {
+    const c = this.s.c; if (c.done) return;
+    if (p.x < c.x1 - 30 || p.x > c.x2 + 30) return;
+    c.dev.push(Math.abs(p.y - c.y));
+    c.cut.push({ x: p.x, y: p.y });
+    c.prog = Math.max(c.prog, clamp((p.x - c.x1) / (c.x2 - c.x1)));
+    sound.rustle('paper', 0.5, 'cut');
+    if (c.prog >= 0.97) this._end_cut();
+  }
+  _up_cut() { if (this.s.c.prog > 0.4) this._end_cut(); }
+  _end_cut() {
+    const c = this.s.c; if (c.done) return; c.done = true;
+    const md = c.dev.length ? c.dev.reduce((a, b) => a + b, 0) / c.dev.length : 30;
+    const sc = clamp(c.prog * 1.05) * clamp(1 - md / 26);
+    this.s.out = { cutDev: md };
+    this.finish(sc, md < 6 ? '자로 잰 듯 반듯해요!' : md < 14 ? '살짝 삐뚤어도 괜찮아요' : '종이 끝이 들쭉날쭉…');
+  }
+  _auto_cut() { this.s.c.prog = 1; this.s.out = { cutDev: 20 }; }
+  _draw_cut() {
+    const g = this.g, c = this.s.c, S = this.sheetRect;
+    this.paperRect(S.x, this.area.y - 40, S.w, c.y - this.area.y + 40 + S.h * 0.95);
+    // 점선 (가로로 자름)
+    this.dashed(c.x1, c.y, c.x2, c.y, C.guide, 2.5);
+    // 자른 자국
+    if (c.cut.length > 1) { g.strokeStyle = C.bad; g.lineWidth = 2.5; g.beginPath(); c.cut.forEach((p, i) => i ? g.lineTo(p.x, p.y) : g.moveTo(p.x, p.y)); g.stroke(); }
+    const last = c.cut[c.cut.length - 1] || { x: c.x1 - 24, y: c.y };
+    this.scissors(last.x, last.y, Math.sin(performance.now() / 70) * 0.5 + 0.5, 0);
+    if (!c.cut.length) { const k = (performance.now() / 1400) % 1; this.hand(lerp(c.x1, c.x2, ease(k)), c.y + 20, { alpha: 0.75 }); }
+    g.fillStyle = C.guide; g.font = '600 13px sans-serif'; g.textAlign = 'center'; g.fillText('→ 왼쪽에서 오른쪽으로', this.cx, c.y - 16);
+  }
+
+  // ==================================================================
+  // ③ 상자 놓기 — 미끄러운 상자를 가운데 점선 칸에
+  // ==================================================================
+  _init_place() {
+    const b = this.box;
+    this.s.p = { x: this.W - b.w / 2 - 20, y: this.area.y + this.area.h - b.h / 2 - 6, a: 0.35, vx: 0, vy: 0, drag: null, placed: false };
+  }
+  _down_place(p) { const q = this.s.p, b = this.box; if (Math.abs(p.x - q.x) < b.w / 2 + 30 && Math.abs(p.y - q.y) < b.h / 2 + 30) { q.drag = { dx: q.x - p.x, dy: q.y - p.y }; sound.knock('box', 0.4, 'pl'); } }
+  _move_place(p) { const q = this.s.p; if (!q.drag) return; q.x = p.x + q.drag.dx; q.y = p.y + q.drag.dy; q.a *= 0.9; }
+  _up_place() {
+    const q = this.s.p; if (!q.drag) return; q.drag = null;
+    const b = this.box, dx = q.x - (b.x + b.w / 2), dy = q.y - (b.y + b.h / 2);
+    const err = Math.hypot(dx, dy) / Math.max(30, Math.min(b.w, b.h) * 0.5);
+    if (err > 1.6) { this.say('칸 안에 놓아야 해요!'); sound.hm?.(); return; }
+    const sc = clamp(1 - err * 0.9 - Math.abs(q.a) * 1.2);
+    this.s.out = { placeOff: { x: dx / b.w, y: dy / b.h }, placeA: q.a };
+    q.placed = true; sound.knock('box', 0.8, 'pl2');
+    this.finish(sc, err < 0.15 ? '정가운데! 이게 포장의 시작이죠' : '살짝 비뚤어도 접으면 티 안 나요');
+  }
+  _auto_place() { const b = this.box; Object.assign(this.s.p, { x: b.x + b.w / 2 + b.w * 0.12, y: b.y + b.h / 2, a: 0.08 }); this.s.out = { placeOff: { x: 0.12, y: 0 }, placeA: 0.08 }; }
+  _draw_place(dt) {
+    const g = this.g, S = this.sheetRect, b = this.box, q = this.s.p;
+    this.paperRect(S.x, S.y, S.w, S.h);
+    g.save(); g.setLineDash([8, 7]); g.strokeStyle = C.guide; g.lineWidth = 2.5; g.strokeRect(b.x, b.y, b.w, b.h); g.restore();
+    // 드래그 중엔 미끄러움 (살짝 흘러감)
+    if (q.drag && !this.s.done) { const t = performance.now() / 1000; q.x += Math.sin(t * 2.3) * 0.6; q.y += Math.cos(t * 1.7) * 0.5; q.a += Math.sin(t * 1.9) * 0.002; }
+    this.kraftBox({ x: q.x - b.w / 2, y: q.y - b.h / 2, w: b.w, h: b.h }, { a: q.a });
+    if (!q.drag && !q.placed) { const k = (performance.now() / 1500) % 1; this.hand(lerp(q.x, b.x + b.w / 2, ease(k)), lerp(q.y, b.y + b.h / 2, ease(k)) + 10, { press: true, alpha: 0.7 }); }
+  }
+
+  // ==================================================================
+  // ④ 감싸기 — 아래 종이 쓸어 올리기 → 위 종이 당겨서 팽팽하게 (게이지)
+  // ==================================================================
+  _init_wrap() { this.s.w = { phase: 1, p1: 0, p2: 0, swipe: null, pull: 0, holding: false, a1: 0 }; }
+  _down_wrap(p) { const w = this.s.w; w.start = p; if (w.phase === 2) w.holding = true; }
+  _move_wrap(p) {
+    const w = this.s.w, s = w.start; if (!s) return;
+    if (w.phase === 1) { w.p1 = clamp((s.y - p.y) / (this.box.h * 1.1)); if (w.p1 > 0.05) sound.rustle('paper', 0.4, 'w1'); }
+    if (w.phase === 2) { w.pull = clamp((p.y - s.y) / (this.box.h * 1.3), 0, 1.15); sound.rustle('paper', 0.3 + w.pull * 0.4, 'w2'); }
+  }
+  _up_wrap(p, path) {
+    const w = this.s.w, s = w.start; w.start = null;
+    if (w.phase === 1) {
+      if (w.p1 < 0.45) { w.p1 = 0; this.say('아래에서 위로 쭉 쓸어 올려요'); return; }
+      // 똑바로 올렸는가
+      const dx = Math.abs(p.x - s.x), dy = Math.abs(p.y - s.y);
+      w.a1 = clamp(1 - dx / (dy + 1) * 1.5);
+      w.p1 = 1; w.phase = 2; sound.drape?.(0, 0.1);
+      this.$('.mama-how').textContent = '위 종이를 잡고 아래로 당겨요. 초록 칸에서 손을 떼요!';
+      this.say('이제 팽팽하게 당겨요. 너무 세면 찢어져요!');
+      return;
+    }
+    if (w.phase === 2 && w.holding) {
+      w.holding = false;
+      const t = w.pull;
+      if (t < 0.25) { w.pull = 0; return; }
+      let ten, note;
+      if (t > 1.0) { ten = 0.15; note = '찌익…! 찢어졌어요. 테이프로 살려 볼게요'; this.s.out = { tension: 'tear' }; sound.shatter?.(0); }
+      else if (t >= 0.62 && t <= 0.86) { ten = 1; note = '팽팽! 주름 하나 없어요'; this.s.out = { tension: 'tight' }; }
+      else if (t < 0.62) { ten = 0.35 + (t - 0.25) * 0.9; note = '조금 헐렁해요… 쭈글쭈글'; this.s.out = { tension: 'loose' }; }
+      else { ten = 0.6; note = '꽤 세게 당겼네요. 아슬아슬!'; this.s.out = { tension: 'hard' }; }
+      w.p2 = 1; w.phase = 3; sound.drape?.(0, 0.3);
+      this.finish(w.a1 * 0.35 + ten * 0.65, note);
+    }
+  }
+  _auto_wrap() { Object.assign(this.s.w, { p1: 1, p2: 1, phase: 3 }); this.s.out = { tension: 'loose' }; }
+  _draw_wrap(dt) {
+    const g = this.g, S = this.sheetRect, b = this.box, w = this.s.w;
+    const top = [[S.x, S.y], [S.x + S.w, S.y], [S.x + S.w, b.y], [S.x, b.y]];
+    const bottom = [[S.x, b.y + b.h], [S.x + S.w, b.y + b.h], [S.x + S.w, S.y + S.h], [S.x, S.y + S.h]];
+    const mid = [[S.x, b.y], [S.x + S.w, b.y], [S.x + S.w, b.y + b.h], [S.x, b.y + b.h]];
+    this.poly(mid, this.pattern, { shadow: true });
+    this.kraftBox(b);
+    // 위 종이 (2단계에서 당겨 내림)
+    const p2 = w.phase >= 3 ? 1 : w.holding ? clamp(w.pull) * 0.95 : 0;
+    const ftop = this.foldPoly(top, [S.x, b.y], [S.x + S.w, b.y], p2 * 0.999, 0.42 * (b.h / Math.max(1, b.y - S.y)) * 1.0);
+    // 아래 종이 (1단계에서 쓸어 올림)
+    const p1 = w.phase >= 2 ? 1 : w.p1;
+    const fbot = this.foldPoly(bottom, [S.x + S.w, b.y + b.h], [S.x, b.y + b.h], p1 * 0.999, 0.7 * (b.h / Math.max(1, S.y + S.h - b.y - b.h)));
+    this.poly(fbot, this.pattern, { shadow: p1 > 0.5 });
+    if (p1 > 0.5) { g.fillStyle = 'rgba(0,0,0,.06)'; this._path(fbot); g.fill(); }
+    this.poly(ftop, this.pattern, { shadow: p2 > 0.5 });
+    // 안내
+    if (w.phase === 1 && !this.ptr) { const k = (performance.now() / 1300) % 1; this.hand(this.cx, lerp(S.y + S.h - 30, b.y + b.h * 0.3, ease(k)), { alpha: 0.75 }); g.fillStyle = C.guide; g.font = '700 30px sans-serif'; g.textAlign = 'center'; g.fillText('↑', this.cx + 60, b.y + b.h + 50); }
+    if (w.phase === 2) {
+      if (!w.holding) { const k = (performance.now() / 1300) % 1; this.hand(this.cx, lerp(S.y + 30, b.y + b.h * 0.5, ease(k)), { alpha: 0.75 }); }
+      // 팽팽함 게이지
+      const gx = this.W - 34, gy = b.y - 20, gh = b.h + 80;
+      g.fillStyle = '#fff'; g.fillRect(gx - 12, gy, 24, gh); g.strokeStyle = '#999'; g.strokeRect(gx - 12, gy, 24, gh);
+      g.fillStyle = 'rgba(46,154,92,.35)'; g.fillRect(gx - 12, gy + gh * 0.62, 24, gh * 0.24);
+      g.fillStyle = 'rgba(216,69,58,.3)'; g.fillRect(gx - 12, gy + gh * 0.95, 24, gh * 0.05 + 6);
+      const ny = gy + gh * clamp(w.pull, 0, 1.05);
+      g.fillStyle = w.pull > 1 ? C.bad : C.ink; g.beginPath(); g.moveTo(gx - 18, ny); g.lineTo(gx - 8, ny - 6); g.lineTo(gx - 8, ny + 6); g.fill();
+      g.save(); g.translate(gx + 22, gy + gh / 2); g.rotate(Math.PI / 2); g.font = '600 11px sans-serif'; g.fillStyle = '#666'; g.textAlign = 'center'; g.fillText('팽팽함', 0, 0); g.restore();
+      if (w.holding && w.pull > 0.95) { g.fillStyle = C.bad; g.font = '700 16px sans-serif'; g.textAlign = 'center'; g.fillText('찢어질 것 같아요!', this.cx, b.y - 24); }
+    }
+  }
+
+  // ==================================================================
+  // ⑤ 테이프 — 이음선 위 고리 세 개, 리듬 맞춰 톡
+  // ==================================================================
+  _init_tape() {
+    const b = this.box;
+    this._out = this._out || {};
+    this.out.tapes = [];
+    const sy = b.y + b.h * 0.62;
+    this.s.tp = { sy, pts: [0.2, 0.5, 0.8].map((k, i) => ({ x: b.x + b.w * k, at: 0.7 + i * 1.05, hit: null })), i: 0 };
+  }
+  _down_tape(p) {
+    const T = this.s.tp, cur = T.pts[T.i]; if (!cur) return;
+    const t = this.s.t, dt = t - cur.at;
+    const near = Math.hypot(p.x - cur.x, p.y - T.sy) < 46;
+    const acc = near ? clamp(1 - Math.abs(dt) / 0.42) : 0;
+    cur.hit = acc;
+    this.out.tapes.push({ x: cur.x + (near ? 0 : 14), a: (1 - acc) * 0.5 * (Math.random() - 0.5) });
+    sound.tape?.((cur.x / this.W) * 2 - 1);
+    this.popup(acc > 0.8 ? '딱!' : acc > 0.4 ? '좋아' : '삐뚤…', acc > 0.8 ? 'perfect' : acc > 0.4 ? 'good' : 'ok', 420);
+    T.i++;
+    if (T.i >= T.pts.length) this._end_tape();
+  }
+  _end_tape() {
+    const T = this.s.tp; if (T.end) return; T.end = true;
+    const sc = T.pts.reduce((s, q) => s + (q.hit || 0), 0) / T.pts.length;
+    this.s.out = { tapes: this.out.tapes.length };
+    this.finish(sc, sc > 0.8 ? '착착착! 리듬감 최고' : '테이프는 붙었어요');
+  }
+  _auto_tape() { const T = this.s.tp; for (const q of T.pts.slice(T.i)) { q.hit = 0.2; this.out.tapes.push({ x: q.x, a: 0.2 }); } T.i = T.pts.length; this.s.partial = T.pts.reduce((s, q) => s + (q.hit || 0), 0) / T.pts.length; }
+  _draw_tape() {
+    const g = this.g, b = this.box, T = this.s.tp;
+    this.wrapped(b);
+    const t = this.s.t;
+    // 놓친 고리는 넘어감
+    const cur = T.pts[T.i];
+    if (cur && t - cur.at > 0.55 && !this.s.done) { cur.hit = 0; this.out.tapes.push({ x: cur.x + 10, a: 0.3 }); T.i++; this.popup('놓쳤어요', 'oops', 400); if (T.i >= T.pts.length) this._end_tape(); }
+    T.pts.forEach((q, i) => {
+      if (i < T.i) return;
+      const dt = q.at - t;
+      g.strokeStyle = i === T.i ? C.guide : 'rgba(47,85,196,.3)'; g.lineWidth = 3;
+      g.beginPath(); g.arc(q.x, T.sy, 22, 0, TAU); g.stroke();
+      if (i === T.i && dt > -0.5) { const r = 22 + Math.max(0, dt) * 70; g.strokeStyle = Math.abs(dt) < 0.15 ? C.ok : '#f2a33a'; g.lineWidth = 4; g.beginPath(); g.arc(q.x, T.sy, r, 0, TAU); g.stroke(); }
+    });
+    // 테이프 디스펜서
+    g.fillStyle = '#d8453a'; g.beginPath(); g.roundRect?.(this.cx - 40, b.y + b.h + 40, 80, 34, 10); g.fill();
+    g.fillStyle = '#eef2f6'; g.beginPath(); g.arc(this.cx, b.y + b.h + 57, 13, 0, TAU); g.fill();
+  }
+
+  // ==================================================================
+  // ⑥ 양 끝 접기 — 옆에서 본 상자 끝: 위↓ → 왼→ → 오←  → 아래↑ (양쪽 두 번)
+  // ==================================================================
+  _init_ends() {
+    this.s.e = { side: 0, k: 0, anim: 0, prog: [0, 0, 0, 0], tries: 0, miss: 0, straight: [] };
+    this.out.endsMiss = 0;
+  }
+  get endRect() {
+    const { D, H } = this.dims, u = Math.min(this.area.w * 0.4 / D, this.area.h * 0.34 / H);
+    const w = D * u, h = H * u;
+    return { x: this.cx - w / 2, y: this.cy - h / 2 + 10, w, h, o: Math.min(w, h) * 0.62 };
+  }
+  _up_ends(p, path) {
+    const E = this.s.e; if (E.anim > 0 || !path || path.length < 2) return;
+    const s = path[0], dx = p.x - s.x, dy = p.y - s.y, L = Math.hypot(dx, dy);
+    if (L < 40) return;
+    const want = [[0, 1], [1, 0], [-1, 0], [0, -1]][E.k];
+    const cos = (dx * want[0] + dy * want[1]) / L;
+    E.tries++;
+    if (cos < 0.75) { E.miss++; this.out.endsMiss++; sound.rustle('tissue', 1, 'crum'); this.popup('반대예요!', 'oops', 500); this.say(['위 날개부터 아래로!', '왼쪽 날개는 안쪽(→)으로!', '오른쪽 날개는 안쪽(←)으로!', '아래 날개를 위로 올려요!'][E.k]); return; }
+    E.straight.push(cos);
+    E.anim = 0.001; sound.rustle('paper', 1, 'ef' + E.k);
+  }
+  _auto_ends() { const E = this.s.e; this.s.partial = clamp(0.25 + (E.side * 4 + E.k) / 8 * 0.4 - E.miss * 0.06); this.out.endsMiss = (this.out.endsMiss || 0) + 2; }
+  _draw_ends(dt) {
+    const g = this.g, E = this.s.e, r = this.endRect;
+    // 진행 애니메이션
+    if (E.anim > 0) {
+      E.anim += dt * 3.2; E.prog[E.k] = ease(E.anim);
+      if (E.anim >= 1) {
+        E.prog[E.k] = 1; E.anim = 0; E.k++;
+        if (E.k === 2) sound.rustle('paper', 0.6, 'tri');
+        if (E.k >= 4) {
+          if (E.side === 0) { E.side = 1; E.k = 0; E.prog = [0, 0, 0, 0]; this.popup('한쪽 끝!', 'good', 700); this.say('반대쪽도 똑같이! 이번엔 더 빨리'); sound.tape?.(0); }
+          else {
+            const firstTry = 8 / Math.max(8, E.tries);
+            const st = E.straight.reduce((a, b) => a + b, 0) / Math.max(1, E.straight.length);
+            this.s.out = { endsNeat: clamp(firstTry * 0.75 + (st - 0.75) / 0.25 * 0.25), endsMiss: this.out.endsMiss };
+            this.finish(firstTry * 0.75 + clamp((st - 0.75) / 0.25) * 0.25, E.miss === 0 ? '삼각 접기 장인이네요!' : '순서만 기억하면 돼요: 위·옆·옆·아래');
+          }
+        }
+      }
+    }
+    // 그리기: 상자 끝면 + 둘레 종이
+    const { x, y, w, h, o } = r;
+    g.fillStyle = 'rgba(0,0,0,.08)'; g.fillRect(x - o - 6, y - o - 6, w + o * 2 + 12, h + o * 2 + 12);
+    g.fillStyle = C.kraftDark; g.fillRect(x, y, w, h);
+    g.font = '600 12px sans-serif'; g.fillStyle = 'rgba(0,0,0,.35)'; g.textAlign = 'center'; g.fillText(E.side ? '오른쪽 끝' : '왼쪽 끝', x + w / 2, y + h + o + 26);
+    const P = E.prog;
+    const flapTop = [[x, y], [x + w, y], [x + w, y - o], [x, y - o]];
+    const flapL = [[x, y], [x, y + h], [x - o, y + h], [x - o, y]];
+    const flapR = [[x + w, y], [x + w + o, y], [x + w + o, y + h], [x + w, y + h]];
+    const flapB = [[x + w, y + h], [x, y + h], [x + w * 0.12, y + h + o * 1.15], [x + w * 0.88, y + h + o * 1.15]];
+    const tri = (pts, side) => side === 'L' ? [[x, y], [x, y + h], [x + w * 0.48, y + h * 0.55]] : [[x + w, y], [x + w, y + h], [x + w * 0.52, y + h * 0.55]];
+    // 아직 안 접힌 날개는 바깥에, 접힌 날개는 순서대로 위에 덮임
+    const order = [
+      { pts: flapTop, a: [x + w, y], b: [x, y], p: P[0], k: 0.55 },
+      { pts: flapL, a: [x, y], b: [x, y + h], p: P[1], k: 0.5, tri: 'L' },
+      { pts: flapR, a: [x + w, y + h], b: [x + w, y], p: P[2], k: 0.5, tri: 'R' },
+      { pts: flapB, a: [x + w, y + h], b: [x, y + h], p: P[3], k: 0.75 },
+    ];
+    for (const f of order) if (f.p < 0.5) this.poly(this.foldPoly(f.pts, f.a, f.b, f.p, f.k), this.pattern, { shadow: false });
+    for (const f of order) if (f.p >= 0.5) {
+      const pts = f.tri && f.p >= 1 ? tri(f.pts, f.tri) : this.foldPoly(f.pts, f.a, f.b, f.p, f.k);
+      this.poly(pts, this.pattern, { shadow: true });
+      g.fillStyle = 'rgba(255,255,255,.08)'; this._path(pts); g.fill();
+    }
+    // 안내 화살표
+    if (E.k < 4 && E.anim === 0 && !this.s.done) {
+      const want = [[0, 1], [1, 0], [-1, 0], [0, -1]][E.k];
+      const from = [[x + w / 2, y - o * 0.6], [x - o * 0.6, y + h / 2], [x + w + o * 0.6, y + h / 2], [x + w / 2, y + h + o * 0.7]][E.k];
+      const k = (performance.now() / 900) % 1;
+      g.save(); g.globalAlpha = 0.85; g.fillStyle = C.guide; g.translate(from[0] + want[0] * 40 * ease(k), from[1] + want[1] * 40 * ease(k)); g.rotate(Math.atan2(want[1], want[0]));
+      g.beginPath(); g.moveTo(26, 0); g.lineTo(-6, -18); g.lineTo(-6, -7); g.lineTo(-26, -7); g.lineTo(-26, 7); g.lineTo(-6, 7); g.lineTo(-6, 18); g.closePath(); g.fill(); g.restore();
+      g.fillStyle = C.guide; g.font = '700 13px sans-serif'; g.textAlign = 'center';
+      g.fillText(['① 위 날개 ↓', '② 왼쪽 날개 →', '③ 오른쪽 날개 ←', '④ 아래 날개 ↑'][E.k], this.cx, y - o - 18);
+    }
+  }
+
+  // ==================================================================
+  // ⑦ 리본 두르기 — 세로선 → 가로선 따라 긋기
+  // ==================================================================
+  _init_ribbon() { this.s.r = { line: 0, strokes: [], cur: null, devs: [[], []], cover: [0, 0] }; }
+  _down_ribbon(p) { this.s.r.cur = [p]; }
+  _move_ribbon(p) {
+    const R = this.s.r, b = this.box; if (!R.cur) return;
+    R.cur.push(p);
+    if (R.line === 0) { R.devs[0].push(p.x - (b.x + b.w / 2)); R.cover[0] = Math.max(R.cover[0], clamp((p.y - (b.y - 20)) / (b.h + 40))); }
+    else { R.devs[1].push(p.y - (b.y + b.h / 2)); R.cover[1] = Math.max(R.cover[1], clamp((p.x - (b.x - 20)) / (b.w + 40))); }
+    sound.rustle('cloth', 0.5, 'rb');
+  }
+  _up_ribbon() {
+    const R = this.s.r; if (!R.cur) return;
+    if (R.cover[R.line] < 0.55) { R.cur = null; R.devs[R.line] = []; R.cover[R.line] = 0; this.say(R.line === 0 ? '위에서 아래로 끝까지!' : '왼쪽에서 오른쪽으로 끝까지!'); return; }
+    R.strokes.push(R.cur); R.cur = null; R.line++;
+    sound.rustle('cloth', 1, 'rb2');
+    if (R.line >= 2) {
+      const b = this.box;
+      const stat = (d, half) => { const m = d.reduce((a, c) => a + c, 0) / Math.max(1, d.length); const sd = Math.sqrt(d.reduce((a, c) => a + (c - m) ** 2, 0) / Math.max(1, d.length)); return { off: m / half, wob: sd / half }; };
+      const v = stat(R.devs[0], b.w / 2), h = stat(R.devs[1], b.h / 2);
+      const sc = clamp(1 - Math.abs(v.off) * 1.6 - v.wob * 2.2) * 0.5 + clamp(1 - Math.abs(h.off) * 1.6 - h.wob * 2.2) * 0.5;
+      this.s.out = { ribV: clamp(v.off, -0.8, 0.8), ribH: clamp(h.off, -0.8, 0.8), ribWob: (v.wob + h.wob) / 2 };
+      this.finish(sc, sc > 0.85 ? '십자가 정확히 가운데!' : '리본은 둘렀어요');
+    } else this.$('.mama-how').textContent = '이번엔 가로선을 따라 왼쪽 → 오른쪽!';
+  }
+  _auto_ribbon() { this.s.out = { ribV: 0.15, ribH: -0.1, ribWob: 0.2 }; }
+  _draw_ribbon() {
+    const g = this.g, b = this.box, R = this.s.r;
+    this.wrapped(b);
+    const cxb = b.x + b.w / 2, cyb = b.y + b.h / 2;
+    if (R.line === 0) this.dashed(cxb, b.y - 30, cxb, b.y + b.h + 30);
+    if (R.line === 1) this.dashed(b.x - 30, cyb, b.x + b.w + 30, cyb);
+    for (const s of R.strokes) this.ribbonLine(s, 11);
+    if (R.cur) this.ribbonLine(R.cur, 11);
+    if (!R.cur && R.line < 2 && !this.s.done) {
+      const k = (performance.now() / 1400) % 1;
+      R.line === 0 ? this.hand(cxb, lerp(b.y - 20, b.y + b.h + 20, ease(k)), { alpha: 0.7 }) : this.hand(lerp(b.x - 20, b.x + b.w + 20, ease(k)), cyb + 10, { alpha: 0.7 });
+    }
+  }
+
+  // ==================================================================
+  // ⑧ 매듭 — 가운데를 빙글빙글 세 바퀴
+  // ==================================================================
+  _init_bow() { this.s.b = { ang: 0, last: null, rs: [], turns: 0 }; }
+  _move_bow(p) {
+    const B = this.s.b, c = { x: this.cx, y: this.box.y + this.box.h / 2 };
+    const a = Math.atan2(p.y - c.y, p.x - c.x);
+    if (B.last != null) { let d = a - B.last; if (d > Math.PI) d -= TAU; if (d < -Math.PI) d += TAU; B.ang += Math.abs(d); }
+    B.last = a;
+    B.rs.push(Math.hypot(p.x - c.x, p.y - c.y));
+    B.turns = B.ang / TAU;
+    if (Math.floor(B.turns) !== Math.floor((B.ang - 0.3) / TAU)) sound.rustle('cloth', 0.9, 'bow');
+    if (B.turns >= 3) this._end_bow();
+  }
+  _up_bow() { this.s.b.last = null; }
+  _end_bow() {
+    const B = this.s.b; if (B.end) return; B.end = true;
+    const R0 = this.bowR, m = B.rs.reduce((a, c) => a + c, 0) / B.rs.length;
+    const sd = Math.sqrt(B.rs.reduce((a, c) => a + (c - m) ** 2, 0) / B.rs.length);
+    const sc = clamp(1 - Math.abs(m - R0) / R0 * 0.8 - sd / R0 * 1.2) * 0.6 + clamp(1 - (this.s.t - 2.2) / 5) * 0.4;
+    this.s.out = { bowNeat: sc };
+    this.finish(sc, sc > 0.85 ? '양쪽 고리 크기가 똑같아요!' : '조금 짝짝이지만 귀여워요');
+  }
+  _auto_bow() { const B = this.s.b; this.s.partial = clamp(B.turns / 3) * 0.5; this.s.out = { bowNeat: this.s.partial }; }
+  get bowR() { return Math.min(70, this.box.w * 0.32); }
+  _draw_bow() {
+    const g = this.g, b = this.box, B = this.s.b, R = this.s.r || {};
+    this.wrapped(b);
+    const cxb = b.x + b.w / 2, cyb = b.y + b.h / 2;
+    this.ribbonLine([{ x: cxb + (this.out.ribV || 0) * b.w / 2, y: b.y - 6 }, { x: cxb + (this.out.ribV || 0) * b.w / 2, y: b.y + b.h + 6 }], 11);
+    this.ribbonLine([{ x: b.x - 6, y: cyb }, { x: b.x + b.w + 6, y: cyb }], 11);
+    // 가이드 원
+    g.save(); g.setLineDash([7, 7]); g.lineDashOffset = -performance.now() / 30; g.strokeStyle = C.guide; g.lineWidth = 2.5; g.beginPath(); g.arc(cxb, cyb, this.bowR, 0, TAU); g.stroke(); g.restore();
+    // 진행 표시
+    g.strokeStyle = C.ok; g.lineWidth = 6; g.beginPath(); g.arc(cxb, cyb, this.bowR + 14, -Math.PI / 2, -Math.PI / 2 + TAU * clamp(B.turns / 3)); g.stroke();
+    // 자라나는 리본 고리
+    const k = clamp(B.turns / 3);
+    if (k > 0) {
+      g.save(); g.translate(cxb, cyb);
+      for (const s of [-1, 1]) { g.save(); g.scale(s, 1); g.fillStyle = this.ribbonStyle.color; g.strokeStyle = 'rgba(0,0,0,.2)'; g.beginPath(); g.ellipse(26 * k + 6, -4, 30 * k, 18 * k, -0.35, 0, TAU); g.fill(); g.stroke(); g.restore(); }
+      g.fillStyle = this.ribbonStyle.light; g.beginPath(); g.arc(0, 0, 9 * k + 3, 0, TAU); g.fill();
+      g.restore();
+    }
+    g.fillStyle = C.ink; g.font = '700 16px sans-serif'; g.textAlign = 'center'; g.fillText(`${Math.min(3, Math.floor(B.turns))} / 3 바퀴`, cxb, b.y + b.h + 46);
+    if (!this.ptr && B.turns < 0.2) { const a = performance.now() / 500; this.hand(cxb + Math.cos(a) * this.bowR, cyb + Math.sin(a) * this.bowR + 10, { alpha: 0.75 }); }
+  }
+
+  // ==================================================================
+  // ⑨ 리본 끝 자르기 — 두 꼬리를 사선 점선 따라 싹둑
+  // ==================================================================
+  _init_trim() {
+    const b = this.box, cxb = b.x + b.w / 2, cyb = b.y + b.h / 2;
+    const L = Math.min(110, b.h * 0.5 + 50);
+    this.s.tr = { tails: [-1, 1].map(s => ({ s, x0: cxb + s * 8, y0: cyb + 6, x1: cxb + s * 34, y1: cyb + L, cut: null })), i: 0, cyb, L };
+  }
+  _up_trim(p, path) {
+    const T = this.s.tr; if (!path || path.length < 2) return;
+    const a = path[0], dx = p.x - a.x, dy = p.y - a.y, len = Math.hypot(dx, dy);
+    if (len < 30) return;
+    // 어느 꼬리를 지나갔나 (꼬리 아래쪽 1/3 높이)
+    for (const t of T.tails) {
+      if (t.cut) continue;
+      const yc = lerp(t.y0, t.y1, 0.78), xc = lerp(t.x0, t.x1, 0.78);
+      const minY = Math.min(a.y, p.y) - 20, maxY = Math.max(a.y, p.y) + 20;
+      const crosses = (Math.min(a.x, p.x) < xc + 10 && Math.max(a.x, p.x) > xc - 10) && yc > minY && yc < maxY;
+      if (!crosses) continue;
+      const ang = Math.atan2(Math.abs(dy), Math.abs(dx)); // 0=가로, π/2=세로
+      const want = Math.PI / 4;
+      t.cut = { y: yc, slope: Math.sign(dx * dy) || t.s, q: clamp(1 - Math.abs(ang - want) / (Math.PI / 4)) };
+      sound.rustle('cloth', 1, 'trim' + t.s); this.scissorsAt = { x: xc, y: yc, t: 0.3 };
+      this.popup(t.cut.q > 0.75 ? '싹둑!' : '댕강', t.cut.q > 0.75 ? 'perfect' : 'good', 450);
+    }
+    if (T.tails.every(t => t.cut)) {
+      const q = T.tails.reduce((s, t) => s + t.cut.q, 0) / 2;
+      this.s.out = { trim: q };
+      this.finish(q, q > 0.8 ? '제비꼬리처럼 멋지게 잘렸어요' : '끝이 조금 뭉툭해도 괜찮아요');
+    }
+  }
+  _auto_trim() { const T = this.s.tr; const done = T.tails.filter(t => t.cut).length; this.s.partial = done * 0.3; this.s.out = { trim: this.s.partial }; }
+  _draw_trim(dt) {
+    const g = this.g, b = this.box, T = this.s.tr;
+    this.wrapped(b);
+    const cxb = b.x + b.w / 2, cyb = b.y + b.h / 2;
+    this.ribbonLine([{ x: cxb, y: b.y - 6 }, { x: cxb, y: b.y + b.h + 6 }], 11);
+    this.ribbonLine([{ x: b.x - 6, y: cyb }, { x: b.x + b.w + 6, y: cyb }], 11);
+    for (const t of T.tails) {
+      const endY = t.cut ? t.cut.y : t.y1;
+      const endX = lerp(t.x0, t.x1, (endY - t.y0) / (t.y1 - t.y0));
+      this.ribbonLine([{ x: t.x0, y: t.y0 }, { x: endX, y: endY }], 13);
+      if (t.cut) { // 사선 단면 (V자)
+        g.fillStyle = this.ribbonStyle.color; g.beginPath(); g.moveTo(endX - 6.5, endY); g.lineTo(endX + 6.5, endY + t.cut.slope * 9 * t.cut.q); g.lineTo(endX + 6.5, endY); g.closePath(); g.fill();
+      } else {
+        const yc = lerp(t.y0, t.y1, 0.78), xc = lerp(t.x0, t.x1, 0.78);
+        this.dashed(xc - 22, yc - 22, xc + 22, yc + 22, C.guide, 2);
+      }
+    }
+    // 매듭
+    g.save(); g.translate(cxb, cyb);
+    for (const s of [-1, 1]) { g.save(); g.scale(s, 1); g.fillStyle = this.ribbonStyle.color; g.strokeStyle = 'rgba(0,0,0,.2)'; g.beginPath(); g.ellipse(32, -4, 30, 18, -0.35, 0, TAU); g.fill(); g.stroke(); g.restore(); }
+    g.fillStyle = this.ribbonStyle.light; g.beginPath(); g.arc(0, 0, 12, 0, TAU); g.fill(); g.restore();
+    if (this.scissorsAt) { this.scissorsAt.t -= dt; this.scissors(this.scissorsAt.x, this.scissorsAt.y, this.scissorsAt.t > 0.15 ? 1 : 0, -0.6); if (this.scissorsAt.t <= 0) this.scissorsAt = null; }
+    if (!T.tails.some(t => t.cut) && !this.ptr) { const k = (performance.now() / 1100) % 1; const t0 = T.tails[0], yc = lerp(t0.y0, t0.y1, 0.78), xc = lerp(t0.x0, t0.x1, 0.78); this.hand(lerp(xc - 40, xc + 40, ease(k)), lerp(yc - 40, yc + 40, ease(k)) + 10, { alpha: 0.7 }); }
+  }
+}
+
+return { MAMA_STAGES, RATINGS, rateOf, MamaGame };
+})();
+
 // ---- js/screens/game.js ----
 __m["js/screens/game.js"] = (() => {
 // ==========================================================
@@ -7085,6 +7907,7 @@ const { setCustomPaper, markCustomPaper, flapTips, decoColor } = __m["js/game/wr
 const { PaperEditor, PEN_COLORS, STAMPS, PAPER_BASES } = __m["js/screens/paper-editor.js"];
 const { sound } = __m["js/sound.js"];
 const { judgeWrap, JudgeView } = __m["js/game/judge.js"];
+const { MamaGame } = __m["js/game/mama.js"];
 const { addDelivery, career, rankOf, nextRank, unlocked, lockRank, XMAS_STAMPS } = __m["js/data/career.js"];
 const $ = (id) => document.getElementById(id);
 const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
@@ -7170,8 +7993,7 @@ function paintSelectBar() {
 const STEPS = [
   { id: 'pack', label: '상자에 담기', title: '상자에 담기', how: () => '상자 색을 고르고, 선물을 잡아 상자 위에서 놓아요. 대충 놓아도 들어가요.' },
   { id: 'paper', label: '포장지', title: '포장지 직접 만들기', how: () => '바탕(내 이미지도 OK)을 고르고 손가락으로 그리거나 도장을 찍어요. 그린 그대로 선물에 입혀져요.' },
-  { id: 'fold', label: '접기', title: '종이 접기', how: () => '삐져나온 종이 끝의 동그라미를 잡고 화살표 쪽으로 끌어서 접어요.' },
-  { id: 'ribbon', label: '끈', title: '끈 그리기', how: () => '선물 위에 손가락으로 선을 그으면 그 모양대로 끈이 감겨요. ‘매듭’을 고르고 톡 누르면 리본이 달려요.' },
+  { id: 'mama', label: '포장하기', title: '포장 실기 9단계', how: () => '재고, 자르고, 감싸고, 접고, 묶기까지. 손으로 직접!' },
   { id: 'sticker', label: '스티커', title: '스티커 붙이기', how: () => '스티커를 고르고 선물을 톡 누르면 붙어요. 내 이미지로 스티커도 만들 수 있어요.' },
   { id: 'card', label: '편지', title: '한마디 쓰기', how: () => `${toName()}에게 전하고 싶은 한마디` },
 ];
@@ -7199,7 +8021,7 @@ function safe(fn) { try { return fn(); } catch (err) { console.warn('[선물학]
 
 function isDone(id) {
   const w = wrap();
-  return { pack: packed(), paper: !!w.paper, fold: foldDone(), ribbon: !!(w.ribbon && (w.ribbon.strokes?.length || w.ribbon.bow)), sticker: w.decos.length > 0, card: !!w.card.message.trim() }[id];
+  return { pack: packed(), paper: !!w.paper, mama: !!w.mama, sticker: w.decos.length > 0, card: !!w.card.message.trim() }[id];
 }
 function renderSteps() {
   $('wrap-steps').innerHTML = STEPS.map((s, i) => `<button class="wrap-step" type="button" role="tab" data-step="${s.id}">${i + 1}. ${s.label}</button>`).join('');
@@ -7227,8 +8049,8 @@ function setStep(id) {
     if (id !== 'pack' && !packed()) { autoPack(); hint('대충 밀어 넣고 뚜껑 닫았어요'); }
     // 포장지 단계에 처음 오면 바탕 종이부터 바로 씌워서, 그리는 대로 보이게
     if ((id === 'paper' || id === 'fold') && !wrap().paper) applyPaper();
-    const iTo = STEPS.findIndex(s => s.id === id), iFold = STEPS.findIndex(s => s.id === 'fold');
-    if (iTo > iFold && wrap().paper && !foldDone()) { wrapView.rebuild(wrap()); autoFold(); hint('종이 끝은 대충 접어 뒀어요'); }
+    const iTo = STEPS.findIndex(s => s.id === id), iM = STEPS.findIndex(s => s.id === 'mama');
+    if (iTo > iM && wrap().paper && !wrap().mama) { autoMama(); hint('포장은 선배가 대충 해 뒀어요'); }
   });
   W.step = id;
   safe(() => scheduleCrisis(id));
@@ -7239,6 +8061,7 @@ function setStep(id) {
   $('mission-how').textContent = st.how();
   renderTools();
   paintSteps();
+  if (id === 'mama' && !wrap().mama) safe(startMama);
 }
 let hintT = 0;
 function hint(t, alert = false) {
@@ -7358,6 +8181,7 @@ function renderTools() {
         ${editor.base === 'photo' ? chip('data-act="phototile"', editor.photoTiled ? '크게 한 장' : '작게 반복', false) : ''}
         ${PAPER_BASES.filter(p => !p.photo).map(p => chip(`data-base="${p.id}"`, `<i style="background:${p.swatch}"></i>${p.name}`, editor.base === p.id)).join('')}</div>
       <div class="tool-row tool-row--scroll" style="margin-top:8px"><span class="tool-label" style="margin:0 4px 0 0;align-self:center">싸는 방식</span>${STYLES.map(x => chip(`data-style="${x.id}"`, x.name, W.style === x.id)).join('')}</div>
+      <div class="tool-row tool-row--scroll" style="margin-top:8px"><span class="tool-label" style="margin:0 4px 0 0;align-self:center">리본</span>${RIBBONS.filter(r => r.kind).map(r => unlocked(r.id) ? chip(`data-ribbon="${r.id}"`, `<i style="background:${(RIB_2D[r.id] || ['#999'])[0]}"></i>${r.name}`, W.ribbon === r.id) : lockedChip(r.id, r.name)).join('')}</div>
       ${nextBtn()}`;
     $('paper-slot').appendChild(editor.cv);
   } else if (W.step === 'fold') {
@@ -7368,6 +8192,12 @@ function renderTools() {
         <button class="tool-btn" type="button" data-act="unfold">다시 펼치기</button>
         <button class="tool-btn" type="button" data-act="autofold">대충 한 번에 접기</button></div>
       <p class="tool-note">파란 동그라미를 잡고 화살표 방향으로 끝까지 끌어요.</p>${nextBtn()}`;
+  } else if (W.step === 'mama') {
+    const m = w.mama;
+    box.innerHTML = m ? `<p class="tool-label">포장 실기 결과 · ${{ gold: '금메달', silver: '은메달', bronze: '동메달', none: '연습생' }[m.medal]} (${m.total}점)</p>
+      <div class="tool-row tool-row--tight">${(m.stages || []).map(x => `<span class="fold-chip is-done">${x.label} ${x.score}</span>`).join('')}</div>
+      <div class="tool-row tool-row--tight" style="margin-top:10px"><button class="tool-btn" type="button" data-act="mama-again">처음부터 다시 싸기</button></div>${nextBtn()}`
+      : `<p class="tool-note">포장 실기를 시작해요.</p><button class="tool-btn" type="button" data-act="mama-start">포장 시작</button>`;
   } else if (W.step === 'sticker') {
     const sel = w.decos.find(d => d.id === W.sel);
     box.innerHTML = `<p class="tool-label">스티커</p>
@@ -7429,6 +8259,36 @@ function thinStroke(pts) {
   return out.map(q => ({ p: q.p.map(v => Math.round(v * 1000) / 1000), n: q.n.map(v => Math.round(v * 1000) / 1000) }));
 }
 
+// ---------- 쿠킹마마식 포장 실기 ----------
+let mama = null;
+const RIB_2D = { stripe: ['#3a5cc8', '#9fb2ee'], glitter: ['#e86aa0', '#ffd0e4'], neon: ['#ff2b8c', '#ff9cc8'], twine: ['#e9e3d2', '#ffffff'], para: ['#e0452a', '#f6a28f'], gold: ['#d6b25a', '#fff1b8'] };
+function startMama() {
+  if (!mama) { mama = new MamaGame($('mama')); window.__mama = mama; }
+  if (!wrap().paper) applyPaper();
+  const S = wrapView.model?.userData.S || { W: 1, H: 0.6, D: 0.8 };
+  const [color, light] = RIB_2D[W.ribbon] || RIB_2D.stripe;
+  $('fold-handles') && ($('fold-handles').hidden = true);
+  stage.show(null); // 미니게임 동안 3D는 쉼
+  mama.start({ paper: editor.cv, dims: { W: S.W, H: S.H, D: S.D }, ribbon: { color, light }, onDone: (res) => safe(() => { applyMama(res); setStep('sticker'); }) });
+}
+function applyMama(res) {
+  const o = res.out || {}, w = wrap();
+  const k = (v, d = 0.5) => (v == null ? d : v);
+  const crumple = { tight: 0.03, hard: 0.06, loose: 0.32, tear: 0.5 }[o.tension] ?? 0.2;
+  saveWrap({
+    mama: { stages: res.stages, total: res.total, medal: res.medal },
+    flaps: { L: lerpN(0.4, 1, k(o.ends)), R: lerpN(0.4, 1, k(o.ends) * 0.96), T: lerpN(0.4, 1, k(o.wrap)) },
+    rushedFold: false,
+    paper: { ...(w.paper || { id: 'custom' }), fit: { ...(w.paper?.fit || { dx: 0, dz: 0, rot: 0 }), crumple, dx: (o.placeOff?.x || 0) * 0.15, rot: (o.placeA || 0) * 0.4 } },
+    ribbon: { id: W.ribbon || 'stripe', vx: clamp((o.ribV || 0) * 0.45, -0.35, 0.35), vTilt: (o.ribWob || 0) * 0.5, hy: clamp(0.55 + (o.ribH || 0) * 0.25, 0.25, 0.85), hTilt: -(o.ribWob || 0) * 0.4, knot: true },
+  });
+}
+const lerpN = (a, b, t) => a + (b - a) * clamp(t, 0, 1);
+function autoMama() {
+  applyMama({ stages: [], total: 25, medal: 'none', out: { ends: 0.3, wrap: 0.3, tension: 'loose', ribV: 0.12, ribH: -0.1, ribWob: 0.25 } });
+  saveWrap({ rushedFold: true });
+}
+
 // ---------- 돌발 상황: 막히지 않음, 대처하면 심사 보너스 ----------
 const CRISES = {
   snow: { step: 'paper', title: '돌발 상황! 눈이 들어와요', text: '창문이 열려서 눈이 쏟아져요! 창문을 닫아요', kind: 'button', btn: '창문 닫기', time: 4200,
@@ -7439,7 +8299,7 @@ const CRISES = {
     ok: '잡았다! 리본 되찾았어요', miss: '루돌프가 리본 한 조각 들고 사라졌어요…' },
 };
 const C = { timer: 0, active: null, t0: 0, raf: 0 };
-const crisisOff = () => /nocrisis/.test(location.search) || window.__noCrisis;
+const crisisOff = () => !/crisis=1/.test(location.search); // 돌발 상황은 꺼 둠 (?crisis=1 로 켜기)
 function scheduleCrisis(step) {
   clearTimeout(C.timer);
   if (C.active) endCrisis(false, true);
@@ -7516,7 +8376,7 @@ function finishWrap() {
   safe(() => { if (!packed()) autoPack(); });
   safe(() => { if (stage.view !== wrapView) { wrapView.rebuild(wrap()); stage.show(wrapView); } });
   safe(() => { if (!wrap().paper) applyPaper(); });
-  safe(() => { wrapView.rebuild(wrap()); if (!foldDone()) autoFold(); });
+  safe(() => { if (!wrap().mama) autoMama(); wrapView.rebuild(wrap()); });
   stopTimer();
   if ($('fold-handles')) $('fold-handles').hidden = true;
   go('judge');
@@ -7708,6 +8568,7 @@ function bindWrapPanel() {
     const d = b.dataset, w = wrap();
     if (d.locked) { const r = lockRank(d.locked); hint(`${r.name}이 되면 열려요 · 배송 ${r.min}건부터 (지금 ${career().count}건)`); return; }
     if (d.next) { setStep(d.next); return; }
+    if (d.act === 'mama-start' || d.act === 'mama-again') { startMama(); return; }
     if (d.box) { chooseBox(d.box); return; }
     if (d.act === 'rot90') { if (stage.view === packView) packView.rotate(); return; }
     if (d.act === 'lid') { if (w.box === 'none') setStep('paper'); else closeLid(); return; }
