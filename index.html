@@ -909,63 +909,96 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
 .mama-final__list li { display: flex; justify-content: space-between; font-size: 13.5px; color: #5d5a54; }
 .mama-final__list b { color: #e0a51a; letter-spacing: 2px; }
 
-/* ---------- 너무 바쁜 산타 테스트 ---------- */
-.screen--rush { background: #f3e7d3; overflow: hidden; user-select: none; -webkit-user-select: none; touch-action: none; padding: 0; }
+
+/* ---------- 너무 바쁜 산타 테스트 (인트로와 같은 결: 종이색 · 얇은 글씨 · 민트 테이프 · 파란 라벨) ---------- */
+.screen--rush { background: #eeeeeb; overflow: hidden; user-select: none; -webkit-user-select: none; touch-action: none; padding: 0; }
 .rush-cv { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.rush-hud { position: absolute; left: 0; right: 0; top: 0; padding: calc(env(safe-area-inset-top) + 10px) 12px 0; pointer-events: none; }
-.rush-hud__row { display: flex; align-items: center; justify-content: space-between; }
-.rush-stat { margin: 0; display: flex; flex-direction: column; min-width: 70px; }
-.rush-stat small { font-size: 10.5px; color: #8f6a4a; font-weight: 700; letter-spacing: .08em; }
-.rush-stat b { font: 900 22px var(--font); color: #2a2623; }
-.rush-stat--r { align-items: flex-end; }
-.rush-clock { margin: 0; width: 64px; height: 64px; border-radius: 50%; background: #c8372d; color: #fff; display: grid; place-items: center; align-content: center; box-shadow: 0 4px 0 #8a241c; }
-.rush-clock b { font: 900 26px/1 var(--font); } .rush-clock small { font-size: 10px; opacity: .85; }
-.screen--rush.is-low .rush-clock { animation: clock-beat .5s infinite alternate; }
-@keyframes clock-beat { to { transform: scale(1.1); } }
-.rush-timebar { display: block; height: 6px; margin: 8px 0 4px; border-radius: 4px; background: rgba(0,0,0,.1); overflow: hidden; }
-.rush-timebar i { display: block; height: 100%; background: #c8372d; transform-origin: left; }
-.rush-combo { margin: 0; min-height: 18px; text-align: center; font: 900 16px var(--font); color: #e0a51a; text-shadow: 0 2px 0 #fff; }
-.rush-tickets { display: flex; flex-direction: row-reverse; justify-content: flex-start; gap: 6px; margin-top: 2px; }
-.ticket { position: relative; flex: 0 0 calc(33.3% - 4px); background: #fffdf6; border: 1.5px solid #e2d6bd; border-radius: 10px; padding: 5px 6px 6px; box-shadow: 0 3px 0 rgba(0,0,0,.06); transition: transform .15s; }
-.ticket img { width: 34px; height: 34px; float: left; margin-right: 4px; border-radius: 6px; background: #f4f3f0; }
-.ticket__to { margin: 0; font-size: 11.5px; line-height: 1.25; color: #4a4236; font-weight: 600; min-height: 26px; }
-.ticket__req { clear: both; margin: 4px 0 0; display: flex; align-items: center; gap: 4px; font: 800 12px var(--font); color: #2a2623; }
-.ticket__req i { width: 14px; height: 14px; border-radius: 4px; display: inline-block; }
-.ticket__req span { margin-left: auto; font-size: 10.5px; font-weight: 700; }
-.ticket.is-now { border-color: #f2c230; background: #fff7da; transform: translateY(2px) scale(1.04); box-shadow: 0 0 0 3px rgba(242,194,48,.45); }
-.ticket.is-ready { border-color: #2e8a56; }
-.ticket.is-changed { animation: chg 0.5s 3; }
-@keyframes chg { 50% { background: #ffd9d4; } }
-.ticket__chg { position: absolute; top: -9px; right: 4px; background: #d8453a; color: #fff; font: 800 10px var(--font); padding: 2px 6px; border-radius: 6px; }
-.ticket-empty { margin: 10px auto; font-size: 12px; color: #8f6a4a; }
-.rush-say { position: absolute; left: 12px; right: 12px; top: calc(env(safe-area-inset-top) + 210px); margin: 0; text-align: center; font: 700 13.5px var(--font); color: #2a2623; pointer-events: none; }
-.rush-say::before { content: '🎅 '; }
-.rush-say.is-in { animation: speech-pop .3s ease; }
-.screen--rush.is-fever .rush-say, .screen--rush.is-fever .rush-stat b, .screen--rush.is-fever .rush-stat small { color: #fff; }
-.rush-feed { position: absolute; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom) + 170px); margin: 0; text-align: center; font: 800 14px var(--font); color: #d8453a; pointer-events: none; min-height: 18px; }
-.rush-feed[data-k="fever"] { color: #f2c230; font-size: 20px; }
-.rush-feed.is-in { animation: speech-pop .3s ease; }
-.rush-pad { position: absolute; left: 0; right: 0; bottom: 0; padding: 10px 12px calc(env(safe-area-inset-bottom) + 12px); background: rgba(255,255,255,.92); border-radius: 18px 18px 0 0; box-shadow: 0 -6px 20px rgba(0,0,0,.08); display: grid; gap: 8px; }
-.rush-papers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.rush-pad__row { display: grid; grid-template-columns: 1fr 1.6fr; gap: 8px; }
-.rush-btn { border: 0; border-radius: 14px; padding: 14px 6px; font: 800 16px var(--font); cursor: pointer; touch-action: manipulation; box-shadow: 0 4px 0 rgba(0,0,0,.18); transition: transform .06s; color: #2a2623; background: #f4efe6; }
-.rush-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(0,0,0,.18); }
-.rush-btn--paper { background: var(--c); color: #fff; display: flex; align-items: center; justify-content: center; gap: 6px; text-shadow: 0 1px 0 rgba(0,0,0,.25); }
-.rush-btn--ship { background: #2a2623; color: #fff; font-size: 18px; }
-.rush-count { position: absolute; inset: 0; display: grid; place-items: center; font: 900 72px var(--font); color: #fff; -webkit-text-stroke: 3px #2a2623; paint-order: stroke fill; pointer-events: none; text-shadow: 0 6px 0 rgba(0,0,0,.2); }
-.rush-count.is-in { animation: pop-in2 .5s cubic-bezier(.2,1.6,.4,1); }
-@keyframes pop-in2 { from { transform: scale(.3); opacity: 0; } }
-.rush-over { position: absolute; inset: 0; background: rgba(20,30,25,.6); display: grid; place-items: center; padding: 16px; z-index: 10; animation: screen-in .3s ease; }
-.rush-over__box { width: min(340px, 92vw); background: #fff; border-radius: 22px; padding: 18px 18px 14px; text-align: center; box-shadow: 0 0 0 6px #c8372d; }
-.rush-over__kicker { margin: 0; font: 800 12px var(--font); letter-spacing: .14em; color: #c8372d; }
-.rush-over__grade { margin: 4px 0 0; font: 900 26px var(--font); color: #1f5a3d; }
-.rush-over__score { margin: 6px 0 0; font: 600 16px var(--font); color: #8f8b84; }
-.rush-over__score b { font: 900 46px var(--font); color: #2a2623; margin-right: 2px; }
-.rush-over__best { margin: 0; font-size: 12px; color: #c8372d; font-weight: 700; }
-.rush-over__title { display: inline-block; margin: 8px 0; padding: 6px 12px; border-radius: 999px; background: #1f5a3d; color: #fff; font: 700 14px var(--font); }
-.rush-over__stats { list-style: none; margin: 4px 0 12px; padding: 10px 12px; background: #faf6ee; border-radius: 12px; display: grid; gap: 4px; }
-.rush-over__stats li { display: flex; justify-content: space-between; font-size: 13.5px; color: #5d5a54; } .rush-over__stats b { color: #2a2623; }
-.rush-over__sub { display: flex; justify-content: center; gap: 16px; margin-top: 10px; }
+.rush-glow { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .6s;
+  background: radial-gradient(120% 70% at 50% 40%, rgba(255,214,120,0) 45%, rgba(255,190,90,.35) 100%); }
+.screen--rush.is-fever .rush-glow { opacity: 1; animation: glow-pulse 1.2s ease-in-out infinite alternate; }
+@keyframes glow-pulse { to { opacity: .55; } }
+.rush-hud { position: absolute; left: 0; right: 0; top: 0; padding: calc(env(safe-area-inset-top) + 12px) 14px 0; pointer-events: none; }
+.rush-hud__row { display: flex; align-items: center; justify-content: space-between; padding-right: 92px; }
+.rush-pill { margin: 0; min-width: 78px; display: flex; flex-direction: column; gap: 1px; }
+.rush-pill small { font-size: 9.5px; font-weight: 500; letter-spacing: .28em; color: var(--blue); }
+.rush-pill b { font-size: 24px; font-weight: 300; color: var(--text-strong); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.rush-pill--r { align-items: flex-end; text-align: right; }
+
+
+.rush-ring { --p: 1; position: relative; width: 62px; height: 62px; border-radius: 50%; display: grid; place-items: center; align-content: center;
+  background: conic-gradient(var(--tape) calc(var(--p) * 360deg), rgba(61,61,74,.08) 0); }
+.rush-ring::before { content: ''; position: absolute; inset: 5px; border-radius: 50%; background: #fbfbf9; box-shadow: inset 0 1px 0 rgba(0,0,0,.04); }
+.rush-ring b, .rush-ring small { position: relative; }
+.rush-ring b { font-size: 24px; font-weight: 300; line-height: 1; color: var(--text-strong); font-variant-numeric: tabular-nums; }
+.rush-ring small { font-size: 9px; color: #8b8b86; }
+.screen--rush.is-low .rush-ring { background: conic-gradient(#ee7a6b calc(var(--p) * 360deg), rgba(61,61,74,.08) 0); animation: ring-beat .5s ease-in-out infinite alternate; }
+@keyframes ring-beat { to { transform: scale(1.08); } }
+.rush-combo { margin: 2px 0 0; min-height: 16px; text-align: center; font-size: 13px; font-weight: 500; letter-spacing: .06em; color: var(--blue); }
+.rush-tickets { display: flex; flex-direction: row-reverse; justify-content: flex-start; gap: 8px; margin-top: 4px; }
+.ticket { position: relative; flex: 0 0 calc(33.3% - 6px); background: #fffdf8; border-radius: 4px; padding: 14px 7px 7px; text-align: center;
+  box-shadow: 0 1px 0 rgba(0,0,0,.05), 0 6px 14px rgba(61,61,74,.08); transform: rotate(-1.2deg); transition: transform .2s cubic-bezier(.3,1.6,.5,1), box-shadow .2s; }
+.ticket:nth-child(2) { transform: rotate(1deg); } .ticket:nth-child(3) { transform: rotate(-.4deg); }
+.ticket::before { content: ''; position: absolute; left: 50%; top: -6px; width: 46px; height: 14px; transform: translateX(-50%) rotate(-3deg); background: rgba(146,223,181,.75); }
+.ticket__head { position: absolute; left: 7px; top: 3px; margin: 0; font-size: 8.5px; letter-spacing: .14em; color: #a8a49c; }
+.ticket__head b { font-weight: 500; color: var(--blue); }
+.ticket__style { display: block; width: 52px; height: 52px; margin: 2px auto 0; object-fit: contain; filter: drop-shadow(0 3px 3px rgba(0,0,0,.12)); }
+.ticket__name { margin: 2px 0 0; font-size: 11.5px; font-weight: 500; color: var(--text-strong); }
+.ticket__to { margin: 3px 0 0; font-size: 10px; line-height: 1.3; color: #8b8b86; word-break: keep-all; min-height: 26px; }
+.ticket__fragile { position: absolute; right: 4px; top: 22px; padding: 2px 5px; border: 1.2px solid #ee7a6b; border-radius: 3px; color: #e0604f; font-size: 9px; font-weight: 600; transform: rotate(8deg); background: #fffdf8; }
+.ticket__chg { position: absolute; left: -4px; top: 18px; padding: 2px 5px; background: #ee7a6b; color: #fff; font-size: 9px; font-weight: 600; border-radius: 3px; transform: rotate(-8deg); }
+.ticket.is-now { transform: translateY(3px) scale(1.06) rotate(0); box-shadow: 0 0 0 2px #f2c230, 0 10px 18px rgba(61,61,74,.14); }
+.ticket.is-ready .ticket__name::after { content: ' ✓'; color: #3fa877; }
+.ticket.is-changed { animation: tk-chg .4s 3; }
+@keyframes tk-chg { 50% { box-shadow: 0 0 0 3px #ee7a6b, 0 6px 14px rgba(61,61,74,.08); } }
+.ticket-empty { margin: 18px auto; font-size: 12px; color: #a8a49c; }
+.rush-say { position: relative; margin: 12px auto 0; width: max-content; max-width: 86%; padding: 7px 12px 8px; background: #fffdf8; color: var(--text-strong);
+  border: 1.5px solid #3d3d4a; border-radius: 14px; font-size: 12.5px; line-height: 1.4; box-shadow: 0 3px 0 rgba(61,61,74,.15); word-break: keep-all; }
+.rush-say:empty { visibility: hidden; }
+.rush-say::after { content: ''; position: absolute; right: 26%; bottom: -8px; width: 12px; height: 12px; background: #fffdf8; border: solid #3d3d4a; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); }
+.rush-say.is-in { animation: say-pop .3s cubic-bezier(.3,1.6,.5,1); }
+@keyframes say-pop { from { transform: scale(.7); } }
+.rush-pops { position: absolute; inset: 0; pointer-events: none; }
+.rush-pop { position: absolute; transform: translate(-50%, -50%); white-space: nowrap; font-size: 22px; font-weight: 600; color: var(--blue);
+  text-shadow: 0 0 6px #fff, 0 2px 0 #fff; animation: pop-up 1.1s cubic-bezier(.2,.9,.3,1) forwards; }
+.rush-pop[data-k="combo"] { font-size: 15px; color: #e0a51a; }
+.rush-pop[data-k="bad"] { color: #e0604f; font-size: 21px; }
+@keyframes pop-up { 0% { transform: translate(-50%, -30%) scale(.5); opacity: 0; } 15% { transform: translate(-50%, -60%) scale(1.1); opacity: 1; } 100% { transform: translate(-50%, -160%) scale(1); opacity: 0; } }
+.rush-feed { position: absolute; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom) + 190px); margin: 0; text-align: center; font-size: 13px; color: #e0604f; pointer-events: none; min-height: 18px; text-shadow: 0 0 6px #fff; }
+.rush-feed[data-k="fever"] { color: #c98a10; font-size: 17px; font-weight: 600; }
+.rush-feed.is-in { animation: say-pop .3s ease; }
+.rush-pad { position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 12px calc(env(safe-area-inset-bottom) + 12px); background: rgba(251,251,249,.94);
+  border-top: 1px solid rgba(61,61,74,.06); box-shadow: 0 -8px 24px rgba(61,61,74,.06); display: grid; gap: 10px; backdrop-filter: blur(6px); }
+.rush-styles { display: grid; grid-template-columns: repeat(var(--n, 3), 1fr); gap: 8px; }
+.rush-style { border: 1.5px solid #e4e2dc; border-radius: 14px; background: #fff; padding: 4px 2px 7px; display: flex; flex-direction: column; align-items: center; gap: 1px;
+  font: inherit; font-size: 11.5px; color: var(--text-strong); cursor: pointer; touch-action: manipulation; box-shadow: 0 3px 0 #e4e2dc; transition: transform .06s; }
+.rush-style img { width: 56px; height: 56px; object-fit: contain; pointer-events: none; }
+.rush-style:active { transform: translateY(3px); box-shadow: 0 0 0 #e4e2dc; }
+.rush-pad__row { display: grid; grid-template-columns: 1fr 1.7fr; gap: 10px; }
+.rush-act { border: 0; border-radius: 14px; padding: 14px 8px; font: inherit; font-size: 16px; color: var(--text-strong); cursor: pointer; touch-action: manipulation; transition: transform .06s; }
+.rush-act:active { transform: translateY(3px); }
+.rush-act--bubble { display: flex; align-items: center; justify-content: center; gap: 8px; background: #eef6fb; box-shadow: 0 3px 0 #d6e6ef; }
+.rush-bub { width: 20px; height: 20px; border-radius: 4px; background: radial-gradient(circle at 30% 30%, #fff 0 2px, transparent 3px) 0 0/7px 7px, #cfe7f5; }
+.rush-act--bubble.is-need { animation: need .5s ease-in-out infinite alternate; box-shadow: 0 0 0 2px #ee7a6b, 0 3px 0 #d6e6ef; }
+@keyframes need { to { transform: scale(1.04); } }
+.rush-act--ship { position: relative; background: var(--tape); box-shadow: 0 3px 0 var(--tape-shade); letter-spacing: .04em;
+  clip-path: polygon(0 4%, 3% 0, 6% 4%, 9% 0, 12% 4%, 15% 0, 85% 0, 88% 4%, 91% 0, 94% 4%, 97% 0, 100% 4%, 100% 96%, 97% 100%, 94% 96%, 91% 100%, 88% 96%, 85% 100%, 15% 100%, 12% 96%, 9% 100%, 6% 96%, 3% 100%, 0 96%); }
+.rush-act--ship::after { content: ' →'; }
+.rush-act--ship.is-ready { animation: need .45s ease-in-out infinite alternate; }
+.rush-count { position: absolute; inset: 0; display: grid; place-items: center; font-size: 64px; font-weight: 300; color: var(--text-strong); pointer-events: none; text-shadow: 0 0 20px #fff, 0 0 4px #fff; }
+.rush-count.is-in { animation: count-in .5s cubic-bezier(.2,1.6,.4,1); }
+@keyframes count-in { from { transform: scale(.4); opacity: 0; } }
+.rush-over { position: absolute; inset: 0; background: rgba(238,238,235,.55); backdrop-filter: blur(3px); display: grid; place-items: center; padding: 16px; z-index: 10; animation: screen-in .3s ease; }
+.rush-over__box { position: relative; width: min(330px, 90vw); background: #fffdf8; border-radius: 6px; padding: 26px 20px 16px; text-align: center; box-shadow: 0 2px 0 rgba(0,0,0,.04), 0 18px 40px rgba(61,61,74,.16); transform: rotate(-.6deg); }
+.rush-over__box::before { content: ''; position: absolute; left: 50%; top: -9px; width: 86px; height: 20px; transform: translateX(-50%) rotate(-2deg); background: rgba(146,223,181,.8); }
+.rush-over__kicker { margin: 0; font-size: 10px; font-weight: 500; letter-spacing: .32em; color: var(--blue); }
+.rush-over__grade { margin: 8px 0 0; font-size: 22px; font-weight: 400; color: var(--text-strong); }
+.rush-over__score { margin: 4px 0 0; font-size: 14px; color: #8b8b86; }
+.rush-over__score b { font-size: 46px; font-weight: 200; color: var(--text-strong); margin-right: 3px; letter-spacing: -.02em; }
+.rush-over__best { margin: 0; font-size: 11.5px; color: #e0604f; }
+.rush-over__title { display: inline-block; margin: 10px 0 6px; padding: 5px 12px; border: 1.5px solid #3d3d4a; border-radius: 999px; font-size: 13px; color: var(--text-strong); background: #fff; }
+.rush-over__stats { list-style: none; margin: 6px 0 14px; padding: 10px 4px 0; border-top: 1px dashed #dcd8cf; display: grid; gap: 4px; }
+.rush-over__stats li { display: flex; justify-content: space-between; font-size: 13px; color: #8b8b86; } .rush-over__stats b { font-weight: 500; color: var(--text-strong); }
+.rush-over__sub { display: flex; justify-content: center; gap: 14px; margin-top: 8px; }
 
 </style>
   <script>
@@ -1087,23 +1120,24 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
     <!-- ③ 너무 바쁜 산타 테스트 (컨베이어 타임어택) -->
     <section class="screen screen--rush" id="rush" data-screen="rush" aria-label="너무 바쁜 산타 테스트" hidden>
       <canvas class="rush-cv" id="rush-cv"></canvas>
+      <div class="rush-glow" aria-hidden="true"></div>
       <div class="rush-hud">
         <div class="rush-hud__row">
-          <p class="rush-stat"><small>점수</small><b id="rush-score">0</b></p>
-          <p class="rush-clock"><b id="rush-time">60</b><small>초</small></p>
-          <p class="rush-stat rush-stat--r"><small>출고</small><b id="rush-done">0</b></p>
+          <p class="rush-pill"><small>점수</small><b id="rush-score">0</b></p>
+          <div class="rush-ring" id="rush-ring"><b id="rush-time">60</b><small>초</small></div>
+          <p class="rush-pill rush-pill--r"><small>출고</small><b id="rush-done">0</b></p>
         </div>
-        <span class="rush-timebar"><i id="rush-timebar"></i></span>
         <p class="rush-combo" id="rush-combo"></p>
         <div class="rush-tickets" id="rush-tickets"></div>
+        <p class="rush-say" id="rush-say"></p>
       </div>
-      <p class="rush-say" id="rush-say"></p>
+      <div class="rush-pops" id="rush-pops"></div>
       <p class="rush-feed" id="rush-feed"></p>
       <div class="rush-pad">
-        <div class="rush-papers" id="rush-papers"></div>
+        <div class="rush-styles" id="rush-styles"></div>
         <div class="rush-pad__row">
-          <button class="rush-btn rush-btn--ribbon" type="button" id="rush-ribbon">🎀 리본</button>
-          <button class="rush-btn rush-btn--ship" type="button" id="rush-ship">출고! 🛷</button>
+          <button class="rush-act rush-act--bubble" type="button" id="rush-bubble"><span class="rush-bub" aria-hidden="true"></span>뽁뽁이</button>
+          <button class="rush-act rush-act--ship" type="button" id="rush-ship">출고!</button>
         </div>
       </div>
       <div class="rush-count" id="rush-count" hidden></div>
@@ -9191,180 +9225,442 @@ function initGame() {
 return { itemThumb, initGame };
 })();
 
+// ---- js/game/rush3d.js ----
+__m["js/game/rush3d.js"] = (() => {
+// ==========================================================
+// 너무 바쁜 산타 테스트 — 3D 장면
+//  인트로와 같은 연구실·컨베이어·선배(오른쪽)·나(왼쪽)
+//  벨트 위 물건 → 고른 포장 스타일(손으로 싼 레퍼런스 9종 중)로 '뿅' 바뀜 → 출고하면 선배 쪽으로 휙
+// ==========================================================
+
+const { makeRoom, makeConveyor, makeCrate, mesh, roundedBox } = __m["js/intro3d/models.js"];
+const { makeGift, lumpy } = __m["js/intro3d/gifts.js"];
+const { setupRenderer, addLabLights } = __m["js/intro3d/lighting.js"];
+const { makeCharacter, animateFace } = __m["js/avatar/character.js"];
+const { SENIOR_AVATAR } = __m["js/data/avatar-parts.js"];
+const { makeItem } = __m["js/game/item-models.js"];
+const { disposeModel } = __m["js/game/wrap-model.js"];
+const THREE = window.THREE;
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const ease = (t) => 1 - Math.pow(1 - clamp(t), 3);
+const back = (t) => { t = clamp(t); const c = 1.9; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
+const CHAR_SCALE = 1.2, CHAR_Y = -0.2, CHAR_Z = -1.55;
+
+function fitScale(obj, maxW, maxH) {
+  const b = new THREE.Box3().setFromObject(obj), s = new THREE.Vector3(); b.getSize(s);
+  return Math.min(maxW / Math.max(s.x, s.z, 1e-3), maxH / Math.max(s.y, 1e-3));
+}
+
+class RushView {
+  constructor(canvas) {
+    this.canvas = canvas;
+    const r = this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+    setupRenderer(r, 0xeeeeeb);
+    const s = this.scene = new THREE.Scene();
+    this.lights = addLabLights(s);
+    this.room = makeRoom(); s.add(this.room);
+    this.conveyor = makeConveyor(16); s.add(this.conveyor);
+    this.camera = new THREE.PerspectiveCamera(30, 1, 0.1, 60);
+    this.target = new THREE.Vector3();
+
+    this.senior = makeCharacter({ ...SENIOR_AVATAR, hat: 'santa' });
+    this.senior.scale.setScalar(CHAR_SCALE);
+    s.add(this.senior);
+    this.crateR = makeCrate(); s.add(this.crateR);
+    this.crateL = makeCrate(); s.add(this.crateL);
+
+    // 작업 칸 표시 (벨트 위 노란 테두리)
+    const zm = new THREE.MeshBasicMaterial({ color: 0xf2c230, transparent: true, opacity: 0.9, depthWrite: false });
+    this.zone = new THREE.Group();
+    const edge = (w, d, x, z) => mesh(new THREE.BoxGeometry(w, 0.01, d), zm, x, 0.012, z);
+    this.zoneMat = zm;
+    s.add(this.zone);
+    this._zoneEdge = edge;
+
+    // 썰매 자루 (선배 옆, 출고한 선물이 들어감)
+    this.sack = new THREE.Group();
+    const sackM = new THREE.MeshPhongMaterial({ color: 0xa8743e, shininess: 4 });
+    const body = new THREE.Mesh(lumpy(new THREE.SphereGeometry(0.42, 28, 20), 0.02, 4, 6), sackM);
+    body.scale.set(1, 0.95, 0.85); body.position.y = 0.38;
+    this.sack.add(body);
+    this.sack.add(mesh(new THREE.TorusGeometry(0.2, 0.05, 10, 24), new THREE.MeshPhongMaterial({ color: 0xc8372d, shininess: 20 }), 0, 0.72, 0).rotateX(Math.PI / 2));
+    this.sackTop = mesh(new THREE.SphereGeometry(0.22, 18, 12), sackM, 0, 0.8, 0); this.sackTop.scale.set(1, 0.5, 0.9);
+    this.sack.add(this.sackTop);
+    s.add(this.sack);
+
+    this.objs = new Map();
+    this.styleCache = {};
+    this.t = 0; this.shake = 0;
+    window.addEventListener('resize', () => this.active && this.layout());
+  }
+
+  setPlayer(av) {
+    if (this.player) { this.scene.remove(this.player); disposeModel(this.player); }
+    this.player = makeCharacter({ ...(av || {}), hat: av?.hat ?? 'santa' });
+    this.player.scale.setScalar(CHAR_SCALE);
+    this.scene.add(this.player);
+    this.layout();
+  }
+
+  layout() {
+    const r = this.canvas.getBoundingClientRect();
+    const W = r.width || innerWidth, H = r.height || innerHeight;
+    this.W = W; this.H = H;
+    this.renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+    this.renderer.setSize(W, H, false);
+    const cam = this.camera; cam.aspect = W / H;
+    const tanV = Math.tan(THREE.MathUtils.degToRad(cam.fov / 2)), tanH = tanV * cam.aspect;
+    const dist = Math.max(3.9 / (2 * tanH), 6.4 / (2 * tanV));
+    this.visibleW = 2 * tanH * dist;
+    const cx = clamp(this.visibleW * 0.3, 1.0, 1.9);
+    this.senior.position.set(cx, CHAR_Y, CHAR_Z);
+    this.senior.rotation.y = -0.3;
+    this.crateR.position.set(cx, CHAR_Y - 0.47, CHAR_Z); this.crateR.visible = false;
+    if (this.player) { this.player.position.set(-cx, CHAR_Y, CHAR_Z); this.player.rotation.y = 0.3; this.crateL.position.set(-cx, CHAR_Y - 0.47, CHAR_Z); this.crateL.visible = false; }
+    this.sack.position.set(cx * 0.45, -0.1, -1.0);
+    const wallHalf = 2 * tanH * (dist + 3.2) / 2;
+    for (const o of this.room.userData.anchored) { const side = o.userData.anchor === 'left' ? -1 : 1; o.position.x = side * clamp(wallHalf * 0.55, 1.6, 4.2); }
+    // 카메라: 벨트가 화면 62% 높이쯤
+    cam.position.set(0, 1.35 + dist * 0.14, dist + 0.1);
+    this.target.set(0, 0.35, 0);
+    const want = 1 - 2 * 0.63;
+    for (let i = 0; i < 6; i++) { cam.lookAt(this.target); cam.updateMatrixWorld(); const p = new THREE.Vector3(0, 0, 0.1).project(cam); this.target.y += (p.y - want) * tanV * dist * 0.9; }
+    cam.lookAt(this.target); cam.updateProjectionMatrix();
+    this.basePos = cam.position.clone();
+    this.pxPerUnit = W / this.visibleW;
+  }
+  setZone(halfPx) {
+    const hw = halfPx / this.pxPerUnit, d = 0.62, t = 0.035;
+    this.zone.clear();
+    const e = this._zoneEdge;
+    this.zone.add(e(hw * 2, t, 0, d), e(hw * 2, t, 0, -d), e(t, d * 2, hw, 0), e(t, d * 2, -hw, 0));
+    const fill = mesh(new THREE.PlaneGeometry(hw * 2, d * 2), new THREE.MeshBasicMaterial({ color: 0xf2c230, transparent: true, opacity: 0.16, depthWrite: false }), 0, 0.011, 0);
+    fill.rotation.x = -Math.PI / 2; this.zone.add(fill); this.zoneFill = fill;
+    this.zone.position.z = 0.08;
+  }
+  worldX(px) { return (px - this.W / 2) / this.pxPerUnit; }
+  screenOf(v) { const p = v.clone().project(this.camera); return { x: (p.x + 1) / 2 * this.W, y: (1 - p.y) / 2 * this.H }; }
+  giftScreen(g) { const o = this.objs.get(g.n); if (!o) return null; return this.screenOf(o.position.clone().add(new THREE.Vector3(0, 1.0, 0))); }
+
+  // ---------- 모델 ----------
+  _item(id) {
+    const m = makeItem(id);
+    const holder = new THREE.Group();
+    holder.add(m);
+    const k = fitScale(m, 0.95, 0.95);
+    m.scale.multiplyScalar(k);
+    const b = new THREE.Box3().setFromObject(m); m.position.y -= b.min.y;
+    return holder;
+  }
+  _wrapped(style) {
+    const g = makeGift({ model: style, feel: {}, sound: {} });
+    const k = fitScale(g, 1.1, 1.05);
+    g.scale.setScalar(k);
+    return g;
+  }
+  _bubble(obj) { // 뽁뽁이: 반투명 울퉁불퉁 껍질
+    const b = new THREE.Box3().setFromObject(obj), s = new THREE.Vector3(), c = new THREE.Vector3(); b.getSize(s); b.getCenter(c);
+    const geo = lumpy(new THREE.SphereGeometry(0.5, 30, 22), 0.03, 7, 22);
+    const m = new THREE.Mesh(geo, new THREE.MeshPhongMaterial({ color: 0xdff3ff, transparent: true, opacity: 0.5, shininess: 90, specular: 0xffffff, depthWrite: false }));
+    m.scale.set(s.x * 1.25 + 0.06, s.y * 1.2 + 0.06, s.z * 1.25 + 0.06); m.position.copy(c).sub(obj.position);
+    m.userData.bubble = true;
+    return m;
+  }
+  /** 스타일 썸네일 (버튼·주문서용) */
+  styleThumb(style, size = 160) {
+    if (this.styleCache[style]) return this.styleCache[style];
+    const r = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+    r.setSize(size, size); r.setClearColor(0x000000, 0);
+    const sc = new THREE.Scene(); addLabLights(sc, { keyPos: [-2, 4, 5] });
+    const g = this._wrapped(style); g.userData.shadow.visible = false; sc.add(g);
+    const cam = new THREE.PerspectiveCamera(28, 1, 0.1, 20);
+    const b = new THREE.Box3().setFromObject(g), c = new THREE.Vector3(), sz = new THREE.Vector3(); b.getCenter(c); b.getSize(sz);
+    const d = Math.max(sz.x, sz.y, sz.z) * 2.6;
+    cam.position.set(c.x + d * 0.25, c.y + d * 0.45, c.z + d); cam.lookAt(c);
+    r.render(sc, cam);
+    const url = r.domElement.toDataURL('image/png');
+    disposeModel(g); r.dispose(); r.forceContextLoss?.();
+    return (this.styleCache[style] = url);
+  }
+
+  // ---------- 매 프레임 ----------
+  sync(R, dt) {
+    this.t += dt;
+    const seen = new Set();
+    for (const g of R.gifts) {
+      seen.add(g.n);
+      let o = this.objs.get(g.n);
+      const key = `${g.wrap || 'item'}|${g.bubble ? 1 : 0}`;
+      if (!o || o.userData.key !== key) {
+        const fresh = new THREE.Group();
+        const inner = g.wrap ? this._wrapped(g.wrap) : this._item(g.item);
+        fresh.add(inner);
+        if (g.bubble && !g.wrap) fresh.add(this._bubble(inner));
+        fresh.userData = { key, inner, pop: o ? 0 : 1, rock: 0 };
+        if (o) { fresh.position.copy(o.position); this.scene.remove(o); disposeModel(o); }
+        this.scene.add(fresh);
+        this.objs.set(g.n, fresh);
+        o = fresh;
+      }
+      const u = o.userData;
+      u.pop = Math.min(1, u.pop + dt * 3.2);
+      const s = 0.35 + 0.65 * back(u.pop);
+      if (g.state === 'belt') {
+        o.position.set(this.worldX(g.x), 0, 0.08);
+        const jig = R.jolt > 0 ? Math.sin(this.t * 40 + g.n) * 0.05 : 0;
+        o.position.y = Math.max(0, Math.sin(this.t * 7 + g.n) * 0.012) + Math.abs(jig);
+        o.rotation.set(0, Math.sin(this.t * 1.3 + g.n) * 0.08 - 0.15, jig * 2);
+        o.scale.setScalar(s * (g === R.cur ? 1.08 : 1));
+      } else if (g.state === 'ship') {
+        const k = ease(g.shipT), from = u.from || (u.from = o.position.clone());
+        const to = this.sack.position.clone().add(new THREE.Vector3(0, 0.95, 0));
+        o.position.lerpVectors(from, to, k); o.position.y += Math.sin(k * Math.PI) * 1.6;
+        o.rotation.y += dt * 9; o.rotation.z = k * 1.2;
+        o.scale.setScalar(s * (1 - k * 0.55));
+      } else if (g.state === 'fall') {
+        g.fallV = (g.fallV || 0) + dt * 9; o.position.y -= g.fallV * dt; o.position.x += dt * 1.2; o.rotation.z -= dt * 3;
+      }
+    }
+    for (const [n, o] of this.objs) if (!seen.has(n)) { this.scene.remove(o); disposeModel(o); this.objs.delete(n); }
+
+    // 벨트 흐름
+    const dxW = (R.speed || 0) * dt / this.pxPerUnit;
+    this.conveyor.userData.beltTex.offset.x -= dxW * 1.4;
+    // 작업 칸 깜빡임
+    if (this.zoneFill) this.zoneFill.material.opacity = R.cur ? 0.26 + Math.sin(this.t * 8) * 0.08 : 0.12;
+    this.zoneMat.color.setHex(R.cur ? 0xf2c230 : 0xd9cfb4);
+    // 자루가 받을 때 들썩
+    this.sackBounce = Math.max(0, (this.sackBounce || 0) - dt * 3);
+    this.sack.scale.set(1 + this.sackBounce * 0.12, 1 - this.sackBounce * 0.1, 1 + this.sackBounce * 0.12);
+
+    // 캐릭터
+    const now = performance.now();
+    for (const ch of [this.senior, this.player]) {
+      if (!ch) continue;
+      const c = ch.userData;
+      animateFace(c, now, dt);
+      let nod = 0;
+      if (c.nod > 0) { c.nod = Math.max(0, c.nod - dt * 1.5); nod = Math.sin((1 - c.nod) * Math.PI * 2) * 0.2 * c.nod; }
+      c.head.rotation.x = 0.1 + nod;
+      c.hopV = (c.hopV || 0) - dt * 9; c.hop = Math.max(0, (c.hop || 0) + c.hopV * dt); if (c.hop === 0) c.hopV = 0;
+      c.body.position.y = c.hop;
+      c.wave = Math.max(0, (c.wave || 0) - dt * 1.2);
+      const busy = ch === this.player ? (R.cur ? 1 : 0.3) : 0.3;
+      c.armR.rotation.z = -0.18 - c.wave * 2.4; c.armR.rotation.x = -0.4 * busy + Math.sin(this.t * 14) * 0.15 * busy * (ch === this.player ? 1 : 0);
+      c.armL.rotation.x = -0.4 * busy + Math.sin(this.t * 14 + 1) * 0.15 * busy * (ch === this.player ? 1 : 0);
+      c.head.rotation.y = ch === this.senior ? -0.35 + Math.sin(this.t * 0.8) * 0.15 : 0.3;
+    }
+
+    // 카메라 흔들림
+    this.shake = Math.max(R.shake || 0, 0);
+    const cam = this.camera;
+    cam.position.copy(this.basePos);
+    if (this.shake > 0) { cam.position.x += (Math.random() - 0.5) * 0.12 * this.shake; cam.position.y += (Math.random() - 0.5) * 0.08 * this.shake; }
+    this.renderer.render(this.scene, cam);
+  }
+  react(kind) {
+    const c = this.senior.userData, p = this.player?.userData;
+    const now = performance.now();
+    if (kind === 'good') { c.nod = 0.7; c.smileUntil = now + 1200; if (p) { p.smileUntil = now + 900; p.hopV = 2; } this.sackBounce = 1; c.wave = 0.6; }
+    if (kind === 'great') { c.browUp = 1; c.smileUntil = now + 2000; c.hopV = 2.4; c.wave = 1; if (p) { p.hopV = 2.6; p.smileUntil = now + 1600; } this.sackBounce = 1; }
+    if (kind === 'bad') { c.frown = 1.3; if (p) p.frown = 1; }
+    if (kind === 'miss') { c.frown = 1.5; c.browUp = 0.8; }
+  }
+  clear() { for (const [, o] of this.objs) { this.scene.remove(o); disposeModel(o); } this.objs.clear(); }
+}
+
+return { RushView };
+})();
+
 // ---- js/screens/rush.js ----
 __m["js/screens/rush.js"] = (() => {
 // ==========================================================
 // 너무 바쁜 산타 테스트 — 컨베이어 타임어택 (60초)
-//  컨베이어로 선물이 밀려옴 → 작업 칸에 들어오면 주문서대로
-//  포장지 색 고르기 → (필요하면) 리본 → 출고!
+//  컨베이어로 물건이 밀려옴 → 작업 칸에 들어오면 주문서대로
+//  (깨짐주의면 뽁뽁이 먼저) → 포장 스타일 고르기 → 출고!
 //  틀리면 사고, 지나가면 놓침. 선배 재촉 · 주문 변경 · 덜컹 · 막판 피버
+//  3D 장면은 js/game/rush3d.js
 // ==========================================================
 
 const { state } = __m["js/state.js"];
 const { go } = __m["js/router.js"];
-const { ITEMS, getItem } = __m["js/data/items.js"];
-const { itemThumb } = __m["js/screens/game.js"];
+const { RushView } = __m["js/game/rush3d.js"];
+const { MATERIAL } = __m["js/game/pack.js"];
+const { getItem } = __m["js/data/items.js"];
 const { sound } = __m["js/sound.js"];
 const $ = (id) => document.getElementById(id);
-const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
 const pick = (a) => a[Math.floor(Math.random() * a.length)];
-const ease = (t) => 1 - Math.pow(1 - clamp(t), 3);
-const TAU = Math.PI * 2;
 const SHIFT = 60;
 
-const PAPERS = [
-  { id: 'red', name: '빨강', color: '#d8453a', dark: '#a8302a', mark: 'dots' },
-  { id: 'green', name: '초록', color: '#2e8a56', dark: '#1f6a3f', mark: 'stripe' },
-  { id: 'gold', name: '금박', color: '#e0b23c', dark: '#b8862a', mark: 'star' },
+// 포장 스타일: 인트로 컨베이어의 '손으로 싼 포장' 레퍼런스 모형
+const STYLES = [
+  { id: 'kraft', name: '크라프트 소포' },
+  { id: 'plaid', name: '체크 원단' },
+  { id: 'cube', name: '하늘색 큐브' },
+  { id: 'star', name: '별 스티커' },
 ];
-const PAPER = Object.fromEntries(PAPERS.map(p => [p.id, p]));
+const STYLE = Object.fromEntries(STYLES.map(s => [s.id, s]));
+const FRAGILE = (id) => { const it = getItem(id); const m = MATERIAL[it.model || id]; return m === 'ceramic' || m === 'glass'; };
 
-// 주문서: 물건 + 받는 사람
 const ORDERS = [
-  ['latte', '출근길 졸린 팀장님'], ['beans', '커피 중독 동기'], ['dripbag', '야근하는 김대리'], ['tea', '잠 못 드는 언니'],
+  ['latte', '출근길 졸린 팀장님'], ['hm_mug', '머그 모으는 선배'], ['beans', '커피 중독 동기'], ['tea', '잠 못 드는 언니'],
   ['cookies', '간식 담당 막내'], ['choco', '시험 끝난 사촌'], ['honey', '목 아픈 엄마'], ['cake', '생일인 룸메이트'],
-  ['candle', '이사 간 친구'], ['handcream', '손 튼 아빠'], ['socks', '발 시린 할머니'], ['blanket', '사무실 추위 타는 선배'],
-  ['perfume', '향 덕후 친구'], ['plant', '식물 잘 죽이는 친구'], ['flowers', '고백 준비 중인 친구'], ['book', '책 좋아하는 동생'],
-  ['polaroid', '곧 떠나는 교환학생'], ['lp', '음악 좋아하는 선배'], ['filmcam', '여행 가는 친구'], ['slime', '장난꾸러기 조카'],
-  ['rock', '돌 수집가 삼촌'], ['banana', '다이어트 중인 친구'], ['pajama', '집순이 친구'], ['giftcard', '취준생 후배'],
+  ['candle', '이사 간 친구'], ['handcream', '손 튼 아빠'], ['socks', '발 시린 할머니'], ['perfume', '향 덕후 친구'],
+  ['diffuser', '자취 시작한 동생'], ['plant', '식물 잘 죽이는 친구'], ['book', '책 좋아하는 동생'], ['polaroid', '곧 떠나는 교환학생'],
+  ['lp', '음악 좋아하는 선배'], ['filmcam', '여행 가는 친구'], ['slime', '장난꾸러기 조카'], ['rock', '돌 수집가 삼촌'],
+  ['banana', '다이어트 중인 친구'], ['giftcard', '취준생 후배'], ['apple', '선생님'], ['bathbomb', '야근 끝난 언니'],
 ];
-const NAGS = ['선배: 손 빨리! 썰매 출발 10분 전!', '선배: 주문서 잘 봐요, 색 틀리면 사고!', '선배: 리본 필요 없는 건 그냥 보내요!', '선배: 밀려온다 밀려와!', '선배: 루돌프들 기다려요!'];
+const NAGS = ['선배: 손 빨리! 썰매 출발 10분 전!', '선배: 주문서 잘 봐요, 스타일 틀리면 사고!', '선배: 깨짐주의는 뽁뽁이 먼저!', '선배: 밀려온다 밀려와!', '선배: 루돌프들 기다려요!'];
 
-const R = {}; // 진행 상태
-let cv, g, W = 390, H = 600, raf = 0, imgs = new Map();
+const R = {};
+let view = null, cv, raf = 0, W = 390, H = 700;
 
-function img(id) {
-  if (imgs.has(id)) return imgs.get(id);
-  const url = itemThumb(id); if (!url) return null;
-  const im = new Image(); im.src = url; imgs.set(id, im);
-  return im;
+function ensureView() {
+  if (view) return true;
+  try { view = new RushView(cv); return true; } catch (e) { console.warn('[선물학] 3D 준비 실패', e); return false; }
 }
-
-// ---------- 시작 ----------
 function reset() {
   Object.assign(R, {
-    t: 0, running: true, ended: false, gifts: [], next: 0.6, speed: 55, jolt: 0, shake: 0,
-    score: 0, combo: 0, maxCombo: 0, ok: 0, wrong: 0, miss: 0, naked: 0, extraRibbon: 0, fever: false,
-    events: { change1: 14, jolt1: 24, change2: 33, jolt2: 46 }, nagAt: 8, flash: null, fly: [], snow: [], seq: 0,
+    t: 0, running: false, ended: false, gifts: [], next: 0.5, speed: 60, jolt: 0, shake: 0, cur: null,
+    score: 0, combo: 0, maxCombo: 0, ok: 0, wrong: 0, miss: 0, naked: 0, broke: 0, fever: false,
+    styles: STYLES.slice(0, 3),
+    events: { change1: 14, jolt1: 24, style4: 28, change2: 35, jolt2: 47 }, nagAt: 8, seq: 0,
   });
+  view?.clear();
   $('rush-over').hidden = true;
   $('rush-feed').textContent = '';
-  renderHud();
-  renderTickets();
+  renderButtons(); renderHud(); renderTickets();
 }
 function enterRush() {
-  cv = $('rush-cv'); g = cv.getContext('2d');
+  cv = $('rush-cv');
+  if (!ensureView()) return;
+  view.active = true;
+  view.setPlayer(state.researcher.avatar);
   layout();
+  for (const s of STYLES) view.styleThumb(s.id);
   reset();
-  // 썸네일 미리 만들기
-  for (const [id] of ORDERS) img(id);
   say('선배: 이브 저녁이에요. 60초 안에 최대한 많이 출고!');
+  view.sync(R, 0);
   countIn();
 }
-function leaveRush() { R.running = false; cancelAnimationFrame(raf); }
-
-function countIn() {
-  R.running = false; R.countIn = 3;
-  const el = $('rush-count'); el.hidden = false;
-  const step = () => {
-    if (R.countIn > 0) { el.textContent = R.countIn; el.classList.remove('is-in'); void el.offsetWidth; el.classList.add('is-in'); sound.tick(); R.countIn--; setTimeout(step, 650); }
-    else { el.textContent = '근무 시작!'; el.classList.remove('is-in'); void el.offsetWidth; el.classList.add('is-in'); sound.bell?.(); setTimeout(() => { el.hidden = true; }, 600); R.running = true; R.last = performance.now(); raf = requestAnimationFrame(loop); }
-  };
-  draw(0);
-  step();
-}
+function leaveRush() { R.running = false; cancelAnimationFrame(raf); if (view) view.active = false; }
 
 function layout() {
   const r = cv.getBoundingClientRect();
-  const dpr = Math.min(devicePixelRatio || 1, 2);
   W = r.width; H = r.height;
-  cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
-  g.setTransform(dpr, 0, 0, dpr, 0, 0);
-  R.beltY = H * 0.64; R.zone = { x: W / 2 - 82, w: 164 };
-  R.sack = { x: W - 56, y: H * 0.2 };
+  view.layout();
+  R.zoneHalf = 82;
+  view.setZone(R.zoneHalf);
 }
-window.addEventListener('resize', () => { if (cv && !$('rush').closest('[data-screen]').hidden) layout(); });
+window.addEventListener('resize', () => { if (view?.active) layout(); });
+
+function countIn() {
+  R.running = false;
+  let n = 3;
+  const el = $('rush-count'); el.hidden = false;
+  const show = (t) => { el.textContent = t; el.classList.remove('is-in'); void el.offsetWidth; el.classList.add('is-in'); };
+  const step = () => {
+    if (!view?.active) return;
+    if (n > 0) { show(n); sound.tick(); n--; setTimeout(step, 650); }
+    else { show('근무 시작!'); sound.bell?.(); setTimeout(() => { el.hidden = true; }, 650); R.running = true; R.last = performance.now(); raf = requestAnimationFrame(loop); }
+  };
+  const idle = () => { if (!R.running && view?.active && !R.ended) { view.sync(R, 0.016); requestAnimationFrame(idle); } };
+  idle();
+  step();
+}
 
 // ---------- 선물 ----------
 function spawn() {
   const recent = R.gifts.slice(-4).map(x => x.item);
   let o; do { o = pick(ORDERS); } while (recent.includes(o[0]) && Math.random() < 0.9);
-  const t = R.t;
-  const gift = {
-    n: ++R.seq, item: o[0], to: o[1], x: -70, wrap: null, ribbon: false, state: 'belt', wrapT: 1, ribT: 1, bob: Math.random() * TAU,
-    want: { paper: pick(PAPERS).id, ribbon: Math.random() < (t < 10 ? 0.5 : 0.6) },
-  };
-  R.gifts.push(gift);
+  R.gifts.push({ n: ++R.seq, item: o[0], to: o[1], x: -90, wrap: null, bubble: false, state: 'belt', want: { style: pick(R.styles).id, fragile: FRAGILE(o[0]) } });
   renderTickets();
 }
 const onBelt = () => R.gifts.filter(x => x.state === 'belt');
 function current() {
-  const z = R.zone; let best = null;
-  for (const x of onBelt()) if (x.x > z.x - 10 && x.x < z.x + z.w + 10) { if (!best || Math.abs(x.x - W / 2) < Math.abs(best.x - W / 2)) best = x; }
+  let best = null;
+  for (const x of onBelt()) if (Math.abs(x.x - W / 2) < R.zoneHalf + 6) { if (!best || Math.abs(x.x - W / 2) < Math.abs(best.x - W / 2)) best = x; }
   return best;
 }
 
 // ---------- 손동작 ----------
-function doPaper(id) {
+function doStyle(id) {
   if (!R.running) return;
-  const c = current();
-  if (!c) { feed('작업 칸에 선물이 없어요', 'warn'); sound.hm?.(); return; }
+  const c = R.cur;
+  if (!c) { feed('작업 칸에 선물이 없어요'); sound.hm?.(); return; }
   if (c.wrap === id) return;
-  c.wrap = id; c.wrapT = 0; c.ribbon = false;
-  sound.drape?.(0, 0.2); sound.rustle('paper', 1, 'rp' + id);
+  c.wrap = id;
+  sound.drape?.(0, 0.2); sound.rustle('paper', 1, 'rs' + id);
   renderTickets();
 }
-function doRibbon() {
+function doBubble() {
   if (!R.running) return;
-  const c = current();
-  if (!c) { feed('작업 칸에 선물이 없어요', 'warn'); return; }
-  if (!c.wrap) { feed('포장지부터 싸야죠!', 'warn'); sound.hm?.(); return; }
-  c.ribbon = !c.ribbon; c.ribT = 0;
-  sound.rustle('cloth', 1, 'rr');
+  const c = R.cur;
+  if (!c) { feed('작업 칸에 선물이 없어요'); return; }
+  if (c.wrap) { feed('이미 포장했어요! 뽁뽁이는 포장 전에'); sound.hm?.(); return; }
+  if (c.bubble) return;
+  c.bubble = true; sound.rustle('cello', 1, 'bb'); sound.squish?.(0);
   renderTickets();
 }
 function doShip() {
   if (!R.running) return;
-  const c = current();
-  if (!c) { feed('보낼 선물이 없어요', 'warn'); return; }
-  c.state = 'ship'; c.shipT = 0; c.from = { x: c.x, y: R.beltY - 30 };
-  const okPaper = c.wrap === c.want.paper, okRib = c.ribbon === c.want.ribbon;
-  if (okPaper && okRib) {
+  const c = R.cur;
+  if (!c) { feed('보낼 선물이 없어요'); return; }
+  const pos = view.giftScreen(c);
+  c.state = 'ship'; c.shipT = 0;
+  const okStyle = c.wrap === c.want.style, okBubble = !c.want.fragile || c.bubble;
+  if (okStyle && okBubble) {
     R.ok++; R.combo++; R.maxCombo = Math.max(R.maxCombo, R.combo);
     const pts = Math.round((100 + Math.min(10, R.combo - 1) * 20) * (R.fever ? 2 : 1));
     R.score += pts;
-    pop(`+${pts}${R.combo > 1 ? ` · ${R.combo}콤보` : ''}`, 'ok', c.x);
-    sound.stamp?.(); if (R.combo % 5 === 0) { sound.bell?.(); say(pick(['선배: 오 손 빠른데요?', '선배: 이 속도 실화예요?', '선배: 정직원 각!'])); }
+    pop(`+${pts}`, 'ok', pos); if (R.combo > 1) pop(`${R.combo} 콤보!`, 'combo', pos, 1);
+    sound.stamp?.();
+    if (R.combo % 5 === 0) { sound.bell?.(); view.react('great'); say(pick(['선배: 오 손 빠른데요?', '선배: 이 속도 실화예요?', '선배: 정직원 각!'])); } else view.react('good');
   } else {
     R.wrong++; R.combo = 0;
-    if (!c.wrap) { R.naked++; pop('알몸 배송?!', 'bad', c.x); say('선배: 포장도 안 하고 보내면 어떡해요!'); }
-    else if (!okPaper) { pop('색 틀림!', 'bad', c.x); say(`선배: ${c.to}은 ${PAPER[c.want.paper].name} 주문이었어요!`); }
-    else { if (c.ribbon && !c.want.ribbon) R.extraRibbon++; pop(c.ribbon ? '리본 필요 없대요!' : '리본 빠졌어요!', 'bad', c.x); say('선배: 주문서 리본 칸 봤어요?'); }
-    sound.hm?.(); R.shake = 0.35;
+    if (!c.wrap) { R.naked++; pop('알몸 배송?!', 'bad', pos); say('선배: 포장도 안 하고 보내면 어떡해요!'); }
+    else if (!okBubble) { R.broke++; pop('쨍그랑!', 'bad', pos); say('선배: 깨짐주의였잖아요… 뽁뽁이!'); sound.shatter?.(0.3); }
+    else { pop('스타일 틀림!', 'bad', pos); say(`선배: ${c.to}은 ${STYLE[c.want.style].name}였어요!`); }
+    sound.hm?.(); R.shake = 0.4; view.react('bad');
   }
   renderHud(); renderTickets();
 }
 
 // ---------- 피드백 ----------
-function pop(text, kind, x) { R.fly.push({ text, kind, x, y: R.beltY - 150 - R.fly.length * 26, t: 0 }); }
+function pop(text, kind, pos, row = 0) {
+  const el = document.createElement('div');
+  el.className = 'rush-pop'; el.dataset.k = kind; el.textContent = text;
+  el.style.left = (pos?.x ?? W / 2) + 'px'; el.style.top = ((pos?.y ?? H * 0.45) - row * 34) + 'px';
+  $('rush-pops').append(el);
+  setTimeout(() => el.remove(), 1100);
+}
 function feed(t, kind) { const f = $('rush-feed'); f.textContent = t; f.dataset.k = kind || ''; f.classList.remove('is-in'); void f.offsetWidth; f.classList.add('is-in'); }
 function say(t) { const s = $('rush-say'); s.textContent = t; s.classList.remove('is-in'); void s.offsetWidth; s.classList.add('is-in'); }
 
-// ---------- 주문서 레일 ----------
+function renderButtons() {
+  $('rush-styles').innerHTML = R.styles.map(s => `<button class="rush-style" type="button" data-style="${s.id}"><img src="${view?.styleThumb(s.id) || ''}" alt="" /><span>${s.name}</span></button>`).join('');
+  $('rush-styles').style.setProperty('--n', R.styles.length);
+}
 function ticketHTML(x) {
-  const P = PAPER[x.want.paper];
-  const done = x.wrap === x.want.paper && x.ribbon === x.want.ribbon;
-  const im = img(x.item);
-  return `<div class="ticket ${x === current() ? 'is-now' : ''} ${x.changed ? 'is-changed' : ''} ${done ? 'is-ready' : ''}">
-    ${x.changed ? '<span class="ticket__chg">주문 변경!</span>' : ''}
-    <img src="${im?.src || ''}" alt="" />
+  const S = STYLE[x.want.style];
+  const done = x.wrap === x.want.style && (!x.want.fragile || x.bubble);
+  return `<div class="ticket ${x === R.cur ? 'is-now' : ''} ${x.changed ? 'is-changed' : ''} ${done ? 'is-ready' : ''}">
+    <p class="ticket__head">주문서 <b>#${x.n}</b></p>
+    ${x.changed ? '<span class="ticket__chg">변경!</span>' : ''}
+    ${x.want.fragile ? '<span class="ticket__fragile">깨짐주의</span>' : ''}
+    <img class="ticket__style" src="${view?.styleThumb(S.id) || ''}" alt="" />
+    <p class="ticket__name">${S.name}</p>
     <p class="ticket__to">To. ${x.to}</p>
-    <p class="ticket__req"><i style="background:${P.color}"></i>${P.name}<span>${x.want.ribbon ? '🎀 리본' : '✕ 리본'}</span></p>
   </div>`;
 }
+let lastTickets = '';
 function renderTickets() {
-  const list = onBelt().filter(x => x.x < W - 20).sort((a, b) => b.x - a.x).slice(0, 3);
-  $('rush-tickets').innerHTML = list.map(ticketHTML).join('') || '<p class="ticket-empty">선물이 오고 있어요…</p>';
+  const list = onBelt().filter(x => x.x < W - 10).sort((a, b) => b.x - a.x).slice(0, 3);
+  const html = list.map(ticketHTML).join('') || '<p class="ticket-empty">선물이 오고 있어요…</p>';
+  if (html !== lastTickets) { $('rush-tickets').innerHTML = html; lastTickets = html; }
+  const c = R.cur;
+  $('rush-bubble').classList.toggle('is-need', !!(c && c.want.fragile && !c.bubble && !c.wrap));
+  $('rush-ship').classList.toggle('is-ready', !!(c && c.wrap));
 }
 function renderHud() {
   $('rush-score').textContent = R.score.toLocaleString();
@@ -9372,29 +9668,31 @@ function renderHud() {
   $('rush-combo').textContent = R.combo > 1 ? `${R.combo} 콤보` : '';
   const left = Math.max(0, SHIFT - R.t);
   $('rush-time').textContent = Math.ceil(left);
-  $('rush-timebar').style.transform = `scaleX(${left / SHIFT})`;
+  $('rush-ring').style.setProperty('--p', left / SHIFT);
   $('rush').classList.toggle('is-fever', R.fever);
-  $('rush').classList.toggle('is-low', left <= 10);
+  $('rush').classList.toggle('is-low', left <= 10 && !R.ended);
 }
 
 // ---------- 돌발 ----------
 function events() {
   const E = R.events;
-  const later = onBelt().filter(x => x.x < R.zone.x - 30 && !x.changed);
+  const later = onBelt().filter(x => x.x < W / 2 - R.zoneHalf - 30 && !x.changed);
   if (E.change1 && R.t > E.change1 && later.length) { E.change1 = 0; changeOrder(pick(later)); }
   if (E.change2 && R.t > E.change2 && later.length) { E.change2 = 0; changeOrder(pick(later)); }
   if (E.jolt1 && R.t > E.jolt1) { E.jolt1 = 0; jolt(); }
   if (E.jolt2 && R.t > E.jolt2) { E.jolt2 = 0; jolt(); }
+  if (E.style4 && R.t > E.style4) { E.style4 = 0; R.styles = STYLES.slice(0, 4); renderButtons(); say('선배: 별 스티커 포장 주문도 들어와요!'); feed('⭐ 새 포장 스타일 추가!'); sound.bell?.(); }
   if (!R.fever && R.t > SHIFT - 15) { R.fever = true; say('선배: 이브 피버 타임! 지금부터 점수 2배!'); sound.bell?.(); feed('🎄 이브 피버! 점수 ×2', 'fever'); }
   if (R.t > R.nagAt) { R.nagAt = R.t + 7 + Math.random() * 5; if (!R.fever) say(pick(NAGS)); }
 }
 function changeOrder(x) {
-  if (Math.random() < 0.5) x.want.ribbon = !x.want.ribbon; else x.want.paper = pick(PAPERS.filter(p => p.id !== x.want.paper)).id;
+  if (x.want.fragile || Math.random() < 0.7) x.want.style = pick(R.styles.filter(s => s.id !== x.want.style)).id;
+  else x.want.fragile = true;
   x.changed = true;
   say(`선배: 방금 ${x.to} 주문 바뀌었대요!`); sound.hm?.();
   renderTickets();
 }
-function jolt() { R.jolt = 0.9; R.shake = 0.6; say('덜컹! 컨베이어가 미쳤어요!'); sound.knock('box', 1, 'jolt'); }
+function jolt() { R.jolt = 0.9; R.shake = 0.7; say('덜컹! 컨베이어가 미쳤어요!'); sound.knock('box', 1, 'jolt'); }
 
 // ---------- 루프 ----------
 function loop(now) {
@@ -9402,59 +9700,61 @@ function loop(now) {
   const dt = Math.min(0.05, (now - R.last) / 1000); R.last = now;
   R.t += dt;
   if (R.t >= SHIFT) { end(); return; }
-  const base = 55 + R.t * 1.25 + (R.fever ? 25 : 0);
-  R.speed = base * (R.jolt > 0 ? 2.6 : 1);
+  R.speed = (60 + R.t * 1.3 + (R.fever ? 25 : 0)) * (R.jolt > 0 ? 2.6 : 1);
   R.jolt = Math.max(0, R.jolt - dt); R.shake = Math.max(0, R.shake - dt);
   R.next -= dt;
-  if (R.next <= 0) { spawn(); R.next = Math.max(1.35, 3.1 - R.t * 0.03) * (R.fever ? 0.8 : 1); }
-  let changed = false;
+  const last = onBelt().reduce((m, x) => Math.min(m, x.x), Infinity);
+  if (R.next <= 0 && last > -90 + 125) { spawn(); R.next = Math.max(1.3, 3.0 - R.t * 0.03) * (R.fever ? 0.8 : 1); }
   for (const x of R.gifts) {
     if (x.state === 'belt') {
-      const prevIn = x === current();
       x.x += R.speed * dt;
-      x.wrapT = Math.min(1, x.wrapT + dt * 5); x.ribT = Math.min(1, x.ribT + dt * 5);
-      if (x.x > W + 60) { x.state = 'miss'; R.miss++; R.combo = 0; pop('놓쳤다!', 'bad', W - 40); say(pick(['선배: 하나 지나갔어요!!', '선배: 그거 누구 선물이었는데…', '선배: 놓친 건 내가 할게요… 하아'])); sound.hm?.(); changed = true; renderHud(); }
-      if (prevIn !== (x === current())) changed = true;
+      if (x.x > W + 70) { x.state = 'fall'; x.fallT = 0; R.miss++; R.combo = 0; pop('놓쳤다!', 'bad', { x: W - 60, y: H * 0.45 }); say(pick(['선배: 하나 지나갔어요!!', '선배: 그거 누구 선물이었는데…', '선배: 놓친 건 내가 할게요… 하아'])); sound.hm?.(); view.react('miss'); }
     }
-    if (x.state === 'ship') x.shipT += dt * 2.2;
+    if (x.state === 'ship') x.shipT += dt * 2;
+    if (x.state === 'fall') x.fallT += dt;
   }
-  R.gifts = R.gifts.filter(x => x.state === 'belt' || (x.state === 'ship' && x.shipT < 1));
-  if (changed || Math.floor(R.t * 4) !== Math.floor((R.t - dt) * 4)) renderTickets();
+  R.gifts = R.gifts.filter(x => x.state === 'belt' || (x.state === 'ship' && x.shipT < 1) || (x.state === 'fall' && x.fallT < 0.8));
+  const cur = current();
+  if (cur !== R.cur) { R.cur = cur; renderTickets(); }
+  else if (Math.floor(R.t * 3) !== Math.floor((R.t - dt) * 3)) renderTickets();
   events();
   renderHud();
-  draw(dt);
+  view.sync(R, dt);
   raf = requestAnimationFrame(loop);
 }
 
 // ---------- 끝 ----------
 function end() {
-  R.running = false; R.ended = true;
-  R.t = SHIFT; renderHud();
+  R.running = false; R.ended = true; R.cur = null;
+  R.t = SHIFT; renderHud(); renderTickets();
   const total = R.ok + R.wrong + R.miss;
   const acc = total ? R.ok / total : 0;
   const titles = [];
-  if (R.ok >= 18 && acc >= 0.85) titles.push('인간 포장 기계');
+  if (R.ok >= 16 && acc >= 0.85) titles.push('인간 포장 기계');
   if (R.maxCombo >= 10) titles.push('콤보의 신');
+  if (R.broke >= 2) titles.push('쨍그랑 배송 전문');
   if (R.naked >= 3) titles.push('알몸 배송 전문');
-  if (R.extraRibbon >= 3) titles.push('리본 중독 산타');
   if (R.miss >= 6) titles.push('느긋한 산타');
   if (acc >= 0.95 && R.ok >= 8) titles.push('실수 없는 산타');
   if (R.wrong >= 6) titles.push('대충 산타');
-  if (!titles.length) titles.push(R.ok >= 12 ? '성실한 인턴' : '아직은 수습');
-  const grade = R.score >= 6000 ? '수석 산타 발탁' : R.score >= 3500 ? '정직원 합격' : R.score >= 1500 ? '인턴 합격' : '내년에 다시';
+  if (!titles.length) titles.push(R.ok >= 10 ? '성실한 인턴' : '아직은 수습');
+  const grade = R.score >= 5000 ? '수석 산타 발탁' : R.score >= 3000 ? '정직원 합격' : R.score >= 1300 ? '인턴 합격' : '내년에 다시';
   R.result = { score: R.score, ok: R.ok, wrong: R.wrong, miss: R.miss, combo: R.maxCombo, acc, title: titles[0], grade };
   try { const best = Math.max(Number(localStorage.getItem('giftlab.rush.best') || 0), R.score); localStorage.setItem('giftlab.rush.best', best); R.result.best = best; } catch (_) { R.result.best = R.score; }
   sound.bell?.(); setTimeout(() => sound.stamp?.(), 400);
-  const o = $('rush-over');
-  o.hidden = false;
+  view.react(R.score >= 3000 ? 'great' : 'good');
+  R.gifts.forEach(x => { if (x.state === 'belt') { x.state = 'fall'; x.fallT = 0.4; } });
+  let left = 1.2;
+  const settle = (now) => { if (!R.ended || !view?.active) return; left -= 0.016; R.gifts.forEach(x => { if (x.state === 'ship') x.shipT += 0.032; x.fallT += 0.016; }); R.gifts = R.gifts.filter(x => (x.state === 'ship' && x.shipT < 1) || (x.state === 'fall' && x.fallT < 0.8)); view.sync(R, 0.016); if (left > 0) requestAnimationFrame(settle); };
+  requestAnimationFrame(settle);
+  $('rush-over').hidden = false;
   $('rush-grade').textContent = grade;
   $('rush-title').textContent = R.result.title;
-  $('rush-stats').innerHTML = [
-    ['출고 성공', `${R.ok}개`], ['사고', `${R.wrong}건`], ['놓침', `${R.miss}개`], ['최대 콤보', `${R.maxCombo}`], ['정확도', `${Math.round(acc * 100)}%`],
-  ].map(([k, v]) => `<li><span>${k}</span><b>${v}</b></li>`).join('');
+  $('rush-stats').innerHTML = [['출고 성공', `${R.ok}개`], ['사고', `${R.wrong}건`], ['놓침', `${R.miss}개`], ['최대 콤보', `${R.maxCombo}`], ['정확도', `${Math.round(acc * 100)}%`]]
+    .map(([k, v]) => `<li><span>${k}</span><b>${v}</b></li>`).join('');
   $('rush-final').textContent = R.score.toLocaleString();
   $('rush-best').textContent = R.result.best > R.score ? `내 최고 ${R.result.best.toLocaleString()}점` : '🎉 내 최고 기록!';
-  say(R.score >= 3500 ? '선배: 와… 내년 내 자리 위험한데요?' : R.score >= 1500 ? '선배: 수고했어요. 내일도 나와요!' : '선배: 괜찮아요, 이브는 원래 지옥이에요.');
+  say(R.score >= 3000 ? '선배: 와… 내년 내 자리 위험한데요?' : R.score >= 1300 ? '선배: 수고했어요. 내일도 나와요!' : '선배: 괜찮아요, 이브는 원래 지옥이에요.');
 }
 
 // ---------- 결과 카드 (스토리 1080×1920) ----------
@@ -9462,119 +9762,31 @@ async function shareCard() {
   const r = R.result; if (!r) return;
   const c = document.createElement('canvas'); c.width = 1080; c.height = 1920;
   const x = c.getContext('2d'); const F = (w, px) => `${w} ${px}px "Pretendard", "Noto Sans KR", sans-serif`;
-  x.fillStyle = '#1f5a3d'; x.fillRect(0, 0, 1080, 1920);
-  x.fillStyle = '#c8372d'; x.fillRect(0, 0, 1080, 26);
-  for (let i = 0; i < 90; i++) { x.fillStyle = `rgba(255,255,255,${0.15 + Math.random() * 0.4})`; x.beginPath(); x.arc(Math.random() * 1080, Math.random() * 1920, 2 + Math.random() * 6, 0, TAU); x.fill(); }
-  x.textAlign = 'center'; x.fillStyle = '#f2c230'; x.font = F(700, 36); x.fillText('선물학 연구소 · 2026 WINTER', 540, 170);
-  x.fillStyle = '#fff'; x.font = F(800, 92); x.fillText('너무 바쁜', 540, 300); x.fillText('산타 테스트', 540, 410);
-  x.font = F(500, 42); x.fillStyle = 'rgba(255,255,255,.8)'; x.fillText(`응시자 ${state.researcher.name || '익명'} · 60초 근무 결과`, 540, 500);
-  x.fillStyle = '#fff'; x.beginPath(); x.roundRect?.(120, 580, 840, 980, 40); x.fill();
-  x.fillStyle = '#c8372d'; x.font = F(800, 70); x.fillText(r.grade, 540, 720);
-  x.fillStyle = '#26241f'; x.font = F(900, 170); x.fillText(r.score.toLocaleString(), 540, 920);
-  x.font = F(500, 40); x.fillStyle = '#8f8b84'; x.fillText('점', 540, 980);
-  const tw = x.measureText(r.title).width; x.font = F(700, 50); const tw2 = x.measureText(r.title).width + 90;
-  x.fillStyle = '#1f5a3d'; x.beginPath(); x.roundRect?.(540 - tw2 / 2, 1030, tw2, 96, 48); x.fill(); x.fillStyle = '#fff'; x.fillText(r.title, 540, 1095); void tw;
-  const rows = [['출고 성공', `${r.ok}개`], ['사고', `${r.wrong}건`], ['놓침', `${r.miss}개`], ['최대 콤보', `${r.combo}`]];
-  rows.forEach(([k, v], i) => { const y = 1230 + i * 78; x.textAlign = 'left'; x.fillStyle = '#5d5a54'; x.font = F(500, 44); x.fillText(k, 220, y); x.textAlign = 'right'; x.fillStyle = '#26241f'; x.font = F(800, 46); x.fillText(v, 860, y); });
-  x.textAlign = 'center'; x.fillStyle = 'rgba(255,255,255,.85)'; x.font = F(600, 40); x.fillText('나도 산타 테스트 해 보기 →', 540, 1720);
-  x.font = F(500, 32); x.fillStyle = 'rgba(255,255,255,.6)'; x.fillText('kimgateau.github.io/useless-gift', 540, 1780);
+  x.fillStyle = '#eeeeeb'; x.fillRect(0, 0, 1080, 1920);
+  try { view.sync(R, 0); const sh = cv.height * 0.75; x.drawImage(cv, 0, 0, cv.width, sh, 0, 240, 1080, 1080 * sh / cv.width); } catch (_) {}
+  const g = x.createLinearGradient(0, 900, 0, 1150); g.addColorStop(0, 'rgba(238,238,235,0)'); g.addColorStop(1, 'rgba(238,238,235,1)'); x.fillStyle = g; x.fillRect(0, 900, 1080, 250);
+  x.fillStyle = '#eeeeeb'; x.fillRect(0, 1150, 1080, 770);
+  x.textAlign = 'center'; x.fillStyle = '#3fa877'; x.font = F(700, 34); x.fillText('선물학 연구소 · 2026 WINTER', 540, 110);
+  x.fillStyle = '#2a2623'; x.font = F(800, 84); x.fillText('너무 바쁜 산타 테스트', 540, 205);
+  x.fillStyle = '#fff'; x.beginPath(); x.roundRect?.(110, 1040, 860, 720, 48); x.fill();
+  x.fillStyle = '#c8372d'; x.font = F(800, 60); x.fillText(r.grade, 540, 1140);
+  x.fillStyle = '#2a2623'; x.font = F(900, 150); x.fillText(r.score.toLocaleString(), 540, 1300);
+  x.font = F(700, 46); const tw = x.measureText(r.title).width + 90;
+  x.fillStyle = '#3fa877'; x.beginPath(); x.roundRect?.(540 - tw / 2, 1340, tw, 90, 45); x.fill(); x.fillStyle = '#fff'; x.fillText(r.title, 540, 1400);
+  [['출고 성공', `${r.ok}개`], ['사고', `${r.wrong}건`], ['놓침', `${r.miss}개`], ['최대 콤보', `${r.combo}`]].forEach(([k, v], i) => {
+    const y = 1510 + i * 62; x.textAlign = 'left'; x.fillStyle = '#7a756d'; x.font = F(500, 40); x.fillText(k, 220, y); x.textAlign = 'right'; x.fillStyle = '#2a2623'; x.font = F(800, 42); x.fillText(v, 860, y);
+  });
+  x.textAlign = 'center'; x.fillStyle = '#7a756d'; x.font = F(600, 34); x.fillText(`${state.researcher.name || '익명'} 산타의 60초 근무 기록`, 540, 1840);
   const blob = await new Promise(res => c.toBlob(res, 'image/png'));
   const file = new File([blob], '너무바쁜산타_결과.png', { type: 'image/png' });
   try { if (navigator.canShare?.({ files: [file] })) { await navigator.share({ files: [file], title: '너무 바쁜 산타 테스트' }); return; } } catch (e) { if (e?.name === 'AbortError') return; }
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = file.name; document.body.append(a); a.click(); a.remove();
 }
 
-// ---------- 그리기 ----------
-function wrappedBox(x, y, w, h, P, ribbon, k = 1, rk = 1) {
-  g.save(); g.translate(x, y);
-  // 상자 (포장지)
-  g.fillStyle = 'rgba(0,0,0,.18)'; g.beginPath(); g.ellipse(0, h / 2 + 4, w * 0.55, 7, 0, 0, TAU); g.fill();
-  const sy = 0.6 + 0.4 * ease(k);
-  g.scale(1, sy); g.translate(0, (1 - sy) * h * 0.5 / sy);
-  g.fillStyle = P.dark; g.beginPath(); g.roundRect?.(-w / 2, -h / 2 - 10, w, 14, 4); g.fill(); // 윗면
-  g.fillStyle = P.color; g.beginPath(); g.roundRect?.(-w / 2, -h / 2, w, h, 5); g.fill();
-  g.save(); g.beginPath(); g.roundRect?.(-w / 2, -h / 2, w, h, 5); g.clip();
-  g.fillStyle = 'rgba(255,255,255,.35)'; g.strokeStyle = 'rgba(255,255,255,.35)'; g.lineWidth = 5;
-  if (P.mark === 'dots') for (let i = -3; i <= 3; i++) for (let j = -2; j <= 2; j++) { g.beginPath(); g.arc(i * 16 + (j % 2) * 8, j * 16, 3, 0, TAU); g.fill(); }
-  if (P.mark === 'stripe') for (let i = -6; i <= 6; i++) { g.beginPath(); g.moveTo(i * 14 - 40, -h); g.lineTo(i * 14 + 40, h); g.stroke(); }
-  if (P.mark === 'star') { g.font = '12px sans-serif'; g.textAlign = 'center'; for (let i = -3; i <= 3; i++) for (let j = -2; j <= 2; j++) g.fillText('★', i * 18 + (j % 2) * 9, j * 18 + 4); }
-  g.restore();
-  if (ribbon) {
-    const rr = ease(rk);
-    g.fillStyle = '#fff4d6'; g.fillRect(-5, -h / 2 - 10, 10, (h + 10) * rr); g.fillRect(-w / 2, -3, w * rr, 8);
-    g.fillStyle = '#fff4d6'; g.strokeStyle = 'rgba(0,0,0,.15)'; g.lineWidth = 1.5;
-    for (const s of [-1, 1]) { g.beginPath(); g.ellipse(s * 13 * rr, -h / 2 - 12, 13 * rr, 8 * rr, s * 0.4, 0, TAU); g.fill(); g.stroke(); }
-    g.beginPath(); g.arc(0, -h / 2 - 11, 5 * rr, 0, TAU); g.fill();
-  }
-  g.restore();
-}
-function draw(dt) {
-  if (!g) return;
-  g.save();
-  if (R.shake > 0) g.translate((Math.random() - 0.5) * 10 * R.shake, (Math.random() - 0.5) * 8 * R.shake);
-  // 벽 · 창문
-  const wall = g.createLinearGradient(0, 0, 0, H); wall.addColorStop(0, R.fever ? '#3a2350' : '#f3e7d3'); wall.addColorStop(1, R.fever ? '#24193a' : '#e9d9bf');
-  g.fillStyle = wall; g.fillRect(-20, -20, W + 40, H + 40);
-  g.fillStyle = R.fever ? '#14253f' : '#bfd8ec'; g.beginPath(); g.roundRect?.(22, H * 0.14, 110, 84, 6); g.fill();
-  g.strokeStyle = '#fff'; g.lineWidth = 5; g.strokeRect(22, H * 0.14, 110, 84); g.beginPath(); g.moveTo(77, H * 0.14); g.lineTo(77, H * 0.14 + 84); g.stroke();
-  // 눈
-  if (R.snow.length < (R.fever ? 70 : 25)) R.snow.push({ x: Math.random() * W, y: -10, v: 20 + Math.random() * 40, r: 1 + Math.random() * 2.5 });
-  g.fillStyle = 'rgba(255,255,255,.85)';
-  for (const s of R.snow) { s.y += s.v * (dt || 0); s.x += Math.sin(s.y / 30) * 0.3; g.beginPath(); g.arc(s.x, s.y, s.r, 0, TAU); g.fill(); }
-  R.snow = R.snow.filter(s => s.y < H + 10);
-  // 썰매 자루
-  const S = R.sack;
-  g.fillStyle = '#8a5a3a'; g.beginPath(); g.ellipse(S.x, S.y + 22, 44, 36, 0, 0, TAU); g.fill();
-  g.fillStyle = '#c8372d'; g.beginPath(); g.ellipse(S.x, S.y - 8, 34, 10, 0, 0, TAU); g.fill();
-  g.fillStyle = '#fff'; g.font = '700 11px sans-serif'; g.textAlign = 'center'; g.fillText('썰매행', S.x, S.y + 30);
-  // 컨베이어
-  const by = R.beltY;
-  g.fillStyle = '#4a4f5c'; g.fillRect(-20, by, W + 40, 30);
-  g.fillStyle = '#5d6373';
-  const off = (performance.now() / 1000 * R.speed) % 28;
-  for (let x = -28 + off; x < W + 28; x += 28) g.fillRect(x, by + 3, 14, 4);
-  g.fillStyle = '#2f333d'; for (let x = 14; x < W; x += 56) { g.beginPath(); g.arc(x, by + 22, 7, 0, TAU); g.fill(); }
-  g.fillStyle = '#8a8f9b'; g.fillRect(-20, by + 30, W + 40, 14);
-  // 작업 칸
-  const z = R.zone, c = current();
-  g.fillStyle = c ? 'rgba(242,194,48,.22)' : 'rgba(255,255,255,.18)'; g.fillRect(z.x, by - 140, z.w, 140);
-  g.strokeStyle = c ? '#f2c230' : 'rgba(0,0,0,.15)'; g.setLineDash([8, 6]); g.lineWidth = 3; g.strokeRect(z.x, by - 140, z.w, 140); g.setLineDash([]);
-  g.fillStyle = c ? '#b8862a' : 'rgba(0,0,0,.35)'; g.font = '700 12px sans-serif'; g.fillText('작업 칸', W / 2, by - 148);
-  // 선물들
-  for (const x of R.gifts) {
-    if (x.state === 'belt') {
-      const y = by - 4 + Math.sin(performance.now() / 160 + x.bob) * (R.jolt > 0 ? 6 : 1);
-      if (x.wrap) wrappedBox(x.x, y - 44, 92, 78, PAPER[x.wrap], x.ribbon, x.wrapT, x.ribT);
-      else { const im = img(x.item); if (im?.complete && im.naturalWidth) { g.save(); g.fillStyle = 'rgba(0,0,0,.15)'; g.beginPath(); g.ellipse(x.x, y + 2, 44, 7, 0, 0, TAU); g.fill(); g.beginPath(); g.roundRect?.(x.x - 50, y - 104, 100, 100, 18); g.clip(); g.drawImage(im, x.x - 54, y - 108, 108, 108); g.restore(); } else { g.fillStyle = '#ccc'; g.fillRect(x.x - 25, y - 50, 50, 50); } }
-      // 번호표
-      g.fillStyle = x === c ? '#2a2623' : 'rgba(42,38,35,.55)'; g.beginPath(); g.roundRect?.(x.x - 16, y + 6, 32, 18, 9); g.fill();
-      g.fillStyle = '#fff'; g.font = '700 11px sans-serif'; g.fillText(`#${x.n}`, x.x, y + 19);
-    } else if (x.state === 'ship') {
-      const k = ease(x.shipT), px = x.from.x + (S.x - x.from.x) * k, py = x.from.y + (S.y - x.from.y) * k - Math.sin(k * Math.PI) * 120;
-      g.save(); g.translate(px, py); g.rotate(k * 4); g.scale(1 - k * 0.5, 1 - k * 0.5);
-      if (x.wrap) wrappedBox(0, 0, 70, 60, PAPER[x.wrap], x.ribbon); else { const im = img(x.item); if (im?.complete) g.drawImage(im, -40, -40, 80, 80); }
-      g.restore();
-    }
-  }
-  // 떠오르는 글자
-  for (const f of R.fly) {
-    f.t += dt || 0;
-    g.globalAlpha = clamp(1.4 - f.t); g.font = '900 24px sans-serif'; g.textAlign = 'center';
-    g.lineWidth = 5; g.strokeStyle = '#fff'; g.strokeText(f.text, f.x, f.y - f.t * 50);
-    g.fillStyle = f.kind === 'ok' ? '#2e8a56' : '#d8453a'; g.fillText(f.text, f.x, f.y - f.t * 50);
-    g.globalAlpha = 1;
-  }
-  R.fly = R.fly.filter(f => f.t < 1.4);
-  g.restore();
-}
-
-// ---------- 묶기 ----------
 function initRush() {
-  $('rush-papers').innerHTML = PAPERS.map(p => `<button class="rush-btn rush-btn--paper" type="button" data-paper="${p.id}" style="--c:${p.color}"><i></i>${p.name}</button>`).join('');
-  $('rush-papers').addEventListener('pointerdown', (e) => { const b = e.target.closest('[data-paper]'); if (!b) return; e.preventDefault(); doPaper(b.dataset.paper); });
-  $('rush-ribbon').addEventListener('pointerdown', (e) => { e.preventDefault(); doRibbon(); });
+  $('rush-styles').addEventListener('pointerdown', (e) => { const b = e.target.closest('[data-style]'); if (!b) return; e.preventDefault(); doStyle(b.dataset.style); });
+  $('rush-bubble').addEventListener('pointerdown', (e) => { e.preventDefault(); doBubble(); });
   $('rush-ship').addEventListener('pointerdown', (e) => { e.preventDefault(); doShip(); });
-  // 선물을 위로 휙 밀어도 출고
   let sw = null;
   $('rush-cv').addEventListener('pointerdown', (e) => { sw = { x: e.clientX, y: e.clientY }; });
   $('rush-cv').addEventListener('pointerup', (e) => { if (sw && sw.y - e.clientY > 50) doShip(); sw = null; });
@@ -9584,7 +9796,7 @@ function initRush() {
   window.__rush = R;
 }
 
-return { PAPERS, enterRush, leaveRush, initRush };
+return { STYLES, enterRush, leaveRush, initRush };
 })();
 
 // ---- js/main.js ----
