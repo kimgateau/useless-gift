@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>너무 바쁜 산타 테스트 — 선물학 연구소</title>
+  <title>선물학 연구소 — 신입 연구원 테스트</title>
   <link rel="icon" href="data:," />
   <meta name="theme-color" content="#ECE4DD" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -762,12 +762,6 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
 .swatch--custom::after { content: '+'; position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font: 700 15px/1 sans-serif; text-shadow: 0 1px 2px rgba(0,0,0,.5); pointer-events: none; }
 .swatch--custom input { position: absolute; inset: -6px; width: 150%; height: 150%; opacity: 0; cursor: pointer; border: 0; padding: 0; }
 
-/* 산타 인턴 시즌: 사원증 빨강·초록 */
-.idcard__brand { background: #1f5a3d; }
-.idcard { box-shadow: inset 0 6px 0 #c8372d, 0 18px 40px rgba(0,0,0,.14); }
-.idcard__role { color: #c8372d; font-weight: 600; }
-.intro__eyebrow { color: #c8372d; }
-
 /* ---------- 선배 산타 심사 ---------- */
 .screen--judge { user-select: none; -webkit-user-select: none; }
 .judge-top { position: absolute; left: 0; right: 0; top: calc(env(safe-area-inset-top) + 16px); z-index: 4; text-align: center; padding: 0 16px; pointer-events: none; }
@@ -1079,16 +1073,16 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
   <main id="app">
     <!-- ① 인트로: 3D 연구실 (canvas) 위에 HTML 글자·버튼 -->
     <section class="screen screen--intro" data-screen="intro" aria-label="인트로">
-      <canvas class="lab-canvas" id="lab-canvas" aria-label="선물이 흘러가는 컨베이어와 선배 산타가 있는 작업실"></canvas>
+      <canvas class="lab-canvas" id="lab-canvas" aria-label="선물이 흘러가는 컨베이어와 선배 연구원이 있는 연구실"></canvas>
       <div class="intro__ui">
-        <p class="intro__eyebrow">선물학 연구소 · 2026 WINTER</p>
-        <h1 class="intro__title">너무 바쁜 산타 테스트</h1>
-        <p class="intro__question">썰매 출발 전,<br />선물 하나를 내 스타일로 포장해서 보내 주세요</p>
+        <p class="intro__eyebrow">MAKE YOUR OWN GIFT</p>
+        <h1 class="intro__title">선물학 연구소<br />신입 연구원 테스트</h1>
+        <p class="intro__question">당신은 어떤 선물을 하고 싶나요?</p>
         <div class="intro__pick" id="intro-pick" aria-live="polite">
           <p class="intro__pick-label" id="pick-label">지나가는 선물을 눌러 보세요</p>
           <p class="intro__pick-note" id="pick-note"></p>
         </div>
-        <button class="tape-btn intro__start" type="button" id="intro-start">테스트 시작</button>
+        <button class="tape-btn intro__start" type="button" id="intro-start">연구 시작하기</button>
         <button class="text-btn intro__recv" type="button" id="intro-recv">받은 선물 열기</button>
       </div>
       <p class="speech" id="speech" role="status"></p>
@@ -1096,11 +1090,11 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
     </section>
 
     <!-- ② 신입 연구원 등록: 얼굴 만들기 → 이름 → 연구원증 -->
-    <section class="screen screen--register" data-screen="register" data-step="face" aria-label="산타 인턴 지원" hidden>
+    <section class="screen screen--register" data-screen="register" data-step="face" aria-label="신입 연구원 등록" hidden>
       <header class="reg-head">
         <button class="reg-back" type="button" id="reg-back" aria-label="이전">←</button>
         <ol class="reg-steps" aria-label="등록 단계">
-          <li data-for="face">얼굴</li><li data-for="name">이름</li><li data-for="card">사원증</li>
+          <li data-for="face">얼굴</li><li data-for="name">이름</li><li data-for="card">연구원증</li>
         </ol>
         <span class="reg-head__sp"></span>
       </header>
@@ -1128,7 +1122,7 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
 
       <!-- 2. 이름 -->
       <div class="reg-panel namer" data-panel="name">
-        <p class="namer__q">사원증에 적을 이름을 알려 주세요.</p>
+        <p class="namer__q">연구원증에 적을 이름을 알려 주세요.</p>
         <label class="namer__field">
           <span class="namer__label">이름 또는 닉네임</span>
           <input class="namer__input" id="researcher-name" type="text" maxlength="10" placeholder="예) 김선물" enterkeyhint="done" autocomplete="off" />
@@ -1136,7 +1130,7 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
         <p class="namer__note">최대 10자 · 결과 화면에도 이 이름으로 기록돼요</p>
         <div class="reg-actions">
           <span></span>
-          <button class="tape-btn" type="button" id="register-submit" disabled>사원증 발급</button>
+          <button class="tape-btn" type="button" id="register-submit" disabled>연구원증 발급</button>
         </div>
       </div>
 
@@ -1146,21 +1140,21 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
           <header class="idcard__head">
             <div class="idcard__brand">
               <span class="idcard__mark" aria-hidden="true"></span>
-              <span>선물학 연구소<br /><small>SANTA DEPT.</small></span>
+              <span>선물학 연구소<br /><small>GIFT LAB</small></span>
             </div>
             <div class="idcard__kind">
-              <strong>인턴 사원증</strong>
+              <strong>연구원증</strong>
               <span id="card-date"></span>
             </div>
           </header>
           <div class="idcard__photo" id="card-photo"><img id="card-img" alt="" /></div>
           <p class="idcard__name" id="card-name"></p>
-          <p class="idcard__role" id="card-role">산타 인턴 (수습)</p>
+          <p class="idcard__role" id="card-role">신입 연구원</p>
           <p class="idcard__no">No. <span id="researcher-no"></span></p>
-          <div class="idcard__stamp" aria-hidden="true">수습<br />채용</div>
+          <div class="idcard__stamp" aria-hidden="true">등록<br />완료</div>
         </article>
         <div class="reg-card__actions">
-          <button class="tape-btn" type="button" data-go="maker">포장 시작!</button>
+          <button class="tape-btn" type="button" data-go="maker">포장 실습 시작</button>
           <button class="text-btn" type="button" id="card-redo">얼굴 다시 꾸미기</button>
         </div>
       </div>
@@ -1329,8 +1323,8 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
     <!-- ⑤-1 선배 산타 심사 -->
     <section class="screen screen--judge" data-screen="judge" aria-label="선배 산타 심사" hidden>
       <div class="judge-top">
-        <p class="judge-kicker">산타 인턴 채용 시험 · 실기 심사</p>
-        <p class="judge-speech" id="judge-speech" aria-live="polite">선배 산타가 포장을 살펴보는 중…</p>
+        <p class="judge-kicker">신입 연구원 테스트 · 실기 심사</p>
+        <p class="judge-speech" id="judge-speech" aria-live="polite">선배 연구원이 포장을 살펴보는 중…</p>
       </div>
       <div class="judge-panel">
         <ul class="judge-rows" id="judge-rows"></ul>
@@ -1394,7 +1388,7 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
         <input class="open-reply" id="open-reply" type="text" maxlength="30" placeholder="한마디 (선택)" />
         <div class="result-actions">
           <button class="tape-btn" type="button" id="open-send" disabled>답장 링크 보내기</button>
-          <button class="text-btn" type="button" id="open-mine">나도 산타 인턴 지원하기</button>
+          <button class="text-btn" type="button" id="open-mine">나도 신입 연구원 테스트 하기</button>
         </div>
       </div>
       <button class="text-btn open-skip" type="button" id="open-skip">건너뛰고 바로 열기</button>
@@ -1561,9 +1555,9 @@ const INTRO_GIFTS = [
 ];
 
 const CHARACTER_LINES = {
-  hello: ['아, 인턴 지원자군요.', '올해 산타 인턴 경쟁 세요.', '벨트 위를 보세요.'],
-  poke: ['…네?', '저는 시험 범위가 아닙니다.', '손은 선물에.'],
-  start: '그럼, 지원서부터.',
+  hello: ['아, 신입이군요.', '왔어요? 하나 골라 봐요.', '벨트 위를 보세요.'],
+  poke: ['…네?', '저는 관찰 대상이 아닙니다.', '손은 선물에.'],
+  start: '그럼, 등록부터.',
 };
 
 return { INTRO_GIFTS, CHARACTER_LINES };
@@ -2804,14 +2798,6 @@ const AVATAR_TABS = [
     ],
   },
   {
-    id: 'hat', label: '모자', key: 'hat',
-    icon: S('<path d="M8 27q2-15 12-17 8 0 12 10"/><path d="M6 27h26v4H6z"/><circle cx="32" cy="22" r="3"/>'),
-    options: [
-      { id: 'santa', label: '산타 모자', icon: S('<path d="M8 27q2-15 12-17 8 0 12 10"/><path d="M6 27h26v4H6z"/><circle cx="32" cy="22" r="3"/>') },
-      { id: 'none',  label: '없음',     icon: S('<path d="M10 30L30 10" stroke-opacity=".4"/>') },
-    ],
-  },
-  {
     id: 'shirt', label: '옷', colorKey: 'shirt', colorLabel: '가운 안 셔츠',
     icon: S('<path d="M12 8l-6 5 3 5 3-2v16h16V16l3 2 3-5-6-5-4 3h-8z"/>'),
   },
@@ -2828,10 +2814,10 @@ const AVATAR_COLORS = {
 const PHOTO_BG = [0xc9cfe6, 0xefc9c4, 0xc6e2d3, 0xf2e2b6, 0xc3cdf0, 0xd6d6db];
 
 // 인트로의 선배 연구원
-const SENIOR_AVATAR = { skin: 0, hair: 'bob', hairColor: 0, brows: 'straight', eyes: 'sleepy', mouth: 'flat', glasses: 'rect', glassesColor: 0, shirt: 0, hat: 'santa' };
+const SENIOR_AVATAR = { skin: 0, hair: 'bob', hairColor: 0, brows: 'straight', eyes: 'sleepy', mouth: 'flat', glasses: 'rect', glassesColor: 0, shirt: 0 };
 
 // 신입 기본값
-const DEFAULT_AVATAR = { skin: 1, hair: 'short', hairColor: 2, brows: 'arch', eyes: 'dot', mouth: 'smile', glasses: 'none', glassesColor: 0, shirt: 4, hat: 'santa' };
+const DEFAULT_AVATAR = { skin: 1, hair: 'short', hairColor: 2, brows: 'arch', eyes: 'dot', mouth: 'smile', glasses: 'none', glassesColor: 0, shirt: 4 };
 
 function randomAvatar() {
   const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
@@ -2843,7 +2829,6 @@ function randomAvatar() {
     glasses: Math.random() < 0.45 ? 'none' : opt('glasses'),
     glassesColor: Math.floor(Math.random() * AVATAR_COLORS.glassesColor.length),
     shirt: Math.floor(Math.random() * AVATAR_COLORS.shirt.length),
-    hat: Math.random() < 0.7 ? 'santa' : 'none',
   };
 }
 
@@ -4116,7 +4101,6 @@ function issueCard() {
   const url = studio?.snapshot(bg);
   if (url) $('card-img').src = url;
   $('card-name').textContent = state.researcher.name;
-  $('card-role').textContent = rankOf(career().count).name;
   $('researcher-no').textContent = state.researcher.no;
   const d = new Date();
   $('card-date').textContent = `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
@@ -8685,7 +8669,7 @@ function onPackEvent(st) {
 }
 
 // ---------- 허둥지둥: 담을 때 덜컹 · 선배 재촉 ----------
-const NAGS = [[60, '선배 산타: 다음 상자 밀려와요!'], [35, '선배 산타: 리본은요? 손 빨리!'], [12, '선배 산타: 일단 닫고 보내요!']];
+const NAGS = [[60, '선배: 다음 상자 밀려와요!'], [35, '선배: 리본은요? 손 빨리!'], [12, '선배: 일단 닫고 보내요!']];
 function hurry(left) {
   if (W.elapsed > W.nextBump) {
     W.nextBump = W.elapsed + 6 + Math.random() * 6;
@@ -9251,7 +9235,7 @@ async function judgeCard() {
   g.fillStyle = '#c8372d'; g.fillRect(0, 0, W, 24);
   g.fillStyle = '#1f5a3d'; g.fillRect(0, 24, W, 10);
   g.textAlign = 'center'; g.fillStyle = '#c8372d'; g.font = F(700, 34); g.fillText('선물학 연구소 · 2026 WINTER', W / 2, 140);
-  g.fillStyle = '#26241f'; g.font = F(700, 76); g.fillText('산타 인턴 채용 시험', W / 2, 240);
+  g.fillStyle = '#26241f'; g.font = F(700, 76); g.fillText('신입 연구원 테스트', W / 2, 240);
   g.font = F(500, 40); g.fillStyle = '#6f6b65'; g.fillText(`응시자 ${state.researcher.name || '익명'} · 실기 결과`, W / 2, 310);
   const snap = safe(() => stage.snapshot(state.giftId, state.wrap, { bg: 0xffffff, w: 760, h: 760 }));
   if (snap) { const im = await new Promise(res => { const i = new Image(); i.onload = () => res(i); i.onerror = () => res(null); i.src = snap; }); if (im) { g.save(); g.beginPath(); g.roundRect?.(160, 370, 760, 760, 36); g.clip(); g.drawImage(im, 160, 370, 760, 760); g.restore(); } }
@@ -9276,7 +9260,7 @@ async function judgeCard() {
     g.fillStyle = sc.v >= 75 ? '#2e7d4f' : sc.v >= 50 ? '#dfa53a' : '#c8372d'; g.fillRect(390, y - 12, 420 * sc.v / 100, 26);
     g.textAlign = 'right'; g.fillStyle = '#26241f'; g.font = F(700, 38); g.fillText(sc.v, 910, y + 14);
   });
-  g.textAlign = 'center'; g.fillStyle = '#8f8b84'; g.font = F(500, 32); g.fillText(`“${r.verdict}” — 선배 산타`, W / 2, 1850);
+  g.textAlign = 'center'; g.fillStyle = '#8f8b84'; g.font = F(500, 32); g.fillText(`“${r.verdict}” — 선배 연구원`, W / 2, 1850);
   return new Promise(res => c.toBlob(res, 'image/png'));
 }
 function bindJudge() {
@@ -9287,8 +9271,8 @@ function bindJudge() {
   $('judge-retry').addEventListener('click', () => { stopJudge(); go('wrap'); });
   $('judge-card').addEventListener('click', async () => {
     const blob = await judgeCard(); if (!blob) return;
-    const file = new File([blob], '산타인턴_결과.png', { type: 'image/png' });
-    try { if (navigator.canShare?.({ files: [file] })) { await navigator.share({ files: [file], title: '산타 인턴 채용 시험 결과' }); return; } } catch (e) { if (e?.name === 'AbortError') return; }
+    const file = new File([blob], '신입연구원_결과.png', { type: 'image/png' });
+    try { if (navigator.canShare?.({ files: [file] })) { await navigator.share({ files: [file], title: '신입 연구원 테스트 결과' }); return; } } catch (e) { if (e?.name === 'AbortError') return; }
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = file.name; document.body.append(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 4000);
   });
@@ -9338,15 +9322,15 @@ function showCareer(res) {
 /** claude.ai 공유 화면 안에서는 주소 끝(#…)이 페이지로 전달되지 않아서, 받는 사람이 붙여 넣어야 함 */
 const viaArtifact = () => sendURL.startsWith('https://claude.ai/');
 const shareText = (to) => viaArtifact()
-  ? `${to}, 산타 인턴 첫 배송이야 🎅 너 주려고 정성껏 포장했어\n① 링크 열기 → ② ‘받은 선물 열기’ → ③ 이 메시지 통째로 붙여넣기\n`
-  : `${to}, 산타 인턴 첫 배송이야 🎅 너 주려고 정성껏 포장했어. 열어 봐!\n`;
+  ? `${to}, 선물학 연구소 신입 연구원이 직접 포장한 선물이야 🎁\n① 링크 열기 → ② ‘받은 선물 열기’ → ③ 이 메시지 통째로 붙여넣기\n`
+  : `${to}, 선물학 연구소 신입 연구원이 직접 포장한 선물이야 🎁 열어 봐!\n`;
 async function copyText(text, input) {
   try { await navigator.clipboard.writeText(text); return true; } catch (_) {}
   try { input.focus(); input.select(); input.setSelectionRange(0, text.length); if (document.execCommand('copy')) return true; } catch (_) {}
   return false;
 }
 async function shareLink(url, text, input) {
-  if (navigator.share) { try { await navigator.share({ title: '산타 인턴의 선물 배송', text, url }); return 'shared'; } catch (e) { if (e?.name === 'AbortError') return 'cancel'; } }
+  if (navigator.share) { try { await navigator.share({ title: '선물학 연구소에서 온 선물', text, url }); return 'shared'; } catch (e) { if (e?.name === 'AbortError') return 'cancel'; } }
   return (await copyText(text + url, input)) ? 'copied' : 'fail';
 }
 
@@ -9373,7 +9357,7 @@ async function enterOpen() {
   }
   unboxView.setup(g.i, w, g.a || null);
   stage.show(unboxView);
-  $('open-from').textContent = `산타 인턴 ${g.s || '누군가'}님이 ${g.to ? g.to + '에게 ' : ''}선물을 배송했어요`;
+  $('open-from').textContent = `신입 연구원 ${g.s || '누군가'}님이 ${g.to ? g.to + '에게 ' : ''}선물을 보냈어요`;
   $('open-panel').hidden = true;
   $('open-skip').hidden = false;
   recv.step = 'shake';
@@ -9422,7 +9406,7 @@ function reveal() {
   if (g.c) lines.push(`“${g.c}”`);
   lines.push(`— ${g.s || '보낸 사람'}`);
   for (const t of lines) { const p = document.createElement('p'); p.textContent = t; L.append(p); }
-  if (g.j) { const p = document.createElement('p'); p.className = 'open-judge'; p.textContent = `선배 산타 심사: ${g.j.l} · ‘${g.j.t}’ (${g.j.s}점)`; L.append(p); }
+  if (g.j) { const p = document.createElement('p'); p.className = 'open-judge'; p.textContent = `선배 연구원 심사: ${g.j.l} · ‘${g.j.t}’ (${g.j.s}점)`; L.append(p); }
   $('open-stamps').innerHTML = STAMPS_R.map(([e, t]) => `<button type="button" class="stamp-btn" data-stamp="${e}"><span>${e}</span><small>${t}</small></button>`).join('');
   setTimeout(() => { $('open-panel').hidden = false; }, 900);
   sound.pick(); setTimeout(() => sound.bell?.(), 300);
@@ -10226,7 +10210,7 @@ return { STYLES, enterRush, leaveRush, initRush };
 // ---- js/game/maker3d.js ----
 __m["js/game/maker3d.js"] = (() => {
 // ==========================================================
-// 선물 꾸미기 3D 장면 — 작업대 위 돌림판에 선물, 뒤에서 선배 산타가 구경
+// 선물 꾸미기 3D 장면 — 작업대 위 돌림판에 선물, 뒤에서 선배 연구원이 구경
 // 손가락으로 좌우로 끌면 선물이 돌아감 · 부위를 바꾸면 '뿅' 하고 다시 만들어짐
 // ==========================================================
 
@@ -10255,7 +10239,7 @@ class MakerView {
     this.turn.add(mesh(new THREE.CylinderGeometry(0.78, 0.82, 0.05, 48), mat(0xdcd8d0, { shininess: 50 }), 0, 0.025, 0));
     table.add(this.turn);
     s.add(table);
-    this.senior = makeCharacter({ ...SENIOR_AVATAR, hat: 'santa' });
+    this.senior = makeCharacter(SENIOR_AVATAR);
     this.senior.scale.setScalar(0.9);
     this.senior.position.set(1.05, -0.02, -0.85); this.senior.rotation.y = -0.45;
     s.add(this.senior);
@@ -10290,7 +10274,7 @@ class MakerView {
     cam.position.set(0.12, 0.52 + dist * 0.3, dist);
     cam.lookAt(this.target);
     cam.updateProjectionMatrix();
-    this.senior.position.set(portrait ? 0.95 : 1.2, -0.02, -1.0);
+    this.senior.position.set(portrait ? 1.0 : 1.3, -0.25, -1.6);
   }
   setGift(itemId, cfg, to, { pop = true, text, photo } = {}) {
     if (this.model) { this.turn.remove(this.model); disposeModel(this.model); }
@@ -10348,7 +10332,7 @@ __m["js/screens/maker.js"] = (() => {
 //  ① 선물 고르기 (직접 그리기 · 내 사진 · 편지 · 쿠폰북 · 물건들)
 //  ② 모양(상자에 담기) ③ 포장지 ④ 끈 ⑤ 매듭 ⑥ 테이프 ⑦ 스티커 ⑧ 장식 ⑨ 마무리 ⑩ 편지
 //  앞 단계를 해야 다음 탭이 열림. 꼭 해야 하는 건 ①~③, 나머지는 '다음'으로 건너뛰기 가능
-//  선배 산타가 옆에서 한마디씩 (가끔 재촉). 다 하면 '출고!' → 링크 보내기
+//  선배 연구원이 옆에서 한마디씩 (가끔 재촉). 다 하면 '출고!' → 링크 보내기
 // ==========================================================
 
 const { state, update } = __m["js/state.js"];
@@ -10388,7 +10372,7 @@ const LINES = {
   finish: ['마무리가 제일 중요해요.', '{n}, 완성도 올라가네요.'],
 };
 const NEXT_LINE = { shape: '이제 상자에 담아요.', paper: '포장지로 싸 볼까요?', tie: '끈으로 묶어요. 없어도 되고요.', bow: '매듭 모양 골라요.', tape: '테이프 붙일래요?', sticker: '스티커 타임!', deco: '장식 하나 얹어 볼까요?', finish: '마무리 한 가지.', letter: '마지막! 받는 사람이랑 한마디.' };
-const NUDGES = ['선배: 썰매 출발 전에만 끝내요~', '선배: 루돌프들 몸 풀고 있어요.', '선배: 천천히 해요. …근데 조금만 빨리요.', '선배: 오늘 이브인 거 알죠?'];
+const NUDGES = ['선배: 실습 시간 얼마 안 남았어요~', '선배: 기록하고 있어요. 신경 쓰지 마세요.', '선배: 천천히 해요. …근데 조금만 빨리요.', '선배: 포장도 연구예요.'];
 
 let view = null, cur = 0, reached = 0, nudgeT = 0, sayT = 0, textT = 0;
 const thumbCache = new Map();
@@ -10508,7 +10492,7 @@ function enterMaker(prev) {
   thumbCache.clear();
   rebuild(true);
   renderAll();
-  setTimeout(() => say('선배: 이브 선물 딱 하나만 부탁해요. 뭘 보낼 거예요?'), 500);
+  setTimeout(() => say('선배: 첫 포장 실습이에요. 뭘 보내 볼래요?'), 500);
   nudge();
 }
 function leaveMaker() { view?.stop(); clearTimeout(nudgeT); }
@@ -10518,7 +10502,7 @@ function ship() {
   for (let i = 0; i < STEPS.length; i++) if (STEPS[i].need && !done(STEPS[i])) { goStep(i, { line: false }); say(`선배: '${STEPS[i].label}'부터 해 줘요!`); if (STEPS[i].id === 'letter') $('mk-to')?.focus(); return; }
   update({ wrap: { maker: c, to: to(), giftText: state.giftText || '', photoItem: state.photoItem || null, box: 'none', paper: null, card: { message: state.letter || '' }, decos: [], tapes: [], ribbon: null, flaps: {}, counted: false }, judge: null });
   view.react('wow');
-  say('선배: 오… 이건 출고 각이에요. 썰매로!');
+  say('선배: 오… 실습 통과. 보내 봅시다.');
   sound.bell?.(); setTimeout(() => sound.stamp?.(), 250);
   $('maker2-ship').disabled = true;
   setTimeout(() => { $('maker2-ship').disabled = false; go('send'); }, 1100);
