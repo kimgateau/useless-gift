@@ -1000,6 +1000,45 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
 .rush-over__stats li { display: flex; justify-content: space-between; font-size: 13px; color: #8b8b86; } .rush-over__stats b { font-weight: 500; color: var(--text-strong); }
 .rush-over__sub { display: flex; justify-content: center; gap: 14px; margin-top: 8px; }
 
+/* ---------- 선물 꾸미기 (Mii 만들기 결) ---------- */
+.screen--maker2 { background: #eeeeeb; overflow: hidden; padding: 0; user-select: none; -webkit-user-select: none; }
+.maker2-cv { position: absolute; left: 0; right: 0; top: 0; width: 100%; height: 62%; display: block; touch-action: none; }
+.maker2-head { position: absolute; left: 0; right: 0; top: 0; display: flex; align-items: center; justify-content: space-between; padding: calc(env(safe-area-inset-top) + 10px) 12px 0; padding-right: 100px; }
+.maker2-title { margin: 0; text-align: center; font-size: 15px; font-weight: 400; color: var(--text-strong); line-height: 1.2; }
+.maker2-title small { display: block; font-size: 9px; letter-spacing: .32em; color: var(--blue); font-weight: 500; }
+.maker2-random { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid #e1ded7; background: #fffdf8; font-size: 17px; cursor: pointer; box-shadow: 0 2px 0 #e1ded7; }
+.maker2-say { position: absolute; left: 14px; right: 14px; top: calc(env(safe-area-inset-top) + 58px); margin: 0; text-align: right; pointer-events: none; }
+.maker2-say span { display: inline-block; max-width: 74%; padding: 7px 12px 8px; background: #fffdf8; border: 1.5px solid #3d3d4a; border-radius: 14px; font-size: 12.5px; line-height: 1.4; color: var(--text-strong);
+  box-shadow: 0 3px 0 rgba(61,61,74,.15); opacity: 0; transform: scale(.7); transform-origin: 80% 100%; transition: opacity .2s, transform .3s cubic-bezier(.3,1.6,.5,1); word-break: keep-all; text-align: left; }
+.maker2-say span.is-in { opacity: 1; transform: none; }
+.maker2-hint { position: absolute; left: 0; right: 0; top: calc(62% - 66px); margin: 0; text-align: center; font-size: 10.5px; letter-spacing: .1em; color: #a8a49c; pointer-events: none; }
+.maker2-panel { position: absolute; left: 0; right: 0; bottom: 0; top: calc(62% - 40px); background: #fbfbf9; border-radius: 22px 22px 0 0; box-shadow: 0 -8px 24px rgba(61,61,74,.07);
+  display: flex; flex-direction: column; padding: 10px 0 calc(env(safe-area-inset-bottom) + 10px); }
+.mk-tabs { display: flex; gap: 4px; overflow-x: auto; padding: 0 12px 8px; scrollbar-width: none; border-bottom: 1px solid #efede8; flex: 0 0 auto; }
+.mk-tabs::-webkit-scrollbar { display: none; }
+.mk-tab { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 50px; padding: 6px 6px 5px; border: 0; border-radius: 12px; background: none;
+  font: inherit; font-size: 11px; color: #8b8b86; cursor: pointer; }
+.mk-tab span { font-size: 18px; filter: grayscale(.4); opacity: .8; }
+.mk-tab.is-on { background: #fff; color: var(--text-strong); box-shadow: 0 0 0 1.5px var(--tape), 0 3px 0 var(--tape); }
+.mk-tab.is-on span { filter: none; opacity: 1; }
+.mk-grid { flex: 1 1 auto; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); gap: 8px; padding: 10px 12px; align-content: start; }
+.mk-opt { border: 1.5px solid #e9e6df; border-radius: 14px; background: #fff; padding: 4px 3px 6px; display: flex; flex-direction: column; align-items: center; gap: 1px;
+  font: inherit; font-size: 10.5px; color: var(--text-strong); cursor: pointer; transition: transform .08s; word-break: keep-all; text-align: center; line-height: 1.2; }
+.mk-opt img { width: 62px; height: 62px; object-fit: contain; pointer-events: none; }
+.mk-opt--swatch img { width: 52px; height: 52px; margin: 5px 0 4px; border-radius: 10px; object-fit: cover; box-shadow: inset 0 0 0 1px rgba(0,0,0,.06), 0 2px 4px rgba(0,0,0,.1); }
+.mk-opt:active { transform: scale(.95); }
+.mk-opt.is-on { border-color: var(--tape); background: #f1fbf5; box-shadow: 0 0 0 2px var(--tape); }
+.mk-opt:disabled { opacity: .35; }
+.mk-note { grid-column: 1 / -1; margin: 0; font-size: 12px; color: #e0604f; text-align: center; }
+.mk-grid.is-letter { grid-template-columns: 1fr; }
+.mk-field { display: grid; gap: 5px; font-size: 11px; letter-spacing: .1em; color: var(--blue); }
+.mk-field input, .mk-field textarea { font: inherit; font-size: 15px; letter-spacing: 0; color: var(--text-strong); padding: 10px 12px; border: 1.5px solid #e1ded7; border-radius: 12px; background: #fffdf8; resize: none; }
+.mk-colors { display: flex; gap: 8px; padding: 2px 14px 8px; overflow-x: auto; flex: 0 0 auto; }
+.mk-color { flex: 0 0 30px; width: 30px; height: 30px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px #dcd8cf; cursor: pointer; }
+.mk-color.is-on { box-shadow: 0 0 0 2.5px var(--text-strong); }
+.maker2-ship { align-self: center; margin-top: 4px; position: relative; flex: 0 0 auto; }
+.screen--send .career { display: none; }
+
 </style>
   <script>
     // 파일을 더블클릭해서 연 경우: 모듈 스크립트가 막히므로 한 파일 완성본으로 이동
@@ -1034,7 +1073,7 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
       <div class="intro__ui">
         <p class="intro__eyebrow">선물학 연구소 · 2026 WINTER</p>
         <h1 class="intro__title">너무 바쁜 산타 테스트</h1>
-        <p class="intro__question">크리스마스 이브, 주문이 쏟아진다!<br />60초 안에 최대한 많이 포장해서 출고하세요</p>
+        <p class="intro__question">썰매 출발 전,<br />선물 하나를 내 스타일로 포장해서 보내 주세요</p>
         <div class="intro__pick" id="intro-pick" aria-live="polite">
           <p class="intro__pick-label" id="pick-label">지나가는 선물을 눌러 보세요</p>
           <p class="intro__pick-note" id="pick-note"></p>
@@ -1111,9 +1150,27 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
           <div class="idcard__stamp" aria-hidden="true">수습<br />채용</div>
         </article>
         <div class="reg-card__actions">
-          <button class="tape-btn" type="button" data-go="rush">근무 시작!</button>
+          <button class="tape-btn" type="button" data-go="maker">포장 시작!</button>
           <button class="text-btn" type="button" id="card-redo">얼굴 다시 꾸미기</button>
         </div>
+      </div>
+    </section>
+
+    <!-- ③ 선물 꾸미기 (Mii 만들기처럼 고르기) -->
+    <section class="screen screen--maker2" id="maker2" data-screen="maker" aria-label="선물 꾸미기" hidden>
+      <canvas class="maker2-cv" id="maker2-cv" aria-label="꾸미는 선물. 좌우로 끌면 돌아가요"></canvas>
+      <header class="maker2-head">
+        <button class="reg-back" type="button" data-go="register" aria-label="뒤로">←</button>
+        <p class="maker2-title"><small>GIFT MAKER</small>선물 꾸미기</p>
+        <button class="maker2-random" type="button" id="maker2-random" aria-label="아무거나">🎲</button>
+      </header>
+      <p class="maker2-say" id="maker2-say-wrap"><span id="maker-say"></span></p>
+      <p class="maker2-hint">← 끌어서 돌려 보기 →</p>
+      <div class="maker2-panel">
+        <div class="mk-tabs" id="maker2-tabs" role="tablist"></div>
+        <div class="mk-grid" id="maker2-grid"></div>
+        <div class="mk-colors" id="maker2-colors" hidden></div>
+        <button class="tape-btn maker2-ship" type="button" id="maker2-ship">다 꾸몄어요, 출고!</button>
       </div>
     </section>
 
@@ -1283,7 +1340,7 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
     <!-- ⑥ 보내기 -->
     <section class="screen screen--send page" data-screen="send" aria-label="선물 보내기" hidden>
       <header class="page-head">
-        <button class="reg-back" type="button" data-go="judge" aria-label="심사 결과로 돌아가기">←</button>
+        <button class="reg-back" type="button" data-go="maker" aria-label="꾸미기로 돌아가기">←</button>
         <p class="page-step">선물 보내기</p><span class="reg-head__sp"></span>
       </header>
       <div class="page-body send">
@@ -3677,7 +3734,7 @@ __m["js/router.js"] = (() => {
 
 const { state } = __m["js/state.js"];
 // 전체 흐름 순서
-const FLOW = ['intro', 'register', 'rush', 'select', 'wrap', 'judge', 'send'];
+const FLOW = ['intro', 'register', 'maker', 'select', 'wrap', 'judge', 'send'];
 
 // 받은 선물·답장 링크 (#gift=… / #reply=…)
 let incoming = null;
@@ -3689,6 +3746,7 @@ const GUARDS = {
   select: () => (state.researcher.name ? null : 'register'),
   wrap: () => (!state.researcher.name ? 'register' : state.giftId ? null : 'select'),
   rush: () => (state.researcher.name ? null : 'register'),
+  maker: () => (state.researcher.name ? null : 'register'),
   judge: () => (!state.researcher.name ? 'register' : state.giftId && state.wrap ? null : 'select'),
   send: () => (!state.researcher.name ? 'register' : state.giftId ? null : 'select'),
   open: () => (incoming?.kind === 'gift' ? null : 'intro'),
@@ -5133,6 +5191,310 @@ function opsBounds(ops) {
 return { makeItem, shards, opsBounds };
 })();
 
+// ---- js/game/composer.js ----
+__m["js/game/composer.js"] = (() => {
+// ==========================================================
+// 선물 꾸미기 (Mii 만들기처럼 고르기) — 부위를 조합해 손포장 선물을 만듦
+// 모양 · 포장지 · 끈 · 매듭 · 테이프 · 스티커 · 장식 · 마무리
+// 인트로 컨베이어 선물(js/intro3d/gifts.js)과 같은 재료·방식으로 만듦
+// 받는 쪽 풀기(unbox)를 위해 부위 표시: item / paper(껍질 isShell) / ribbon / card
+// ==========================================================
+
+const { roundedBox, mesh } = __m["js/intro3d/models.js"];
+const { paperMat, plain, shiny, lumpy, ribbon: ribbonStrip, cord, loop, extrude, starShape, heartShape, scallopShape, cloudShape, V } = __m["js/intro3d/gifts.js"];
+const WX = __m["js/intro3d/wrap-textures.js"];
+const { makeItem } = __m["js/game/item-models.js"];
+const THREE = window.THREE;
+const hex = (n) => '#' + n.toString(16).padStart(6, '0');
+
+// ---------- 선택지 ----------
+const SHAPES = [
+  { id: 'box', name: '기본 상자', dims: [0.8, 0.56, 0.62], r: 0.04 },
+  { id: 'cube', name: '정육면체', dims: [0.7, 0.7, 0.66], r: 0.05 },
+  { id: 'tall', name: '세운 소포', dims: [0.6, 0.92, 0.16], r: 0.02 },
+  { id: 'flat', name: '납작 꾸러미', dims: [0.9, 0.3, 0.64], r: 0.08 },
+  { id: 'bundle', name: '몽글 꾸러미', dims: [0.8, 0.48, 0.64], r: 0.18, lump: 0.035 },
+];
+const PAPERS = [
+  { id: 'kraft', name: '크라프트지', tex: 'kraftParcel' },
+  { id: 'cream', name: '크림 종이', tex: 'creamPaper' },
+  { id: 'sky', name: '하늘색 종이', tex: 'skyBluePaper' },
+  { id: 'plaid', name: '체크 원단', tex: 'plaid', cloth: true },
+  { id: 'olive', name: '올리브 종이', tex: 'olivePaper' },
+  { id: 'lavender', name: '라벤더 습자지', tex: 'lavenderTissue', tissue: true },
+  { id: 'pink', name: '분홍 습자지', tex: 'pinkTissue', tissue: true },
+  { id: 'green', name: '연두 골지', tex: 'ribbedGreen' },
+  { id: 'silver', name: '은박지', tex: 'silverPaper', shiny: true },
+  { id: 'red', name: '빨간 종이', tex: 'creamPaper', tint: 0xe2685c },
+  { id: 'mint', name: '민트 종이', tex: 'creamPaper', tint: 0xa5e2c6 },
+  { id: 'yellow', name: '노란 종이', tex: 'creamPaper', tint: 0xf6d878 },
+  { id: 'navy', name: '남색 종이', tex: 'creamPaper', tint: 0x4f5c8c },
+];
+const TIES = [
+  { id: 'none', name: '없음' },
+  { id: 'stripe', name: '줄무늬 리본', kind: 'band', tex: 'stripeRibbon' },
+  { id: 'satin', name: '새틴 리본', kind: 'band', color: true },
+  { id: 'glitter', name: '반짝이 리본', kind: 'band', tex: 'glitterPink', shiny: true },
+  { id: 'one', name: '리본 한 줄', kind: 'band1', color: true },
+  { id: 'twine', name: '실 십자', kind: 'cord', r: 0.008, color: true },
+  { id: 'multi', name: '실 칭칭', kind: 'multi', r: 0.0045, color: true },
+  { id: 'para', name: '파라코드', kind: 'cord', r: 0.013, tex: 'paracord' },
+  { id: 'neon', name: '형광 실', kind: 'cord', r: 0.006, neon: true },
+];
+const TIE_COLORS = [0xf4f1e8, 0xd8453a, 0xf2a9cf, 0x2f3a6c, 0x2e8a56, 0xd6b25a, 0x1e1e22, 0x8fd0e0];
+const BOWS = [
+  { id: 'butterfly', name: '나비 리본' },
+  { id: 'long', name: '긴 꼬리' },
+  { id: 'double', name: '겹나비' },
+  { id: 'knot', name: '작은 매듭' },
+  { id: 'none', name: '매듭 없이' },
+];
+const TAPES = [
+  { id: 'none', name: '없음' },
+  { id: 'corner', name: '모서리 X' },
+  { id: 'band', name: '가로 한 줄' },
+  { id: 'scatter', name: '여러 조각' },
+  { id: 'seal', name: '봉인 한 조각' },
+];
+const TAPE_COLORS = [0x5fcf98, 0xee5d93, 0xf2c230, 0x5fa8e6, 0x3f9aa3, 0x484b68, 0xc8cfcf];
+const STICKERS = [
+  { id: 'none', name: '없음' },
+  { id: 'dots', name: '동그란 스티커' },
+  { id: 'stars', name: '별 스티커', color: true },
+  { id: 'hearts', name: '하트 스티커', color: true },
+  { id: 'label', name: '물결 라벨' },
+  { id: 'stamp', name: '도장' },
+  { id: 'seal', name: '금박 씰' },
+];
+const STICKER_COLORS = [0x1f9a4a, 0xe0503f, 0xf2a9cf, 0xf2c230, 0x5fa8e6, 0xffffff];
+const DECOS = [
+  { id: 'none', name: '없음' },
+  { id: 'button', name: '하트 단추' },
+  { id: 'clay', name: '점토 구름' },
+  { id: 'flower', name: '마른 꽃' },
+  { id: 'pompom', name: '폼폼' },
+  { id: 'confetti', name: '종이가루' },
+  { id: 'beads', name: '비즈 태그' },
+  { id: 'pine', name: '솔가지' },
+];
+const FINISHES = [
+  { id: 'none', name: '없음' },
+  { id: 'tag', name: '이름표' },
+  { id: 'card', name: '그림 카드' },
+  { id: 'vellum', name: '반투명 띠지' },
+  { id: 'cello', name: '셀로판' },
+];
+
+const DEFAULT_GIFT = { shape: 'box', paper: 'kraft', tie: 'stripe', tieColor: 0, bow: 'butterfly', tape: 'none', tapeColor: 0, sticker: 'dots', stickerColor: 0, deco: 'none', finish: 'tag' };
+
+const texCache = {};
+function texOf(name) { return texCache[name] || (texCache[name] = WX[name]()); }
+function paperSwatch(id) {
+  const P = PAPERS.find(p => p.id === id) || PAPERS[0];
+  const src = texOf(P.tex).image;
+  const c = document.createElement('canvas'); c.width = c.height = 96;
+  const g = c.getContext('2d');
+  g.drawImage(src, 0, 0, 96, 96);
+  if (P.tint != null) { g.globalCompositeOperation = 'multiply'; g.fillStyle = hex(P.tint); g.fillRect(0, 0, 96, 96); }
+  return c.toDataURL();
+}
+function paperMaterial(P) {
+  const tex = texOf(P.tex);
+  if (P.shiny) return shiny(0xffffff, { map: tex, shininess: 40 });
+  return paperMat(tex, { color: P.tint ?? 0xffffff, shininess: P.tissue || P.cloth ? 2 : 6 });
+}
+
+function textTag(text) {
+  const c = document.createElement('canvas'); c.width = 256; c.height = 128;
+  const g = c.getContext('2d');
+  g.fillStyle = '#fffdf6'; g.fillRect(0, 0, 256, 128);
+  g.strokeStyle = '#d8cfbd'; g.lineWidth = 4; g.strokeRect(6, 6, 244, 116);
+  g.fillStyle = '#e9e3d6'; g.beginPath(); g.arc(30, 64, 10, 0, Math.PI * 2); g.fill();
+  g.fillStyle = '#3d3d4a'; g.font = '500 34px "Noto Sans KR", sans-serif'; g.textBaseline = 'middle';
+  const t = text.length > 9 ? text.slice(0, 9) + '…' : text;
+  g.fillText(t, 54, 66);
+  const tx = new THREE.CanvasTexture(c); tx.anisotropy = 4;
+  return tx;
+}
+
+/** 선물 만들기 */
+function makeComposed(itemId, cfg = DEFAULT_GIFT, opts = {}) {
+  cfg = { ...DEFAULT_GIFT, ...cfg };
+  const S = SHAPES.find(s => s.id === cfg.shape) || SHAPES[0];
+  const [W, H, D] = S.dims;
+  const P = PAPERS.find(p => p.id === cfg.paper) || PAPERS[0];
+  const root = new THREE.Group();
+
+  // ① 속 물건 (포장지 안에 숨어 있음)
+  if (itemId) {
+    try {
+      const it = makeItem(itemId);
+      const box = new THREE.Box3().setFromObject(it), sz = new THREE.Vector3(); box.getSize(sz);
+      const k = Math.min((W * 0.8) / Math.max(sz.x, 1e-3), (H * 0.8) / Math.max(sz.y, 1e-3), (D * 0.8) / Math.max(sz.z, 1e-3), 1.2);
+      it.scale.multiplyScalar(k);
+      const b2 = new THREE.Box3().setFromObject(it); it.position.y = -b2.min.y + H * 0.05;
+      const holder = new THREE.Group(); holder.add(it); holder.userData.part = 'item'; holder.visible = !!opts.showItem;
+      root.add(holder);
+    } catch (_) { /* 물건 모형이 없어도 포장은 보임 */ }
+  }
+
+  // ② 포장지 껍질
+  const pm = paperMaterial(P);
+  let geo = roundedBox(W, H, D, S.r, 6);
+  geo = lumpy(geo, (S.lump || 0.005) + (P.tissue ? 0.012 : 0), 5, S.lump ? 6 : 12);
+  const shell = mesh(geo, pm, 0, H / 2, 0);
+  shell.userData = { part: 'paper', isShell: true };
+  root.add(shell);
+  if (S.id === 'bundle') { // 위로 삐죽 나온 종이 끝
+    const flap = mesh(lumpy(roundedBox(0.26, 0.05, 0.16, 0.02, 3), 0.015, 9, 10), pm, 0.2, H - 0.02, -0.18);
+    flap.rotation.set(0.4, 0.3, 0.25); flap.userData.part = 'paper'; root.add(flap);
+  }
+  if (S.id === 'tall' || S.id === 'box' || S.id === 'cube') { // 접힌 종이 날개(옆면)
+    const fm = pm.clone(); fm.color = new THREE.Color(P.tint ?? 0xffffff).multiplyScalar(0.92);
+    for (const s of [-1, 1]) {
+      const tri = new THREE.Shape(); tri.moveTo(-D * 0.45, -H * 0.22); tri.lineTo(D * 0.45, -H * 0.22); tri.lineTo(0, H * 0.18); tri.lineTo(-D * 0.45, -H * 0.22);
+      const tm = new THREE.Mesh(new THREE.ShapeGeometry(tri), fm); tm.rotation.y = s * Math.PI / 2; tm.position.set(s * (W / 2 + 0.005), H * 0.3, 0);
+      tm.userData.part = 'paper'; root.add(tm);
+    }
+  }
+
+  // 꾸밀 면: 키 큰 모양은 앞면, 납작한 모양은 윗면
+  const front = H >= 0.5;
+  const face = {
+    put(obj, u, v, lift = 0.012) { // u: 좌우 -1~1, v: 아래~위 / 앞~뒤 -1~1
+      if (front) { obj.position.set(u * W / 2, H / 2 + v * H / 2, D / 2 + lift + (S.lump ? 0.03 : 0)); }
+      else { obj.position.set(u * W / 2, H + lift + (S.lump ? 0.03 : 0), -v * D / 2); obj.rotation.x = -Math.PI / 2; }
+      return obj;
+    },
+    flat(geo, m, u, v, rz = 0, lift) { const o = new THREE.Mesh(geo, m); const g = new THREE.Group(); o.rotation.z = rz; g.add(o); return face.put(g, u, v, lift); },
+  };
+  const kx = 0, ky = front ? 0.16 : 0.1; // 매듭 자리 (면 좌표)
+
+  // ③ 끈
+  const T = TIES.find(t => t.id === cfg.tie) || TIES[0];
+  const tieColor = TIE_COLORS[cfg.tieColor] ?? TIE_COLORS[0];
+  const ribbonParts = [];
+  const tieMat = () => T.tex ? (T.shiny ? shiny(0xffffff, { map: texOf(T.tex), shininess: 60, specular: 0x6a3a5a }) : paperMat(texOf(T.tex), { shininess: 12 }))
+    : T.neon ? plain(0xff2b8c, { emissive: 0x3a0020 }) : (T.kind === 'band' || T.kind === 'band1') ? shiny(tieColor, { shininess: 50 }) : plain(tieColor);
+  const e = S.lump ? 0.06 : 0.014;
+  const add = (o) => { o.userData.part = 'ribbon'; ribbonParts.push(o); root.add(o); return o; };
+  const yK = front ? H / 2 + ky * H / 2 : H / 2; // 가로띠 높이
+  const zK = front ? 0 : -ky * D / 2;
+  if (T.kind === 'band' || T.kind === 'band1') {
+    const bw = 0.075;
+    add(mesh(roundedBox(bw, H + e, D + e, 0.01, 1), tieMat(), kx, H / 2, 0));
+    if (T.kind === 'band') add(front ? mesh(roundedBox(W + e, bw, D + e, 0.01, 1), tieMat(), 0, yK, 0) : mesh(roundedBox(W + e, H + e, bw, 0.01, 1), tieMat(), 0, H / 2, zK));
+  } else if (T.kind === 'cord') {
+    add(cord(loop(V(kx, H / 2, 0), V(0, 0, 1), V(0, 1, 0), D / 2 + e, H / 2 + e, 48, 0, 1), T.r, tieMat(), true));
+    add(front ? cord(loop(V(0, yK, 0), V(1, 0, 0), V(0, 0, 1), W / 2 + e, D / 2 + e, 48, 0, 2), T.r, tieMat(), true)
+      : cord(loop(V(0, H / 2, zK), V(1, 0, 0), V(0, 1, 0), W / 2 + e, H / 2 + e, 48, 0, 2), T.r, tieMat(), true));
+  } else if (T.kind === 'multi') {
+    for (let i = 0; i < 5; i++) add(cord(loop(V(-0.12 + i * 0.06, H / 2, 0), V(0, 0, 1), V(0, 1, 0), D / 2 + e, H / 2 + e, 40, 0.04, 20 + i), T.r, tieMat(), true));
+    for (let i = 0; i < 3; i++) add(cord(front ? loop(V(0, H * 0.38 + i * H * 0.12, 0), V(1, 0, 0), V(0, 0, 1), W / 2 + e, D / 2 + e, 40, 0.04, 30 + i) : loop(V(0, H / 2, -0.1 + i * 0.1), V(1, 0, 0), V(0, 1, 0), W / 2 + e, H / 2 + e, 40, 0.04, 30 + i), T.r, tieMat(), true));
+  }
+
+  // ④ 매듭
+  if (T.id !== 'none' && cfg.bow !== 'none') {
+    const bow = new THREE.Group();
+    const isCord = T.kind === 'cord' || T.kind === 'multi';
+    const r = isCord ? Math.max(T.r, 0.006) : 0;
+    const bwid = 0.065;
+    const lp = (cx, cy, ra, rb, seed) => isCord ? cord(loop(V(cx, cy, 0.02), V(1, 0, 0), V(0, 1, 0), ra, rb, 30, 0.15, seed), r, tieMat(), true) : ribbonStrip(loop(V(cx, cy, 0.02), V(1, 0, 0), V(0, 1, 0), ra, rb, 30, 0.12, seed), bwid, tieMat());
+    const tail = (pts) => isCord ? cord(pts, r, tieMat()) : ribbonStrip(pts, bwid * 0.9, tieMat());
+    const B = cfg.bow;
+    if (B === 'butterfly' || B === 'long' || B === 'double') {
+      bow.add(lp(-0.12, 0.05, 0.12, 0.065, 2), lp(0.12, 0.06, 0.12, 0.065, 5));
+      if (B === 'double') bow.add(lp(-0.09, -0.02, 0.09, 0.05, 7), lp(0.1, -0.01, 0.09, 0.05, 9));
+      const L = B === 'long' ? 0.42 : 0.18;
+      bow.add(tail([V(0, 0, 0.03), V(-0.06, -L * 0.45, 0.05), V(-0.1, -L, 0.06)]), tail([V(0, 0, 0.03), V(0.07, -L * 0.4, 0.05), V(0.12, -L * 0.95, 0.04)]));
+    } else if (B === 'knot') {
+      bow.add(tail([V(0, 0, 0.03), V(-0.04, -0.06, 0.04), V(-0.06, -0.12, 0.04)]), tail([V(0, 0, 0.03), V(0.05, -0.05, 0.04), V(0.08, -0.1, 0.04)]));
+    }
+    bow.add(mesh(new THREE.SphereGeometry(isCord ? r * 2.6 : 0.035, 12, 8), tieMat(), 0, 0, 0.03));
+    face.put(bow, kx, ky, 0.0);
+    bow.traverse(o => { if (o.isMesh) o.userData.part = 'ribbon'; });
+    bow.userData.part = 'ribbon'; ribbonParts.push(bow); root.add(bow);
+  }
+
+  // ⑤ 테이프
+  const tapeC = TAPE_COLORS[cfg.tapeColor] ?? TAPE_COLORS[0];
+  const tapeM = () => plain(tapeC, { transparent: true, opacity: 0.86 });
+  const tape = (w, u, v, rz) => { const o = face.flat(new THREE.BoxGeometry(w, 0.05, 0.004), tapeM(), u, v, rz, 0.016); o.userData.part = 'paper'; root.add(o); };
+  if (cfg.tape === 'corner') { tape(0.22, -0.78, 0.78, 0.78); tape(0.22, 0.78, -0.78, 0.78); }
+  if (cfg.tape === 'band') tape(W * 0.9, 0, -0.55, 0.02);
+  if (cfg.tape === 'scatter') { tape(0.26, -0.4, 0.72, 0.05); tape(0.2, 0.5, -0.6, 0.5); tape(0.16, 0.62, 0.55, 1.2); }
+  if (cfg.tape === 'seal') tape(0.16, 0.0, -0.82, 1.57);
+
+  // ⑥ 스티커
+  const sc = STICKER_COLORS[cfg.stickerColor] ?? STICKER_COLORS[0];
+  const spots = [[-0.6, 0.62], [0.58, 0.7], [-0.5, -0.5], [0.55, -0.45], [0.32, 0.3]];
+  const stick = (o, [u, v], i) => { const g = new THREE.Group(); g.add(o); o.rotation.z = i * 0.5; face.put(g, u, v, 0.018); g.userData.part = 'paper'; root.add(g); };
+  const discGeo = (r) => { const g = new THREE.CylinderGeometry(r, r, 0.006, 24); g.rotateX(Math.PI / 2); return g; };
+  if (cfg.sticker === 'dots') [0xe0503f, 0xf2c230, 0xf07d8c, 0x5fa8e6, 0x6a2a7a].forEach((c, i) => stick(new THREE.Mesh(discGeo(0.04 + (i % 2) * 0.012), plain(c)), spots[i], i));
+  if (cfg.sticker === 'stars') spots.slice(0, 4).forEach((p, i) => stick(extrude(starShape(0.05), 0.006, plain(sc)), p, i));
+  if (cfg.sticker === 'hearts') spots.slice(0, 4).forEach((p, i) => stick(extrude(heartShape(0.045), 0.008, shiny(sc, { shininess: 40 })), p, i));
+  if (cfg.sticker === 'label') stick(extrude(scallopShape(0.12), 0.006, plain(0xe0503f)), [-0.42, 0.45], 0);
+  if (cfg.sticker === 'stamp') { const m = new THREE.Mesh(new THREE.PlaneGeometry(0.26, 0.26), new THREE.MeshPhongMaterial({ map: texOf('stampMark'), transparent: true, shininess: 2, depthWrite: false })); stick(m, [-0.45, 0.4], 0.2); }
+  if (cfg.sticker === 'seal') stick(new THREE.Mesh(discGeo(0.07), shiny(0xd6b25a, { shininess: 90, specular: 0x998844 })), [0.45, -0.4], 0);
+
+  // ⑦ 장식 (매듭 근처)
+  const deco = new THREE.Group();
+  const D_ = cfg.deco;
+  if (D_ === 'button') { deco.add(extrude(heartShape(0.06), 0.025, shiny(0xf2a9cf, { shininess: 50 }))); for (const dx of [-0.012, 0.012]) deco.add(mesh(new THREE.SphereGeometry(0.008, 8, 6), plain(0xd54a8a), dx, 0.01, 0.018)); }
+  if (D_ === 'clay') { const c = extrude(cloudShape(0.085), 0.035, paperMat(texOf('clayDots'), { shininess: 14 })); c.rotation.z = -0.15; deco.add(c); }
+  if (D_ === 'flower') {
+    const th = new THREE.Group();
+    th.add(mesh(lumpy(new THREE.IcosahedronGeometry(0.05, 2), 0.012, 3, 60), plain(0x5b5f95)));
+    for (let i = 0; i < 10; i++) { const a = (i / 10) * Math.PI * 2; const leaf = mesh(new THREE.ConeGeometry(0.012, 0.09, 4), plain(0x6f7d6a)); leaf.position.set(Math.cos(a) * 0.05, -0.03, Math.sin(a) * 0.05); leaf.rotation.set(Math.sin(a) * 1.4, 0, -Math.cos(a) * 1.4); th.add(leaf); }
+    th.add(cord([V(0, -0.03, 0), V(0.05, -0.15, 0.02), V(0.1, -0.32, 0.05)], 0.006, plain(0x6f7d6a)));
+    th.rotation.z = 0.5; th.position.set(0.08, 0.05, 0.04); deco.add(th);
+  }
+  if (D_ === 'pompom') [0x2e9a4f, 0xf2c624, 0xd8312f, 0xff5ea8, 0xff8a2a].forEach((c, i) => deco.add(mesh(lumpy(new THREE.SphereGeometry(0.03, 12, 10), 0.006, i + 1, 40), plain(c, { shininess: 2 }), -0.12 + i * 0.06, (i % 2) * 0.04 - 0.08, 0.03)));
+  if (D_ === 'confetti') {
+    const cols = [0xff4d4d, 0xffd23a, 0x3fb8ff, 0x9b5cff, 0x34c779, 0xff8a2a, 0xff5ab4];
+    for (let i = 0; i < 26; i++) { const m = new THREE.Mesh(discGeo(0.022), plain(cols[i % cols.length])); m.position.set(Math.sin(i * 2.3) * 0.34, Math.cos(i * 1.7) * 0.3 - 0.1, 0.005); deco.add(m); }
+  }
+  if (D_ === 'beads') {
+    [0x6cc6f0, 0x3f8f7a, 0x35b6c9, 0x6cc6f0].forEach((c, i) => deco.add(mesh(new THREE.CylinderGeometry(0.022, 0.022, 0.028, 14), shiny(c, { transparent: true, opacity: 0.92, shininess: 80 }), 0.06, -0.06 - i * 0.032, 0.03)));
+    const tg = mesh(roundedBox(0.06, 0.3, 0.006, 0.004, 1), plain(0xeaff2a, { emissive: 0x2a3300 }), -0.04, -0.2, 0.03); tg.rotation.z = -0.05; deco.add(tg);
+  }
+  if (D_ === 'pine') {
+    for (let i = 0; i < 3; i++) { const br = new THREE.Group(); for (let j = 0; j < 7; j++) { const n = mesh(new THREE.ConeGeometry(0.01, 0.07, 4), plain(0x2f6e4a)); n.position.set(0, j * 0.03, 0); n.rotation.z = (j % 2 ? 1 : -1) * 0.9; br.add(n); } br.rotation.z = -0.9 + i * 0.6; br.position.set(-0.05 + i * 0.05, -0.02, 0.03); deco.add(br); }
+    deco.add(mesh(new THREE.SphereGeometry(0.02, 10, 8), shiny(0xd8312f), 0.03, 0.02, 0.05), mesh(new THREE.SphereGeometry(0.017, 10, 8), shiny(0xd8312f), 0.06, -0.01, 0.05));
+  }
+  if (deco.children.length) {
+    if (D_ === 'confetti') face.put(deco, 0, 0, 0.012); else face.put(deco, kx + 0.28, ky + 0.02, 0.01);
+    deco.traverse(o => { o.userData.part = 'paper'; }); deco.userData.part = 'paper'; root.add(deco);
+  }
+
+  // ⑧ 마무리
+  const F = cfg.finish;
+  if (F === 'tag') {
+    const tag = new THREE.Mesh(new THREE.PlaneGeometry(0.24, 0.12), new THREE.MeshPhongMaterial({ map: textTag(`To. ${opts.to || '너에게'}`), shininess: 4, side: THREE.DoubleSide }));
+    const g = new THREE.Group(); g.add(tag); tag.rotation.z = -0.18; tag.position.set(0.1, -0.12, 0.02);
+    g.add(cord([V(0, 0, 0), V(0.03, -0.05, 0.02), V(0.0, -0.08, 0.02)], 0.003, plain(0xf6f6f6)));
+    face.put(g, kx, ky, 0.03); g.userData.part = 'card'; root.add(g);
+  }
+  if (F === 'card') {
+    const note = new THREE.Mesh(new THREE.PlaneGeometry(0.2, 0.25), new THREE.MeshPhongMaterial({ map: texOf('pearCard'), shininess: 4, side: THREE.DoubleSide }));
+    const g = new THREE.Group(); g.add(note); note.rotation.z = 0.12; face.put(g, -0.55, 0.1, 0.03); g.userData.part = 'card'; root.add(g);
+  }
+  if (F === 'vellum') {
+    const vm = new THREE.MeshPhongMaterial({ color: 0xeef6f2, transparent: true, opacity: 0.7, shininess: 25, specular: 0x222222 });
+    const v = mesh(roundedBox(W * 0.62, H + 0.03, D + 0.03, 0.03, 3), vm, -W * 0.12, H / 2, 0); v.userData.part = 'paper'; root.add(v);
+  }
+  if (F === 'cello') {
+    const cm = new THREE.MeshPhongMaterial({ color: 0xffffff, transparent: true, opacity: 0.2, shininess: 120, specular: 0xffffff, depthWrite: false });
+    const c = mesh(lumpy(roundedBox(W + 0.07, H + 0.07, D + 0.07, 0.06, 5), 0.012, 3, 14), cm, 0, H / 2 + 0.01, 0); c.userData.part = 'paper'; root.add(c);
+  }
+
+  root.userData = { w: W, h: H, d: D, cfg };
+  return root;
+}
+
+return { SHAPES, PAPERS, TIES, TIE_COLORS, BOWS, TAPES, TAPE_COLORS, STICKERS, STICKER_COLORS, DECOS, FINISHES, DEFAULT_GIFT, paperSwatch, makeComposed };
+})();
+
 // ---- js/data/boxes.js ----
 __m["js/data/boxes.js"] = (() => {
 // ==========================================================
@@ -5224,6 +5586,7 @@ __m["js/game/wrap-model.js"] = (() => {
 //       앞면뿐 아니라 옆면·윗면·둥근 면 어디든 표면을 따라 붙음
 // ==========================================================
 
+const { makeComposed } = __m["js/game/composer.js"];
 const { roundedBox, mesh, blobShadow } = __m["js/intro3d/models.js"];
 const WX = __m["js/intro3d/wrap-textures.js"];
 const { V, paperMat, plain, shiny, lumpy, ribbon, cord, extrude, starShape, heartShape, scallopShape, cloudShape, disc } = __m["js/intro3d/gifts.js"];
@@ -5604,6 +5967,7 @@ function makeEar(S, side, fold, neat, tex) {
  * @param live 조작 중 미리보기 { flaps: {L, R}(0–1 접힘), tape, deco } — 저장 전 상태
  */
 function makeWrapped(itemId, wrap, live = {}) {
+  if (wrap?.maker) return makeComposed(itemId, wrap.maker, { to: wrap.to });
   const item = getItem(itemId);
   const g = new THREE.Group();
   const bx = boxFor(wrap.box, item);
@@ -7028,6 +7392,7 @@ async function giftPayload({ sender, to, giftId, custom, wrap, paper, judge }) {
     si: (wrap.decos || []).some(d => d.type === 'img') ? await tinyImage(wrap.stickerImg, 72, 0.6) : undefined,
     c: wrap.card?.message || undefined,
     j: judge ? { l: judge.l, g: judge.g, t: judge.t, s: judge.s } : undefined,
+    m: wrap.maker || undefined,
   };
 }
 /** 꾸러미 → 포장 상태(wrap)로 되돌림 */
@@ -7041,6 +7406,7 @@ function wrapFromPayload(g) {
     ribbon: g.r ? { id: g.r.id, strokes: (g.r.s || []).map(st => st.map(q => ({ p: q.slice(0, 3), n: q.slice(3, 6) }))), bow: g.r.w ? { p: g.r.w.slice(0, 3), n: g.r.w.slice(3, 6) } : null } : null,
     decos: (g.d || []).map((d, i) => ({ id: 'd' + i, type: d[0], p: d[1], n: d[2], rot: d[3], scale: d[4], color: d[5] ?? undefined })),
     stickerImg: g.si || null, tapes: [], card: { message: g.c || '' },
+    maker: g.m || null, to: g.to || '',
   };
 }
 
@@ -9799,6 +10165,287 @@ function initRush() {
 return { STYLES, enterRush, leaveRush, initRush };
 })();
 
+// ---- js/game/maker3d.js ----
+__m["js/game/maker3d.js"] = (() => {
+// ==========================================================
+// 선물 꾸미기 3D 장면 — 작업대 위 돌림판에 선물, 뒤에서 선배 산타가 구경
+// 손가락으로 좌우로 끌면 선물이 돌아감 · 부위를 바꾸면 '뿅' 하고 다시 만들어짐
+// ==========================================================
+
+const { makeRoom, mesh, mat, roundedBox } = __m["js/intro3d/models.js"];
+const { setupRenderer, addLabLights } = __m["js/intro3d/lighting.js"];
+const { makeCharacter, animateFace } = __m["js/avatar/character.js"];
+const { SENIOR_AVATAR } = __m["js/data/avatar-parts.js"];
+const { makeComposed } = __m["js/game/composer.js"];
+const { disposeModel } = __m["js/game/wrap-model.js"];
+const THREE = window.THREE;
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const back = (t) => { t = clamp(t); const c = 2.2; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
+
+class MakerView {
+  constructor(canvas) {
+    this.canvas = canvas;
+    const r = this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, preserveDrawingBuffer: true });
+    setupRenderer(r, 0xeeeeeb);
+    const s = this.scene = new THREE.Scene();
+    addLabLights(s, { keyPos: [-2.5, 4.5, 5] });
+    this.room = makeRoom(); s.add(this.room);
+    const table = new THREE.Group();
+    table.add(mesh(roundedBox(3.4, 0.08, 1.9, 0.03, 2), mat(0xf6f5f1, { shininess: 30 }), 0, -0.04, 0));
+    table.add(mesh(roundedBox(3.2, 0.7, 1.7, 0.02, 1), mat(0xe6e4df), 0, -0.43, 0));
+    this.turn = new THREE.Group();
+    this.turn.add(mesh(new THREE.CylinderGeometry(0.78, 0.82, 0.05, 48), mat(0xdcd8d0, { shininess: 50 }), 0, 0.025, 0));
+    table.add(this.turn);
+    s.add(table);
+    this.senior = makeCharacter({ ...SENIOR_AVATAR, hat: 'santa' });
+    this.senior.scale.setScalar(0.9);
+    this.senior.position.set(1.05, -0.02, -0.85); this.senior.rotation.y = -0.45;
+    s.add(this.senior);
+    this.camera = new THREE.PerspectiveCamera(30, 1, 0.1, 60);
+    this.yaw = -0.5; this.yawV = 0; this.pop = 1; this.t = 0;
+    // 썸네일용 작은 렌더러
+    this.thumbR = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+    this.thumbR.setSize(112, 112); this.thumbR.setClearColor(0x000000, 0);
+    this.thumbS = new THREE.Scene(); addLabLights(this.thumbS, { keyPos: [-2, 4, 5] });
+    this.thumbC = new THREE.PerspectiveCamera(26, 1, 0.1, 20);
+    this._bind();
+    window.addEventListener('resize', () => this.active && this.layout());
+  }
+  _bind() {
+    let last = null;
+    this.canvas.addEventListener('pointerdown', (e) => { last = e.clientX; this.canvas.setPointerCapture?.(e.pointerId); this.dragging = true; });
+    this.canvas.addEventListener('pointermove', (e) => { if (last == null) return; const dx = e.clientX - last; last = e.clientX; this.yawV = dx * 0.6; this.yaw += dx * 0.012; });
+    const up = () => { last = null; this.dragging = false; };
+    this.canvas.addEventListener('pointerup', up); this.canvas.addEventListener('pointercancel', up);
+  }
+  layout() {
+    const r = this.canvas.getBoundingClientRect();
+    const W = r.width || innerWidth, H = r.height || innerHeight;
+    this.renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+    this.renderer.setSize(W, H, false);
+    const cam = this.camera; cam.aspect = W / H;
+    const portrait = W / H < 0.9;
+    const span = portrait ? 1.75 : 2.2; // 화면 폭에 보이는 범위 (선물이 크게)
+    const tanV = Math.tan(THREE.MathUtils.degToRad(cam.fov / 2)), tanH = tanV * cam.aspect;
+    const dist = Math.max(span / (2 * tanH), 1.7 / (2 * tanV));
+    this.target = new THREE.Vector3(0.12, 0.52, 0);
+    cam.position.set(0.12, 0.52 + dist * 0.3, dist);
+    cam.lookAt(this.target);
+    cam.updateProjectionMatrix();
+    this.senior.position.set(portrait ? 0.95 : 1.2, -0.02, -1.0);
+  }
+  setGift(itemId, cfg, to, { pop = true } = {}) {
+    if (this.model) { this.turn.remove(this.model); disposeModel(this.model); }
+    this.model = makeComposed(itemId, cfg, { to });
+    this.model.position.y = 0.05;
+    this.turn.add(this.model);
+    if (pop) { this.pop = 0; }
+  }
+  thumb(cfg, to) {
+    const g = makeComposed(null, cfg, { to });
+    this.thumbS.add(g);
+    const b = new THREE.Box3().setFromObject(g), c = new THREE.Vector3(), sz = new THREE.Vector3(); b.getCenter(c); b.getSize(sz);
+    const d = Math.max(sz.x, sz.y, sz.z) * 2.5;
+    g.rotation.y = -0.45;
+    this.thumbC.position.set(c.x + d * 0.15, c.y + d * 0.42, c.z + d); this.thumbC.lookAt(c);
+    this.thumbR.render(this.thumbS, this.thumbC);
+    const url = this.thumbR.domElement.toDataURL('image/png');
+    this.thumbS.remove(g); disposeModel(g);
+    return url;
+  }
+  react(kind) {
+    const c = this.senior.userData, now = performance.now();
+    if (kind === 'like') { c.smileUntil = now + 1400; c.nod = 0.7; c.browUp = 0.8; }
+    if (kind === 'hmm') { c.browUp = 1; c.tilt = 1; }
+    if (kind === 'wow') { c.smileUntil = now + 2200; c.hopV = 2.4; c.nod = 1; c.wave = 1; }
+  }
+  start() { if (this.active) return; this.active = true; this.layout(); this._last = performance.now(); const f = (now) => { if (!this.active) return; this.frame(now); requestAnimationFrame(f); }; requestAnimationFrame(f); }
+  stop() { this.active = false; }
+  frame(now) {
+    const dt = Math.min(0.05, (now - this._last) / 1000); this._last = now; this.t += dt;
+    if (!this.dragging) { this.yawV *= Math.pow(0.05, dt); this.yaw += (this.yawV * 0.012) + dt * 0.25; }
+    this.turn.rotation.y = this.yaw;
+    this.pop = Math.min(1, this.pop + dt * 2.8);
+    if (this.model) { const k = 0.6 + 0.4 * back(this.pop); this.model.scale.set(k, 0.4 + 0.6 * back(this.pop), k); }
+    const c = this.senior.userData;
+    animateFace(c, now, dt);
+    let nod = 0; if (c.nod > 0) { c.nod = Math.max(0, c.nod - dt * 1.5); nod = Math.sin((1 - c.nod) * Math.PI * 2) * 0.2 * c.nod; }
+    c.tilt = Math.max(0, (c.tilt || 0) - dt * 0.8);
+    c.head.rotation.set(0.15 + nod, 0.35 + Math.sin(this.t * 0.6) * 0.1, Math.sin(c.tilt * Math.PI) * 0.2);
+    c.hopV = (c.hopV || 0) - dt * 9; c.hop = Math.max(0, (c.hop || 0) + c.hopV * dt); if (c.hop === 0) c.hopV = 0;
+    c.body.position.y = c.hop;
+    c.wave = Math.max(0, (c.wave || 0) - dt * 1.1);
+    c.armR.rotation.z = -0.18 - c.wave * 2.4;
+    this.renderer.render(this.scene, this.camera);
+  }
+}
+
+return { MakerView };
+})();
+
+// ---- js/screens/maker.js ----
+__m["js/screens/maker.js"] = (() => {
+// ==========================================================
+// 선물 꾸미기 화면 — Mii 만들기처럼 탭에서 골라 끼우기
+// 선물 · 모양 · 포장지 · 끈 · 매듭 · 테이프 · 스티커 · 장식 · 마무리 · 편지
+// 시간 제한 없음. 선배 산타가 옆에서 한마디씩 (가끔 재촉)
+// 다 꾸미면 '출고!' → 링크 보내기 화면
+// ==========================================================
+
+const { state, update } = __m["js/state.js"];
+const { go } = __m["js/router.js"];
+const { ITEMS, getItem } = __m["js/data/items.js"];
+const { itemThumb } = __m["js/screens/game.js"];
+const { MakerView } = __m["js/game/maker3d.js"];
+const { SHAPES, PAPERS, TIES, TIE_COLORS, BOWS, TAPES, TAPE_COLORS, STICKERS, STICKER_COLORS, DECOS, FINISHES, DEFAULT_GIFT, paperSwatch } = __m["js/game/composer.js"];
+const { sound } = __m["js/sound.js"];
+const $ = (id) => document.getElementById(id);
+const pick = (a) => a[Math.floor(Math.random() * a.length)];
+const hex = (n) => '#' + n.toString(16).padStart(6, '0');
+const GIFT_ITEMS = ITEMS.filter(x => !x.draw && !x.custom);
+
+const TABS = [
+  { id: 'item', label: '선물', icon: '🎁' },
+  { id: 'shape', label: '모양', icon: '📦', list: SHAPES, key: 'shape' },
+  { id: 'paper', label: '포장지', icon: '🧻', list: PAPERS, key: 'paper' },
+  { id: 'tie', label: '끈', icon: '🎗', list: TIES, key: 'tie', colors: TIE_COLORS, colorKey: 'tieColor', colorIf: (c) => TIES.find(t => t.id === c.tie)?.color },
+  { id: 'bow', label: '매듭', icon: '🎀', list: BOWS, key: 'bow', disabledIf: (c) => c.tie === 'none' && '끈을 먼저 골라요' },
+  { id: 'tape', label: '테이프', icon: '🩹', list: TAPES, key: 'tape', colors: TAPE_COLORS, colorKey: 'tapeColor', colorIf: (c) => c.tape !== 'none' },
+  { id: 'sticker', label: '스티커', icon: '⭐', list: STICKERS, key: 'sticker', colors: STICKER_COLORS, colorKey: 'stickerColor', colorIf: (c) => STICKERS.find(s => s.id === c.sticker)?.color },
+  { id: 'deco', label: '장식', icon: '🌿', list: DECOS, key: 'deco' },
+  { id: 'finish', label: '마무리', icon: '🏷', list: FINISHES, key: 'finish' },
+  { id: 'letter', label: '편지', icon: '✉️' },
+];
+const LINES = {
+  item: ['오, 그거 좋아하겠네요.', '안에 뭐 넣는지는 비밀로 할게요.', '받는 사람 표정이 벌써 보여요.'],
+  shape: ['모양부터 잡는 거, 기본이죠.', '이 모양 귀엽네요.'],
+  paper: ['{n}, 겨울이랑 잘 어울려요.', '{n} 고르는 사람 처음 봐요. 좋아요.', '오, {n}. 손맛 나네요.'],
+  tie: ['{n}. 묶을 맛 나겠네요.', '끈 고르는 데 진심이군요.'],
+  bow: ['매듭이 얼굴이에요.', '{n}, 정성 보이네요.'],
+  tape: ['테이프 한 조각이 킥이죠.', '마스킹테이프 좋아요.'],
+  sticker: ['스티커는 많을수록… 아니 적당히요.', '{n}! 귀엽다.'],
+  deco: ['{n}까지? 이건 반칙이에요.', '장식 센스 있네요.'],
+  finish: ['마무리가 제일 중요해요.', '{n}, 완성도 올라가네요.'],
+  letter: ['편지는 짧아도 돼요.', '한마디면 충분해요.'],
+};
+const NUDGES = ['선배: 썰매 출발 전에만 끝내요~', '선배: 루돌프들 몸 풀고 있어요.', '선배: 천천히 해요. …근데 조금만 빨리요.', '선배: 오늘 이브인 거 알죠?'];
+
+let view = null, tab = 'item', nudgeT = 0, sayT = 0;
+const thumbCache = new Map();
+
+function cfg() { return { ...DEFAULT_GIFT, ...(state.maker || {}) }; }
+function to() { return (state.recipient || '').trim() || '친구'; }
+
+function say(t) {
+  const el = $('maker-say'); el.textContent = t; el.classList.remove('is-in'); void el.offsetWidth; el.classList.add('is-in');
+  clearTimeout(sayT); sayT = setTimeout(() => el.classList.remove('is-in'), 3200);
+}
+function nudge() { clearTimeout(nudgeT); nudgeT = setTimeout(() => { if (view?.active) { say(pick(NUDGES)); nudge(); } }, 22000 + Math.random() * 10000); }
+
+function rebuild(pop = true) {
+  if (!view) return;
+  view.setGift(state.giftId, cfg(), to(), { pop });
+}
+function setCfg(patch, lineKey, name) {
+  update({ maker: { ...cfg(), ...patch } });
+  rebuild(true);
+  sound.rustle('paper', 0.8, 'mk' + lineKey); sound.pick?.();
+  view.react(Math.random() < 0.7 ? 'like' : 'hmm');
+  if (lineKey && Math.random() < 0.75) say('선배: ' + pick(LINES[lineKey]).replace('{n}', name || ''));
+  renderOptions();
+}
+
+function thumbFor(t, opt) {
+  const c = { ...cfg(), [t.key]: opt.id };
+  const k = t.id + '|' + JSON.stringify(c);
+  if (!thumbCache.has(k)) thumbCache.set(k, view.thumb(c, to()));
+  return thumbCache.get(k);
+}
+
+function renderTabs() {
+  $('maker2-tabs').innerHTML = TABS.map(t => `<button type="button" class="mk-tab ${t.id === tab ? 'is-on' : ''}" data-tab="${t.id}"><span>${t.icon}</span>${t.label}</button>`).join('');
+}
+function renderOptions() {
+  const t = TABS.find(x => x.id === tab), c = cfg();
+  const grid = $('maker2-grid'), colors = $('maker2-colors');
+  colors.hidden = true; colors.innerHTML = '';
+  grid.classList.toggle('is-letter', tab === 'letter');
+  if (tab === 'item') {
+    grid.innerHTML = GIFT_ITEMS.map(it => `<button type="button" class="mk-opt ${state.giftId === it.id ? 'is-on' : ''}" data-item="${it.id}"><img src="${itemThumb(it.id) || ''}" alt="" /><span>${it.name}</span></button>`).join('');
+    return;
+  }
+  if (tab === 'letter') {
+    grid.innerHTML = `<label class="mk-field"><span>받는 사람</span><input id="mk-to" type="text" maxlength="12" placeholder="예: 민지" value="" /></label>
+      <label class="mk-field mk-field--msg"><span>한마디</span><textarea id="mk-msg" maxlength="80" rows="3" placeholder="올해도 고마웠어! 메리 크리스마스 🎄"></textarea></label>`;
+    $('mk-to').value = state.recipient || ''; $('mk-msg').value = state.letter || '';
+    return;
+  }
+  const dis = t.disabledIf?.(c);
+  grid.innerHTML = (dis ? `<p class="mk-note">${dis}</p>` : '') + t.list.map(o => {
+    const img = t.id === 'paper' ? paperSwatch(o.id) : thumbFor(t, o);
+    return `<button type="button" class="mk-opt ${c[t.key] === o.id ? 'is-on' : ''} ${t.id === 'paper' ? 'mk-opt--swatch' : ''}" data-opt="${o.id}" ${dis ? 'disabled' : ''}><img src="${img}" alt="" /><span>${o.name}</span></button>`;
+  }).join('');
+  if (t.colors && t.colorIf(c)) {
+    colors.hidden = false;
+    colors.innerHTML = t.colors.map((col, i) => `<button type="button" class="mk-color ${c[t.colorKey] === i ? 'is-on' : ''}" data-color="${i}" style="background:${hex(col)}" aria-label="색 ${i + 1}"></button>`).join('');
+  }
+}
+
+function enterMaker() {
+  if (!view) view = new MakerView($('maker2-cv'));
+  if (!state.giftId || !GIFT_ITEMS.some(i => i.id === state.giftId)) update({ giftId: 'latte' });
+  if (!state.maker) update({ maker: { ...DEFAULT_GIFT } });
+  view.start();
+  thumbCache.clear();
+  rebuild(true);
+  renderTabs(); renderOptions();
+  setTimeout(() => say(`선배: 이브 선물 딱 하나만 부탁해요. ${state.recipient ? to() + '한테' : '누구한테'} 보낼 거예요?`), 500);
+  nudge();
+}
+function leaveMaker() { view?.stop(); clearTimeout(nudgeT); }
+
+function ship() {
+  const c = cfg();
+  if (!state.recipient) { tab = 'letter'; renderTabs(); renderOptions(); say('선배: 받는 사람 이름부터 적어 줘요!'); $('mk-to')?.focus(); return; }
+  update({ wrap: { maker: c, to: to(), box: 'none', paper: null, card: { message: state.letter || '' }, decos: [], tapes: [], ribbon: null, flaps: {}, counted: false }, judge: null });
+  view.react('wow');
+  say('선배: 오… 이건 출고 각이에요. 썰매로!');
+  sound.bell?.(); setTimeout(() => sound.stamp?.(), 250);
+  $('maker2-ship').disabled = true;
+  setTimeout(() => { $('maker2-ship').disabled = false; go('send'); }, 1100);
+}
+
+function initMaker() {
+  $('maker2-tabs').addEventListener('click', (e) => { const b = e.target.closest('[data-tab]'); if (!b) return; tab = b.dataset.tab; sound.tick(); renderTabs(); renderOptions(); });
+  $('maker2-grid').addEventListener('click', (e) => {
+    const it = e.target.closest('[data-item]');
+    if (it) { update({ giftId: it.dataset.item }); rebuild(true); renderOptions(); view.react('like'); if (Math.random() < 0.7) say('선배: ' + pick(LINES.item)); sound.pick?.(); return; }
+    const o = e.target.closest('[data-opt]'); if (!o || o.disabled) return;
+    const t = TABS.find(x => x.id === tab);
+    if (cfg()[t.key] === o.dataset.opt) return;
+    setCfg({ [t.key]: o.dataset.opt }, t.id, t.list.find(x => x.id === o.dataset.opt)?.name);
+  });
+  $('maker2-grid').addEventListener('input', (e) => {
+    if (e.target.id === 'mk-to') { update({ recipient: e.target.value.trim() }); thumbCache.clear(); clearTimeout(e.target._t); e.target._t = setTimeout(() => rebuild(false), 300); }
+    if (e.target.id === 'mk-msg') update({ letter: e.target.value });
+  });
+  $('maker2-colors').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-color]'); if (!b) return;
+    const t = TABS.find(x => x.id === tab);
+    setCfg({ [t.colorKey]: Number(b.dataset.color) }, null);
+  });
+  $('maker2-random').addEventListener('click', () => {
+    const r = (l) => pick(l).id;
+    const c = { shape: r(SHAPES), paper: r(PAPERS), tie: r(TIES.slice(1)), tieColor: Math.floor(Math.random() * TIE_COLORS.length), bow: r(BOWS.slice(0, 4)), tape: r(TAPES), tapeColor: Math.floor(Math.random() * TAPE_COLORS.length), sticker: r(STICKERS), stickerColor: Math.floor(Math.random() * STICKER_COLORS.length), deco: r(DECOS), finish: r(FINISHES) };
+    setCfg(c, null); say('선배: 아무거나 골랐는데… 의외로 괜찮은데요?');
+  });
+  $('maker2-ship').addEventListener('click', ship);
+  window.__maker = { cfg, setCfg, ship };
+}
+
+return { enterMaker, leaveMaker, initMaker };
+})();
+
 // ---- js/main.js ----
 __m["js/main.js"] = (() => {
 // ==========================================================
@@ -9815,6 +10462,7 @@ const { initRegister, onEnterRegister, onLeaveRegister } = __m["js/screens/regis
 const { sound } = __m["js/sound.js"];
 const { initGame } = __m["js/screens/game.js"];
 const { initRush, enterRush, leaveRush } = __m["js/screens/rush.js"];
+const { initMaker, enterMaker, leaveMaker } = __m["js/screens/maker.js"];
 // 모바일 주소창 높이 변화 대응
 const setVh = () => document.documentElement.style.setProperty('--vh', window.innerHeight + 'px');
 setVh(); window.addEventListener('resize', setVh);
@@ -9860,6 +10508,7 @@ onScreen((name) => {
   if (name === 'intro') { leaving = false; intro.classList.remove('is-leaving'); }
   if (name === 'register') onEnterRegister(); else onLeaveRegister();
   if (name === 'rush') enterRush(); else leaveRush();
+  if (name === 'maker') enterMaker(); else leaveMaker();
   // 모션 패널은 인트로 전용
   document.body.classList.toggle('is-intro', name === 'intro');
 });
@@ -9885,6 +10534,7 @@ musicBtn.addEventListener('click', () => { sound.setMusic(!sound.musicOn); paint
 initRegister();
 initGame();
 initRush();
+initMaker();
 startRouter();
 lab?.setActive(currentScreen() === 'intro');
 
