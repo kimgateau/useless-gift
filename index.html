@@ -1038,6 +1038,16 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
 .mk-color.is-on { box-shadow: 0 0 0 2.5px var(--text-strong); }
 .maker2-ship { align-self: center; margin-top: 4px; position: relative; flex: 0 0 auto; }
 .screen--send .career { display: none; }
+.maker2-sp { width: 36px; }
+.mk-tab.is-lock { opacity: .45; }
+.mk-tab.is-done:not(.is-on) { color: #3fa877; }
+.mk-tab:disabled { cursor: default; }
+.mk-steptitle { margin: 8px 14px 0; font-size: 14px; color: var(--text-strong); }
+.mk-opt--special b { display: grid; place-items: center; width: 62px; height: 62px; font-size: 30px; border-radius: 14px; background: #fff8e8; }
+.mk-field--wide { grid-column: 1 / -1; }
+.mk-foot { display: flex; justify-content: center; padding: 4px 14px 0; flex: 0 0 auto; }
+.mk-next { border: 0; background: #2f2f37; color: #fff; font: inherit; font-size: 14px; padding: 10px 22px; border-radius: 999px; cursor: pointer; }
+.mk-next.is-dim { background: #c9c6c0; }
 
 </style>
   <script>
@@ -1162,15 +1172,20 @@ body:not(.is-intro) .dev-toggle, body:not(.is-intro) .dev-panel { display: none 
       <header class="maker2-head">
         <button class="reg-back" type="button" data-go="register" aria-label="뒤로">←</button>
         <p class="maker2-title"><small>GIFT MAKER</small>선물 꾸미기</p>
-        <button class="maker2-random" type="button" id="maker2-random" aria-label="아무거나">🎲</button>
+        <span class="maker2-sp"></span>
       </header>
       <p class="maker2-say" id="maker2-say-wrap"><span id="maker-say"></span></p>
       <p class="maker2-hint">← 끌어서 돌려 보기 →</p>
       <div class="maker2-panel">
         <div class="mk-tabs" id="maker2-tabs" role="tablist"></div>
+        <p class="mk-steptitle" id="maker2-steptitle"></p>
         <div class="mk-grid" id="maker2-grid"></div>
         <div class="mk-colors" id="maker2-colors" hidden></div>
-        <button class="tape-btn maker2-ship" type="button" id="maker2-ship">다 꾸몄어요, 출고!</button>
+        <div class="mk-foot">
+          <button class="mk-next" type="button" id="maker2-next">다음 →</button>
+          <button class="tape-btn maker2-ship" type="button" id="maker2-ship" hidden>다 꾸몄어요, 출고!</button>
+        </div>
+        <input type="file" id="mk-photo" accept="image/*" hidden />
       </div>
     </section>
 
@@ -4330,6 +4345,7 @@ const ITEMS = [
   // ---- 직접 만든 ----
   { id: 'letter', cat: 'handmade', name: '손편지', desc: '내용을 직접 써요', custom: { label: '편지 내용', max: 60, placeholder: '요즘 고생 많았지. 늘 고마워!' }, shape: 'flat', size: [0.66, 0.04, 0.46] },
   { id: 'coupon', cat: 'handmade', name: '쿠폰북', desc: '쿠폰 이름을 직접 정해요', custom: { label: '쿠폰 이름', max: 14, placeholder: '밥 한 끼 쏘기권' }, shape: 'flat', size: [0.6, 0.07, 0.32] },
+  { id: 'myphoto', cat: 'handmade', name: '내 사진', desc: '고른 사진으로 만든 폴라로이드', shape: 'flat', size: [0.5, 0.04, 0.6] },
   { id: 'draw', cat: 'handmade', name: '직접 그린 선물', desc: '그린 대로 만들어져요', draw: true, shape: 'box', size: [0.6, 0.6, 0.06] },
   // ---- 장난 ----
   { id: 'banana', cat: 'prank', name: '먹다 남은 바나나', desc: '한 입 먹었음', shape: 'blob', size: [0.9, 0.36, 0.36] },
@@ -5286,6 +5302,24 @@ const FINISHES = [
 ];
 
 const DEFAULT_GIFT = { shape: 'box', paper: 'kraft', tie: 'stripe', tieColor: 0, bow: 'butterfly', tape: 'none', tapeColor: 0, sticker: 'dots', stickerColor: 0, deco: 'none', finish: 'tag' };
+/** 처음 상태: 아무것도 안 고름 (순서대로 채워 감) */
+const EMPTY_GIFT = { shape: null, paper: null, tie: null, tieColor: 0, bow: null, tape: null, tapeColor: 0, sticker: null, stickerColor: 0, deco: null, finish: null };
+
+// 내 사진 선물 (폴라로이드)
+const photoTex = new Map();
+function photoItem(url) {
+  const g = new THREE.Group();
+  const W = 0.5, H = 0.6, T = 0.02;
+  const frame = mesh(roundedBox(W, H, T, 0.01, 2), plain(0xfbfaf6), 0, 0, 0);
+  g.add(frame);
+  let tex = url && photoTex.get(url);
+  if (url && !tex) { tex = new THREE.TextureLoader().load(url); photoTex.set(url, tex); }
+  const pic = new THREE.Mesh(new THREE.PlaneGeometry(W * 0.84, W * 0.84), new THREE.MeshPhongMaterial({ map: tex || null, color: tex ? 0xffffff : 0xcfd6dc, shininess: 30 }));
+  pic.position.set(0, H * 0.08, T / 2 + 0.002); g.add(pic);
+  g.rotation.x = -0.25;
+  const holder = new THREE.Group(); g.position.y = H / 2; holder.add(g);
+  return holder;
+}
 
 const texCache = {};
 function texOf(name) { return texCache[name] || (texCache[name] = WX[name]()); }
@@ -5325,10 +5359,22 @@ function makeComposed(itemId, cfg = DEFAULT_GIFT, opts = {}) {
   const P = PAPERS.find(p => p.id === cfg.paper) || PAPERS[0];
   const root = new THREE.Group();
 
-  // ① 속 물건 (포장지 안에 숨어 있음)
+  const stage = !cfg.shape ? 'item' : !cfg.paper ? 'box' : 'wrapped';
+  if (stage === 'item' && !itemId) { root.userData = { w: 0.6, h: 0.4, d: 0.6, cfg, stage }; return root; }
+  // ① 속 물건 (포장하기 전엔 그대로 보이고, 포장하면 안에 숨음)
   if (itemId) {
     try {
-      const it = makeItem(itemId);
+      const it = itemId === 'myphoto' ? photoItem(opts.photo) : makeItem(itemId, opts.text ? { text: opts.text } : {});
+      if (stage === 'item') {
+        const b0 = new THREE.Box3().setFromObject(it), s0 = new THREE.Vector3(); b0.getSize(s0);
+        const k0 = Math.min(0.9 / Math.max(s0.x, s0.z, 1e-3), 0.85 / Math.max(s0.y, 1e-3), 1.6);
+        it.scale.multiplyScalar(k0);
+        const b1 = new THREE.Box3().setFromObject(it); it.position.y = -b1.min.y;
+        const holder = new THREE.Group(); holder.add(it); holder.userData.part = 'item';
+        root.add(holder);
+        root.userData = { w: s0.x * k0, h: s0.y * k0, d: s0.z * k0, cfg, stage };
+        return root;
+      }
       const box = new THREE.Box3().setFromObject(it), sz = new THREE.Vector3(); box.getSize(sz);
       const k = Math.min((W * 0.8) / Math.max(sz.x, 1e-3), (H * 0.8) / Math.max(sz.y, 1e-3), (D * 0.8) / Math.max(sz.z, 1e-3), 1.2);
       it.scale.multiplyScalar(k);
@@ -5338,7 +5384,15 @@ function makeComposed(itemId, cfg = DEFAULT_GIFT, opts = {}) {
     } catch (_) { /* 물건 모형이 없어도 포장은 보임 */ }
   }
 
-  // ② 포장지 껍질
+  // ② 포장지 껍질 (아직 종이를 안 골랐으면 갈색 택배 상자)
+  if (stage === 'box') {
+    const cb = mesh(roundedBox(W, H, D, Math.min(S.r, 0.03), 3), plain(0xc9a06a, { shininess: 4 }), 0, H / 2, 0);
+    cb.userData = { part: 'paper', isShell: true }; root.add(cb);
+    const seam = mesh(new THREE.BoxGeometry(W * 0.12, 0.004, D + 0.004), plain(0xd9c79a, { transparent: true, opacity: 0.9 }), 0, H + 0.002, 0);
+    seam.userData.part = 'paper'; root.add(seam);
+    root.userData = { w: W, h: H, d: D, cfg, stage };
+    return root;
+  }
   const pm = paperMaterial(P);
   let geo = roundedBox(W, H, D, S.r, 6);
   geo = lumpy(geo, (S.lump || 0.005) + (P.tissue ? 0.012 : 0), 5, S.lump ? 6 : 12);
@@ -5371,7 +5425,7 @@ function makeComposed(itemId, cfg = DEFAULT_GIFT, opts = {}) {
   const kx = 0, ky = front ? 0.16 : 0.1; // 매듭 자리 (면 좌표)
 
   // ③ 끈
-  const T = TIES.find(t => t.id === cfg.tie) || TIES[0];
+  const T = TIES.find(t => t.id === (cfg.tie || 'none')) || TIES[0];
   const tieColor = TIE_COLORS[cfg.tieColor] ?? TIE_COLORS[0];
   const ribbonParts = [];
   const tieMat = () => T.tex ? (T.shiny ? shiny(0xffffff, { map: texOf(T.tex), shininess: 60, specular: 0x6a3a5a }) : paperMat(texOf(T.tex), { shininess: 12 }))
@@ -5394,7 +5448,7 @@ function makeComposed(itemId, cfg = DEFAULT_GIFT, opts = {}) {
   }
 
   // ④ 매듭
-  if (T.id !== 'none' && cfg.bow !== 'none') {
+  if (T.id !== 'none' && cfg.bow && cfg.bow !== 'none') {
     const bow = new THREE.Group();
     const isCord = T.kind === 'cord' || T.kind === 'multi';
     const r = isCord ? Math.max(T.r, 0.006) : 0;
@@ -5488,11 +5542,11 @@ function makeComposed(itemId, cfg = DEFAULT_GIFT, opts = {}) {
     const c = mesh(lumpy(roundedBox(W + 0.07, H + 0.07, D + 0.07, 0.06, 5), 0.012, 3, 14), cm, 0, H / 2 + 0.01, 0); c.userData.part = 'paper'; root.add(c);
   }
 
-  root.userData = { w: W, h: H, d: D, cfg };
+  root.userData = { w: W, h: H, d: D, cfg, stage };
   return root;
 }
 
-return { SHAPES, PAPERS, TIES, TIE_COLORS, BOWS, TAPES, TAPE_COLORS, STICKERS, STICKER_COLORS, DECOS, FINISHES, DEFAULT_GIFT, paperSwatch, makeComposed };
+return { SHAPES, PAPERS, TIES, TIE_COLORS, BOWS, TAPES, TAPE_COLORS, STICKERS, STICKER_COLORS, DECOS, FINISHES, DEFAULT_GIFT, EMPTY_GIFT, paperSwatch, makeComposed };
 })();
 
 // ---- js/data/boxes.js ----
@@ -5967,7 +6021,7 @@ function makeEar(S, side, fold, neat, tex) {
  * @param live 조작 중 미리보기 { flaps: {L, R}(0–1 접힘), tape, deco } — 저장 전 상태
  */
 function makeWrapped(itemId, wrap, live = {}) {
-  if (wrap?.maker) return makeComposed(itemId, wrap.maker, { to: wrap.to });
+  if (wrap?.maker) return makeComposed(itemId, wrap.maker, { to: wrap.to, text: wrap.giftText, photo: wrap.photoItem });
   const item = getItem(itemId);
   const g = new THREE.Group();
   const bx = boxFor(wrap.box, item);
@@ -7393,6 +7447,7 @@ async function giftPayload({ sender, to, giftId, custom, wrap, paper, judge }) {
     c: wrap.card?.message || undefined,
     j: judge ? { l: judge.l, g: judge.g, t: judge.t, s: judge.s } : undefined,
     m: wrap.maker || undefined,
+    pi: wrap.photoItem ? await tinyImage(wrap.photoItem, 180, 0.62) : undefined,
   };
 }
 /** 꾸러미 → 포장 상태(wrap)로 되돌림 */
@@ -7406,7 +7461,7 @@ function wrapFromPayload(g) {
     ribbon: g.r ? { id: g.r.id, strokes: (g.r.s || []).map(st => st.map(q => ({ p: q.slice(0, 3), n: q.slice(3, 6) }))), bow: g.r.w ? { p: g.r.w.slice(0, 3), n: g.r.w.slice(3, 6) } : null } : null,
     decos: (g.d || []).map((d, i) => ({ id: 'd' + i, type: d[0], p: d[1], n: d[2], rot: d[3], scale: d[4], color: d[5] ?? undefined })),
     stickerImg: g.si || null, tapes: [], card: { message: g.c || '' },
-    maker: g.m || null, to: g.to || '',
+    maker: g.m || null, to: g.to || '', photoItem: g.pi || null,
   };
 }
 
@@ -9471,6 +9526,9 @@ async function enterReply() {
 
 // ---------- 그려서 물건 만들기 ----------
 const drawEd = new PaperEditor();
+let drawCb = null;
+/** 다른 화면(선물 꾸미기)에서 그리기 창 열기 */
+function openDrawItem(cb) { drawCb = cb; openDraw(); }
 function openDraw() {
   drawEd.base = 'none';
   drawEd.tool = { kind: 'pen', color: '#2b2b2b', size: 12, stamp: '♥' };
@@ -9493,7 +9551,7 @@ function finishDraw() {
   thumbs.delete('draw');
   update({ giftId: 'draw' });
   $('draw-modal').hidden = true;
-  renderItems(); paintSelectBar();
+  if (drawCb) { const f = drawCb; drawCb = null; f(); } else { renderItems(); paintSelectBar(); }
   sound.pick();
 }
 
@@ -9542,7 +9600,7 @@ function initGame() {
   $('select-next').addEventListener('click', () => { if (!(state.recipient || '').trim()) { $('recipient').focus(); $('recipient').classList.add('is-need'); return; } go('wrap'); });
   $('custom-input').addEventListener('input', (e) => update({ giftText: e.target.value, giftTextFor: state.giftId }));
   // 그리기 창
-  $('draw-close').addEventListener('click', () => { $('draw-modal').hidden = true; });
+  $('draw-close').addEventListener('click', () => { $('draw-modal').hidden = true; drawCb = null; });
   $('draw-done').addEventListener('click', finishDraw);
   $('draw-tools').addEventListener('click', (e) => {
     const b = e.target.closest('button'); if (!b) return;
@@ -9588,7 +9646,7 @@ function initGame() {
   });
 }
 
-return { itemThumb, initGame };
+return { openDrawItem, itemThumb, initGame };
 })();
 
 // ---- js/game/rush3d.js ----
@@ -10234,9 +10292,9 @@ class MakerView {
     cam.updateProjectionMatrix();
     this.senior.position.set(portrait ? 0.95 : 1.2, -0.02, -1.0);
   }
-  setGift(itemId, cfg, to, { pop = true } = {}) {
+  setGift(itemId, cfg, to, { pop = true, text, photo } = {}) {
     if (this.model) { this.turn.remove(this.model); disposeModel(this.model); }
-    this.model = makeComposed(itemId, cfg, { to });
+    this.model = makeComposed(itemId, cfg, { to, text, photo });
     this.model.position.y = 0.05;
     this.turn.add(this.model);
     if (pop) { this.pop = 0; }
@@ -10286,39 +10344,41 @@ return { MakerView };
 // ---- js/screens/maker.js ----
 __m["js/screens/maker.js"] = (() => {
 // ==========================================================
-// 선물 꾸미기 화면 — Mii 만들기처럼 탭에서 골라 끼우기
-// 선물 · 모양 · 포장지 · 끈 · 매듭 · 테이프 · 스티커 · 장식 · 마무리 · 편지
-// 시간 제한 없음. 선배 산타가 옆에서 한마디씩 (가끔 재촉)
-// 다 꾸미면 '출고!' → 링크 보내기 화면
+// 선물 꾸미기 화면 — 순서대로 한 단계씩
+//  ① 선물 고르기 (직접 그리기 · 내 사진 · 편지 · 쿠폰북 · 물건들)
+//  ② 모양(상자에 담기) ③ 포장지 ④ 끈 ⑤ 매듭 ⑥ 테이프 ⑦ 스티커 ⑧ 장식 ⑨ 마무리 ⑩ 편지
+//  앞 단계를 해야 다음 탭이 열림. 꼭 해야 하는 건 ①~③, 나머지는 '다음'으로 건너뛰기 가능
+//  선배 산타가 옆에서 한마디씩 (가끔 재촉). 다 하면 '출고!' → 링크 보내기
 // ==========================================================
 
 const { state, update } = __m["js/state.js"];
 const { go } = __m["js/router.js"];
 const { ITEMS, getItem } = __m["js/data/items.js"];
-const { itemThumb } = __m["js/screens/game.js"];
+const { itemThumb, openDrawItem } = __m["js/screens/game.js"];
 const { MakerView } = __m["js/game/maker3d.js"];
-const { SHAPES, PAPERS, TIES, TIE_COLORS, BOWS, TAPES, TAPE_COLORS, STICKERS, STICKER_COLORS, DECOS, FINISHES, DEFAULT_GIFT, paperSwatch } = __m["js/game/composer.js"];
+const { SHAPES, PAPERS, TIES, TIE_COLORS, BOWS, TAPES, TAPE_COLORS, STICKERS, STICKER_COLORS, DECOS, FINISHES, EMPTY_GIFT, paperSwatch } = __m["js/game/composer.js"];
 const { sound } = __m["js/sound.js"];
 const $ = (id) => document.getElementById(id);
 const pick = (a) => a[Math.floor(Math.random() * a.length)];
 const hex = (n) => '#' + n.toString(16).padStart(6, '0');
-const GIFT_ITEMS = ITEMS.filter(x => !x.draw && !x.custom);
+const SPECIAL = ['draw', 'myphoto', 'letter', 'coupon'];
+const GIFT_ITEMS = ITEMS.filter(x => !SPECIAL.includes(x.id) && !x.custom && !x.draw);
 
-const TABS = [
-  { id: 'item', label: '선물', icon: '🎁' },
-  { id: 'shape', label: '모양', icon: '📦', list: SHAPES, key: 'shape' },
-  { id: 'paper', label: '포장지', icon: '🧻', list: PAPERS, key: 'paper' },
-  { id: 'tie', label: '끈', icon: '🎗', list: TIES, key: 'tie', colors: TIE_COLORS, colorKey: 'tieColor', colorIf: (c) => TIES.find(t => t.id === c.tie)?.color },
-  { id: 'bow', label: '매듭', icon: '🎀', list: BOWS, key: 'bow', disabledIf: (c) => c.tie === 'none' && '끈을 먼저 골라요' },
-  { id: 'tape', label: '테이프', icon: '🩹', list: TAPES, key: 'tape', colors: TAPE_COLORS, colorKey: 'tapeColor', colorIf: (c) => c.tape !== 'none' },
-  { id: 'sticker', label: '스티커', icon: '⭐', list: STICKERS, key: 'sticker', colors: STICKER_COLORS, colorKey: 'stickerColor', colorIf: (c) => STICKERS.find(s => s.id === c.sticker)?.color },
-  { id: 'deco', label: '장식', icon: '🌿', list: DECOS, key: 'deco' },
-  { id: 'finish', label: '마무리', icon: '🏷', list: FINISHES, key: 'finish' },
-  { id: 'letter', label: '편지', icon: '✉️' },
+const STEPS = [
+  { id: 'item', label: '선물', icon: '🎁', need: true, title: '뭘 보낼까요?' },
+  { id: 'shape', label: '모양', icon: '📦', need: true, list: SHAPES, key: 'shape', title: '어떤 상자에 담을까요?' },
+  { id: 'paper', label: '포장지', icon: '🧻', need: true, list: PAPERS, key: 'paper', title: '포장지를 골라요' },
+  { id: 'tie', label: '끈', icon: '🎗', list: TIES, key: 'tie', colors: TIE_COLORS, colorKey: 'tieColor', colorIf: (c) => TIES.find(t => t.id === c.tie)?.color, title: '끈으로 묶어요' },
+  { id: 'bow', label: '매듭', icon: '🎀', list: BOWS, key: 'bow', skipIf: (c) => !c.tie || c.tie === 'none', title: '매듭 모양' },
+  { id: 'tape', label: '테이프', icon: '🩹', list: TAPES, key: 'tape', colors: TAPE_COLORS, colorKey: 'tapeColor', colorIf: (c) => c.tape && c.tape !== 'none', title: '마스킹테이프' },
+  { id: 'sticker', label: '스티커', icon: '⭐', list: STICKERS, key: 'sticker', colors: STICKER_COLORS, colorKey: 'stickerColor', colorIf: (c) => STICKERS.find(s => s.id === c.sticker)?.color, title: '스티커 붙이기' },
+  { id: 'deco', label: '장식', icon: '🌿', list: DECOS, key: 'deco', title: '장식 하나 얹기' },
+  { id: 'finish', label: '마무리', icon: '🏷', list: FINISHES, key: 'finish', title: '마무리' },
+  { id: 'letter', label: '받는 사람', icon: '✉️', need: true, title: '누구에게 보낼까요?' },
 ];
 const LINES = {
   item: ['오, 그거 좋아하겠네요.', '안에 뭐 넣는지는 비밀로 할게요.', '받는 사람 표정이 벌써 보여요.'],
-  shape: ['모양부터 잡는 거, 기본이죠.', '이 모양 귀엽네요.'],
+  shape: ['좋아요, 상자에 쏙.', '이 모양 귀엽네요.', '담는 것부터가 포장이죠.'],
   paper: ['{n}, 겨울이랑 잘 어울려요.', '{n} 고르는 사람 처음 봐요. 좋아요.', '오, {n}. 손맛 나네요.'],
   tie: ['{n}. 묶을 맛 나겠네요.', '끈 고르는 데 진심이군요.'],
   bow: ['매듭이 얼굴이에요.', '{n}, 정성 보이네요.'],
@@ -10326,88 +10386,137 @@ const LINES = {
   sticker: ['스티커는 많을수록… 아니 적당히요.', '{n}! 귀엽다.'],
   deco: ['{n}까지? 이건 반칙이에요.', '장식 센스 있네요.'],
   finish: ['마무리가 제일 중요해요.', '{n}, 완성도 올라가네요.'],
-  letter: ['편지는 짧아도 돼요.', '한마디면 충분해요.'],
 };
+const NEXT_LINE = { shape: '이제 상자에 담아요.', paper: '포장지로 싸 볼까요?', tie: '끈으로 묶어요. 없어도 되고요.', bow: '매듭 모양 골라요.', tape: '테이프 붙일래요?', sticker: '스티커 타임!', deco: '장식 하나 얹어 볼까요?', finish: '마무리 한 가지.', letter: '마지막! 받는 사람이랑 한마디.' };
 const NUDGES = ['선배: 썰매 출발 전에만 끝내요~', '선배: 루돌프들 몸 풀고 있어요.', '선배: 천천히 해요. …근데 조금만 빨리요.', '선배: 오늘 이브인 거 알죠?'];
 
-let view = null, tab = 'item', nudgeT = 0, sayT = 0;
+let view = null, cur = 0, reached = 0, nudgeT = 0, sayT = 0, textT = 0;
 const thumbCache = new Map();
 
-function cfg() { return { ...DEFAULT_GIFT, ...(state.maker || {}) }; }
-function to() { return (state.recipient || '').trim() || '친구'; }
+const cfg = () => ({ ...EMPTY_GIFT, ...(state.maker || {}) });
+const to = () => (state.recipient || '').trim() || '친구';
+const step = () => STEPS[cur];
 
 function say(t) {
   const el = $('maker-say'); el.textContent = t; el.classList.remove('is-in'); void el.offsetWidth; el.classList.add('is-in');
-  clearTimeout(sayT); sayT = setTimeout(() => el.classList.remove('is-in'), 3200);
+  clearTimeout(sayT); sayT = setTimeout(() => el.classList.remove('is-in'), 3400);
 }
-function nudge() { clearTimeout(nudgeT); nudgeT = setTimeout(() => { if (view?.active) { say(pick(NUDGES)); nudge(); } }, 22000 + Math.random() * 10000); }
+function nudge() { clearTimeout(nudgeT); nudgeT = setTimeout(() => { if (view?.active) { say(pick(NUDGES)); nudge(); } }, 24000 + Math.random() * 10000); }
 
 function rebuild(pop = true) {
-  if (!view) return;
-  view.setGift(state.giftId, cfg(), to(), { pop });
+  view?.setGift(state.giftId, cfg(), to(), { pop, text: state.giftText, photo: state.photoItem });
 }
-function setCfg(patch, lineKey, name) {
+const done = (s, c = cfg()) => s.id === 'item' ? !!state.giftId : s.id === 'letter' ? !!state.recipient : s.key ? c[s.key] != null : true;
+
+function goStep(i, { line = true } = {}) {
+  const c = cfg();
+  while (i < STEPS.length - 1 && STEPS[i].skipIf?.(c)) i++;
+  cur = i; reached = Math.max(reached, i);
+  if (line && NEXT_LINE[step().id]) say('선배: ' + NEXT_LINE[step().id]);
+  sound.tick();
+  renderAll();
+}
+function advance() {
+  // 꼭 해야 하는 단계인데 안 했으면 못 넘어감
+  if (step().need && !done(step())) { say('선배: 이건 꼭 골라야 해요!'); sound.hm?.(); return; }
+  if (cur < STEPS.length - 1) goStep(cur + 1);
+}
+
+function setCfg(patch, lineKey, name, auto = true) {
   update({ maker: { ...cfg(), ...patch } });
   rebuild(true);
   sound.rustle('paper', 0.8, 'mk' + lineKey); sound.pick?.();
   view.react(Math.random() < 0.7 ? 'like' : 'hmm');
-  if (lineKey && Math.random() < 0.75) say('선배: ' + pick(LINES[lineKey]).replace('{n}', name || ''));
-  renderOptions();
+  if (lineKey && Math.random() < 0.8) say('선배: ' + pick(LINES[lineKey]).replace('{n}', name || ''));
+  renderAll();
+  // 꼭 해야 하는 단계는 고르면 다음으로 (조금 보여 준 뒤)
+  if (auto && step().need && step().id !== 'item') setTimeout(() => { if (view?.active && done(step())) goStep(cur + 1); }, 900);
 }
 
-function thumbFor(t, opt) {
-  const c = { ...cfg(), [t.key]: opt.id };
-  const k = t.id + '|' + JSON.stringify(c);
+function thumbFor(s, opt) {
+  const c = { ...cfg(), [s.key]: opt.id };
+  if (s.id === 'bow' && (!c.tie || c.tie === 'none')) c.tie = 'stripe';
+  const k = s.id + '|' + state.giftId + '|' + JSON.stringify(c);
   if (!thumbCache.has(k)) thumbCache.set(k, view.thumb(c, to()));
   return thumbCache.get(k);
 }
 
+// ---------- 그리기 ----------
+function renderAll() { renderTabs(); renderOptions(); renderFoot(); }
 function renderTabs() {
-  $('maker2-tabs').innerHTML = TABS.map(t => `<button type="button" class="mk-tab ${t.id === tab ? 'is-on' : ''}" data-tab="${t.id}"><span>${t.icon}</span>${t.label}</button>`).join('');
+  $('maker2-tabs').innerHTML = STEPS.map((s, i) => {
+    const lock = i > reached;
+    const skip = s.skipIf?.(cfg());
+    return `<button type="button" class="mk-tab ${i === cur ? 'is-on' : ''} ${lock ? 'is-lock' : ''} ${done(s) && !skip ? 'is-done' : ''}" data-step="${i}" ${lock || skip ? 'disabled' : ''}><span>${lock ? '🔒' : s.icon}</span>${i + 1}. ${s.label}</button>`;
+  }).join('');
+  $('maker2-tabs').querySelector('.is-on')?.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+  $('maker2-steptitle').textContent = step().title;
+}
+function itemTile(id, icon, name, extra = '') {
+  return `<button type="button" class="mk-opt mk-opt--special ${state.giftId === id ? 'is-on' : ''}" data-item="${id}" ${extra}><b>${icon}</b><span>${name}</span></button>`;
 }
 function renderOptions() {
-  const t = TABS.find(x => x.id === tab), c = cfg();
+  const s = step(), c = cfg();
   const grid = $('maker2-grid'), colors = $('maker2-colors');
   colors.hidden = true; colors.innerHTML = '';
-  grid.classList.toggle('is-letter', tab === 'letter');
-  if (tab === 'item') {
-    grid.innerHTML = GIFT_ITEMS.map(it => `<button type="button" class="mk-opt ${state.giftId === it.id ? 'is-on' : ''}" data-item="${it.id}"><img src="${itemThumb(it.id) || ''}" alt="" /><span>${it.name}</span></button>`).join('');
+  grid.classList.toggle('is-letter', s.id === 'letter');
+  if (s.id === 'item') {
+    const it = state.giftId && getItem(state.giftId);
+    const field = it?.custom ? `<label class="mk-field mk-field--wide"><span>${it.custom.label}</span><input id="mk-text" type="text" maxlength="${it.custom.max}" placeholder="${it.custom.placeholder}" /></label>` : '';
+    grid.innerHTML = field
+      + itemTile('draw', '✏️', state.giftId === 'draw' ? getItem('draw').name : '직접 그리기')
+      + itemTile('myphoto', '📷', '내 사진')
+      + itemTile('letter', '💌', '손편지')
+      + itemTile('coupon', '🎟', '쿠폰북')
+      + GIFT_ITEMS.map(x => `<button type="button" class="mk-opt ${state.giftId === x.id ? 'is-on' : ''}" data-item="${x.id}"><img src="${itemThumb(x.id) || ''}" alt="" /><span>${x.name}</span></button>`).join('');
+    if (field) { const inp = $('mk-text'); inp.value = state.giftText || ''; }
     return;
   }
-  if (tab === 'letter') {
-    grid.innerHTML = `<label class="mk-field"><span>받는 사람</span><input id="mk-to" type="text" maxlength="12" placeholder="예: 민지" value="" /></label>
-      <label class="mk-field mk-field--msg"><span>한마디</span><textarea id="mk-msg" maxlength="80" rows="3" placeholder="올해도 고마웠어! 메리 크리스마스 🎄"></textarea></label>`;
+  if (s.id === 'letter') {
+    grid.innerHTML = `<label class="mk-field"><span>받는 사람</span><input id="mk-to" type="text" maxlength="12" placeholder="예: 민지" /></label>
+      <label class="mk-field mk-field--msg"><span>한마디 (열면 보여요)</span><textarea id="mk-msg" maxlength="80" rows="3" placeholder="올해도 고마웠어! 메리 크리스마스 🎄"></textarea></label>`;
     $('mk-to').value = state.recipient || ''; $('mk-msg').value = state.letter || '';
     return;
   }
-  const dis = t.disabledIf?.(c);
-  grid.innerHTML = (dis ? `<p class="mk-note">${dis}</p>` : '') + t.list.map(o => {
-    const img = t.id === 'paper' ? paperSwatch(o.id) : thumbFor(t, o);
-    return `<button type="button" class="mk-opt ${c[t.key] === o.id ? 'is-on' : ''} ${t.id === 'paper' ? 'mk-opt--swatch' : ''}" data-opt="${o.id}" ${dis ? 'disabled' : ''}><img src="${img}" alt="" /><span>${o.name}</span></button>`;
+  grid.innerHTML = s.list.map(o => {
+    const img = s.id === 'paper' ? paperSwatch(o.id) : thumbFor(s, o);
+    return `<button type="button" class="mk-opt ${c[s.key] === o.id ? 'is-on' : ''} ${s.id === 'paper' ? 'mk-opt--swatch' : ''}" data-opt="${o.id}"><img src="${img}" alt="" /><span>${o.name}</span></button>`;
   }).join('');
-  if (t.colors && t.colorIf(c)) {
+  if (s.colors && s.colorIf(c)) {
     colors.hidden = false;
-    colors.innerHTML = t.colors.map((col, i) => `<button type="button" class="mk-color ${c[t.colorKey] === i ? 'is-on' : ''}" data-color="${i}" style="background:${hex(col)}" aria-label="색 ${i + 1}"></button>`).join('');
+    colors.innerHTML = s.colors.map((col, i) => `<button type="button" class="mk-color ${c[s.colorKey] === i ? 'is-on' : ''}" data-color="${i}" style="background:${hex(col)}" aria-label="색 ${i + 1}"></button>`).join('');
   }
 }
+function renderFoot() {
+  const last = cur === STEPS.length - 1;
+  const s = step();
+  $('maker2-next').hidden = last;
+  $('maker2-next').textContent = s.need ? '다음 →' : done(s) ? '다음 →' : '건너뛰기 →';
+  $('maker2-next').classList.toggle('is-dim', !!s.need && !done(s));
+  $('maker2-ship').hidden = !last;
+}
 
-function enterMaker() {
+// ---------- 시작 ----------
+function enterMaker(prev) {
   if (!view) view = new MakerView($('maker2-cv'));
-  if (!state.giftId || !GIFT_ITEMS.some(i => i.id === state.giftId)) update({ giftId: 'latte' });
-  if (!state.maker) update({ maker: { ...DEFAULT_GIFT } });
+  const fresh = prev !== 'send' || !state.maker;
+  if (fresh) {
+    update({ maker: { ...EMPTY_GIFT }, giftId: null, giftText: '', photoItem: null });
+    cur = 0; reached = 0;
+  }
   view.start();
   thumbCache.clear();
   rebuild(true);
-  renderTabs(); renderOptions();
-  setTimeout(() => say(`선배: 이브 선물 딱 하나만 부탁해요. ${state.recipient ? to() + '한테' : '누구한테'} 보낼 거예요?`), 500);
+  renderAll();
+  setTimeout(() => say('선배: 이브 선물 딱 하나만 부탁해요. 뭘 보낼 거예요?'), 500);
   nudge();
 }
 function leaveMaker() { view?.stop(); clearTimeout(nudgeT); }
 
 function ship() {
   const c = cfg();
-  if (!state.recipient) { tab = 'letter'; renderTabs(); renderOptions(); say('선배: 받는 사람 이름부터 적어 줘요!'); $('mk-to')?.focus(); return; }
-  update({ wrap: { maker: c, to: to(), box: 'none', paper: null, card: { message: state.letter || '' }, decos: [], tapes: [], ribbon: null, flaps: {}, counted: false }, judge: null });
+  for (let i = 0; i < STEPS.length; i++) if (STEPS[i].need && !done(STEPS[i])) { goStep(i, { line: false }); say(`선배: '${STEPS[i].label}'부터 해 줘요!`); if (STEPS[i].id === 'letter') $('mk-to')?.focus(); return; }
+  update({ wrap: { maker: c, to: to(), giftText: state.giftText || '', photoItem: state.photoItem || null, box: 'none', paper: null, card: { message: state.letter || '' }, decos: [], tapes: [], ribbon: null, flaps: {}, counted: false }, judge: null });
   view.react('wow');
   say('선배: 오… 이건 출고 각이에요. 썰매로!');
   sound.bell?.(); setTimeout(() => sound.stamp?.(), 250);
@@ -10415,32 +10524,63 @@ function ship() {
   setTimeout(() => { $('maker2-ship').disabled = false; go('send'); }, 1100);
 }
 
+function chooseItem(id) {
+  if (id === 'draw') { openDrawItem(() => { update({ giftId: 'draw' }); afterItem('직접 그린 선물이라니!'); }); return; }
+  if (id === 'myphoto') { $('mk-photo').click(); return; }
+  update({ giftId: id, giftText: getItem(id).custom ? (state.giftText || '') : '' });
+  afterItem(id === 'letter' ? '손편지. 아래 칸에 내용을 써요.' : id === 'coupon' ? '쿠폰북! 쿠폰 이름을 정해요.' : null);
+}
+function afterItem(line) {
+  thumbCache.clear();
+  rebuild(true);
+  view.react('like');
+  say('선배: ' + (line || pick(LINES.item)));
+  sound.pick?.();
+  renderAll();
+  if (!getItem(state.giftId).custom) setTimeout(() => { if (view?.active && cur === 0) goStep(1); }, 1100);
+  else setTimeout(() => $('mk-text')?.focus(), 50);
+}
+function loadPhoto(file) {
+  const fr = new FileReader();
+  fr.onload = () => {
+    const im = new Image();
+    im.onload = () => {
+      const k = 512 / Math.max(im.width, im.height), c = document.createElement('canvas');
+      const s = Math.min(im.width, im.height); // 가운데 정사각형으로 자름
+      c.width = c.height = Math.min(512, s);
+      c.getContext('2d').drawImage(im, (im.width - s) / 2, (im.height - s) / 2, s, s, 0, 0, c.width, c.height);
+      update({ photoItem: c.toDataURL('image/jpeg', 0.82), giftId: 'myphoto' });
+      void k;
+      afterItem('사진 선물! 추억 소환이네요.');
+    };
+    im.src = fr.result;
+  };
+  fr.readAsDataURL(file);
+}
+
 function initMaker() {
-  $('maker2-tabs').addEventListener('click', (e) => { const b = e.target.closest('[data-tab]'); if (!b) return; tab = b.dataset.tab; sound.tick(); renderTabs(); renderOptions(); });
+  $('maker2-tabs').addEventListener('click', (e) => { const b = e.target.closest('[data-step]'); if (!b || b.disabled) return; goStep(Number(b.dataset.step), { line: false }); });
   $('maker2-grid').addEventListener('click', (e) => {
     const it = e.target.closest('[data-item]');
-    if (it) { update({ giftId: it.dataset.item }); rebuild(true); renderOptions(); view.react('like'); if (Math.random() < 0.7) say('선배: ' + pick(LINES.item)); sound.pick?.(); return; }
-    const o = e.target.closest('[data-opt]'); if (!o || o.disabled) return;
-    const t = TABS.find(x => x.id === tab);
-    if (cfg()[t.key] === o.dataset.opt) return;
-    setCfg({ [t.key]: o.dataset.opt }, t.id, t.list.find(x => x.id === o.dataset.opt)?.name);
+    if (it) { chooseItem(it.dataset.item); return; }
+    const o = e.target.closest('[data-opt]'); if (!o) return;
+    const s = step();
+    if (cfg()[s.key] === o.dataset.opt) return;
+    setCfg({ [s.key]: o.dataset.opt }, s.id, s.list.find(x => x.id === o.dataset.opt)?.name);
   });
   $('maker2-grid').addEventListener('input', (e) => {
-    if (e.target.id === 'mk-to') { update({ recipient: e.target.value.trim() }); thumbCache.clear(); clearTimeout(e.target._t); e.target._t = setTimeout(() => rebuild(false), 300); }
+    if (e.target.id === 'mk-to') { update({ recipient: e.target.value.trim() }); thumbCache.clear(); clearTimeout(textT); textT = setTimeout(() => { rebuild(false); renderTabs(); }, 300); }
     if (e.target.id === 'mk-msg') update({ letter: e.target.value });
+    if (e.target.id === 'mk-text') { update({ giftText: e.target.value }); clearTimeout(textT); textT = setTimeout(() => rebuild(false), 350); }
   });
   $('maker2-colors').addEventListener('click', (e) => {
     const b = e.target.closest('[data-color]'); if (!b) return;
-    const t = TABS.find(x => x.id === tab);
-    setCfg({ [t.colorKey]: Number(b.dataset.color) }, null);
+    setCfg({ [step().colorKey]: Number(b.dataset.color) }, null, null, false);
   });
-  $('maker2-random').addEventListener('click', () => {
-    const r = (l) => pick(l).id;
-    const c = { shape: r(SHAPES), paper: r(PAPERS), tie: r(TIES.slice(1)), tieColor: Math.floor(Math.random() * TIE_COLORS.length), bow: r(BOWS.slice(0, 4)), tape: r(TAPES), tapeColor: Math.floor(Math.random() * TAPE_COLORS.length), sticker: r(STICKERS), stickerColor: Math.floor(Math.random() * STICKER_COLORS.length), deco: r(DECOS), finish: r(FINISHES) };
-    setCfg(c, null); say('선배: 아무거나 골랐는데… 의외로 괜찮은데요?');
-  });
+  $('maker2-next').addEventListener('click', advance);
   $('maker2-ship').addEventListener('click', ship);
-  window.__maker = { cfg, setCfg, ship };
+  $('mk-photo').addEventListener('change', (e) => { const f = e.target.files?.[0]; if (f) loadPhoto(f); e.target.value = ''; });
+  window.__maker = { cfg, setCfg, ship, goStep, chooseItem, get cur() { return cur; } };
 }
 
 return { enterMaker, leaveMaker, initMaker };
@@ -10503,12 +10643,12 @@ try {
   window.__giftError?.('3D 초기화 실패: ' + err.message);
 }
 
-onScreen((name) => {
+onScreen((name, prev) => {
   lab?.setActive(name === 'intro');
   if (name === 'intro') { leaving = false; intro.classList.remove('is-leaving'); }
   if (name === 'register') onEnterRegister(); else onLeaveRegister();
   if (name === 'rush') enterRush(); else leaveRush();
-  if (name === 'maker') enterMaker(); else leaveMaker();
+  if (name === 'maker') enterMaker(prev); else leaveMaker();
   // 모션 패널은 인트로 전용
   document.body.classList.toggle('is-intro', name === 'intro');
 });
